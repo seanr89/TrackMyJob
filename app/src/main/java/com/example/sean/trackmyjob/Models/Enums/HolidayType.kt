@@ -6,6 +6,8 @@ package com.example.sean.trackmyjob.Models.Enums
 enum class HolidayType
 {
     UNKNOWN,
+    FULLDAY,
+    HALFDAY,
     FLEXI,
     PUBLIC,
     SHUTDOWN,
