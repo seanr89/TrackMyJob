@@ -26,6 +26,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     private var mAuth: FirebaseAuth? = null
     private var mGoogleSignInClient : GoogleSignInClient? = null
     private val RC_SIGN_IN = 2
+    private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
 
     override fun onStart() {
         super.onStart()
@@ -33,6 +34,21 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // the GoogleSignInAccount will be non-null.
         val account = GoogleSignIn.getLastSignedInAccount(this)
         //updateUI(account)
+
+        mAuthListener = FirebaseAuth.AuthStateListener(object : FirebaseAuth.AuthStateListener, (FirebaseAuth) -> Unit {
+            override fun invoke(p1: FirebaseAuth) {
+            }
+
+            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                var user = p0.getCurrentUser()
+                if (user != null){
+                    Log.i(TAG,"user logged in with email : ${user.email}")
+                }
+            }
+
+        })
+        mAuth!!.addAuthStateListener(mAuthListener)
+        //mAuthListener.onAuthStateChanged(FirebaseAuth.getInstance())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +67,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        this.findViewById<Button>(R.id.btn_sign_in).setOnClickListener(this);
+        this.findViewById<Button>(R.id.btn_sign_in).setOnClickListener(this)
     }
 
     /**
