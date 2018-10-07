@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
@@ -51,7 +52,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        this.findViewById<Button>(R.id.btn_sign_in).setOnClickListener(this);
+        this.findViewById<SignInButton>(R.id.btn_sign_in).setOnClickListener(this)
     }
 
     /**
