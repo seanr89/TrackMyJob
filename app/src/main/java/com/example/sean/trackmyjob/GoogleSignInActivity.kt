@@ -56,7 +56,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     *
+     * trigger the sign in process for the current user!
      */
     private fun signIn() {
         val signInIntent = mGoogleSignInClient!!.signInIntent
@@ -65,7 +65,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
 
 
     /**
-     *
+     * method to trigger the sign-out off the current user!
      */
     private fun signOut()
     {
