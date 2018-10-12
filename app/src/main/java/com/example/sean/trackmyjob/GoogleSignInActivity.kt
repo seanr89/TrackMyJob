@@ -13,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.example.sean.trackmyjob.Models.Enums.UserStatus
+import com.example.sean.trackmyjob.Repositories.UserRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
@@ -153,10 +155,15 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                     {
                         Log.w(TAG, "Sign in successful")
                         Toast.makeText(this, "Firebase Auth Complete", Toast.LENGTH_LONG).show()
+                        val userRepo = UserRepository()
+                        userRepo.initCurrentUserIfFirstTime {
+                            startActivity(Intent(this, MainActivity::class.java))
+                        }
                     } else
                     {
                         Log.w(TAG, "SignInWithCredential:failure", task.exception)
                         Toast.makeText(this, "Firebase Auth Failed", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this, MainActivity::class.java))
                     }
                 }
     }
