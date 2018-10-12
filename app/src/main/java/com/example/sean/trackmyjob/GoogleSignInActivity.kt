@@ -28,6 +28,10 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     private val RC_SIGN_IN = 2
     private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
 
+    /**
+     * overriden method to first check if the user is already signed in
+     * and to handle authentication state changes
+     */
     override fun onStart() {
         super.onStart()
         // Check for existing Google Sign In account, if the user is already signed in
@@ -71,7 +75,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     *
+     * handle the request by the user to sign in
      */
     private fun signIn() {
         val signInIntent = mGoogleSignInClient!!.signInIntent
@@ -93,7 +97,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     *
+     * handle the sign-in/authentication event activity!
      */
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -134,6 +138,10 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
 //        }
 //    }
 
+    /**
+     * Handle google authentication from firebase
+     * @param account : google sign-in
+     */
     fun firebaseAuthWithGoogle(account : GoogleSignInAccount?)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
@@ -143,20 +151,19 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful)
                     {
-                        //todo
                         Log.w(TAG, "Sign in successful")
                         Toast.makeText(this, "Firebase Auth Complete", Toast.LENGTH_LONG).show()
                     } else
                     {
                         Log.w(TAG, "SignInWithCredential:failure", task.exception)
-                        //Toast.makeText(this, "Firebase Auth Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Firebase Auth Failed", Toast.LENGTH_LONG).show()
                     }
                 }
     }
 
     /**
      * handle the button click events across the view
-     * @param v :
+     * @param v : view item that was clicked!
      */
     override fun onClick(v: View) {
         when (v.id) {

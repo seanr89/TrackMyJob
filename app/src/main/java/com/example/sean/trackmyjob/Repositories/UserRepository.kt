@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 
 /**
  * Data Storage access object to query, insert and update user data
+ * users are stored using there uid as the name of the document but is also stored as part of there object
  */
 class UserRepository
 {
@@ -22,7 +23,8 @@ class UserRepository
                 ?: throw NullPointerException("UID is null")}")
 
     /**
-     * 
+     * query the current user and if not stored create the user
+     * @param func<onComplete(UserStatus)> : returned
      */
     fun initCurrentUserIfFirstTime(onComplete:(UserStatus) -> Unit)
     {
@@ -30,8 +32,8 @@ class UserRepository
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if(!documentSnapshot.exists())
             {
-                //Initialise the new user object
-                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: ""
+                //Initialise the new user object and save to the firestore
+                val newUser = User(FirebaseAuth.getInstance().uid,FirebaseAuth.getInstance().currentUser?.displayName ?: ""
                         , FirebaseAuth.getInstance().currentUser?.email ?: ""
                         , LocalDateTime.now())
                 currentUserDocRef.set(newUser).addOnSuccessListener {

@@ -3,7 +3,8 @@ package com.example.sean.trackmyjob.Models
 import java.time.LocalDateTime
 import java.io.Serializable
 
-data class User(val name : String,
+data class User(var uid : String?,
+                val name : String,
                 val email : String,
                 val registrationDate : LocalDateTime = LocalDateTime.now()
                 ) : Serializable
