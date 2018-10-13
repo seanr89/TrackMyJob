@@ -15,6 +15,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.sean.trackmyjob.Models.Enums.UserStatus
 import com.example.sean.trackmyjob.Repositories.UserRepository
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
@@ -39,22 +40,27 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        //updateUI(account)
+        if(account != null)
+        {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        else
+        {
 
-        mAuthListener = FirebaseAuth.AuthStateListener(object : FirebaseAuth.AuthStateListener, (FirebaseAuth) -> Unit {
-            override fun invoke(p1: FirebaseAuth) {
-            }
-
-            override fun onAuthStateChanged(p0: FirebaseAuth) {
-                var user = p0.getCurrentUser()
-                if (user != null){
-                    Log.i(TAG,"user logged in with email : ${user.email}")
+            mAuthListener = FirebaseAuth.AuthStateListener(object : FirebaseAuth.AuthStateListener, (FirebaseAuth) -> Unit {
+                override fun invoke(p1: FirebaseAuth) {
                 }
-            }
 
-        })
-        mAuth!!.addAuthStateListener(mAuthListener)
-        //mAuthListener.onAuthStateChanged(FirebaseAuth.getInstance())
+                override fun onAuthStateChanged(p0: FirebaseAuth) {
+                    var user = p0.getCurrentUser()
+                    if (user != null){
+                        Log.i(TAG,"user logged in with email : ${user.email}")
+                    }
+                }
+            })
+            mAuth!!.addAuthStateListener(mAuthListener)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +79,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        this.findViewById<Button>(R.id.btn_sign_in).setOnClickListener(this)
+        this.findViewById<SignInButton>(R.id.btn_sign_in).setOnClickListener(this)
     }
 
     /**
