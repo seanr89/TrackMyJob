@@ -49,7 +49,7 @@ object ClockEventRepository
                         onComplete(events)
                     }
         }
-        catch (e : Exception)
+        catch (e : IllegalArgumentException)
         {
             Log.e(TAG, "Exception occurred : ${e.message}")
         }
@@ -62,17 +62,38 @@ object ClockEventRepository
 
     /**
      *
+     * @param clock :
      */
-    fun addClockForUser()
+    fun addClockInForUser(clock : ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        addClockEventForUser(clock)
+    }
 
+    /**
+     * @param clock :
+     */
+    fun addClockOutForUser(clock : ClockEvent)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        addClockEventForUser(clock)
     }
 
     /**
      *
+     * @param clock :
      */
-    fun addClockOutForUser()
+    private fun addClockEventForUser(clock : ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
+        currentUserClockCollectionRef
+                .add(clock)
+                .addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + it.id)
+                }
+                .addOnFailureListener {
+                    Log.e(TAG, "add returned with error : ${it.message}")
+                }
     }
 }
