@@ -13,5 +13,6 @@ enum class EventSubType
     START,
     LUNCH,
     FLEXI,
-    END
+    END,
+    UNKNOWN
 }

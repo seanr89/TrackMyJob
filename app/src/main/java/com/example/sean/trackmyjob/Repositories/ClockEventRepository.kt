@@ -13,14 +13,12 @@ object ClockEventRepository
     private val TAG = "ClockEventRepository"
     private val firestoreInstance : FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
 
-    //Operation to request the user document
-//    private val currentUserClockDocsRef : DocumentReference
-//        get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().uid}/clockevent/")
-    private val currentUserClockCollectionRef : CollectionReference = firestoreInstance.collection("users/${FirebaseAuth.getInstance().uid}/clockevent/")
-
+    //Operation to request the clock event collection for a single user
+    private val currentUserClockCollectionRef : CollectionReference = firestoreInstance.collection("users/${FirebaseAuth.getInstance().uid}/clockevents/")
 
     /**
-     *
+     * handle the request for all stored clock events for the current user
+     * @param onComplete : function type to allow synchronous event handling
      */
     fun requestAllClockEventsForCurrentUser(onComplete:(MutableList<ClockEvent?>) -> Unit)
     {
@@ -61,7 +59,7 @@ object ClockEventRepository
     }
 
     /**
-     *
+     * Attempt to save a clock IN event
      * @param clock :
      */
     fun addClockInForUser(clock : ClockEvent)
@@ -71,6 +69,7 @@ object ClockEventRepository
     }
 
     /**
+     * Attempt to save a clock OUT event
      * @param clock :
      */
     fun addClockOutForUser(clock : ClockEvent)
@@ -80,8 +79,8 @@ object ClockEventRepository
     }
 
     /**
-     *
-     * @param clock :
+     * provides operation to insert a clockEvent operation for a client
+     * @param clock : the clock event to insert
      */
     private fun addClockEventForUser(clock : ClockEvent)
     {
