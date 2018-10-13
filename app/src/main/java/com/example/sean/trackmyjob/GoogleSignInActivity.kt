@@ -169,7 +169,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                     {
                         Log.w(TAG, "SignInWithCredential:failure", task.exception)
                         Toast.makeText(this, "Firebase Auth Failed", Toast.LENGTH_LONG).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        //startActivity(Intent(this, MainActivity::class.java))
                     }
                 }
     }
