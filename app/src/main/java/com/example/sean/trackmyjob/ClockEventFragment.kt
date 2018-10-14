@@ -3,6 +3,7 @@ package com.example.sean.trackmyjob
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,7 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
  */
 class ClockEventFragment : Fragment(), View.OnClickListener {
 
-
+    private val TAG = "ClockEventFragment"
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +36,12 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clock_event, container, false)
+        val view = inflater.inflate(R.layout.fragment_clock_event, container, false)
 
-        view!!.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
-        view!!.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
+
+        return view
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,6 +75,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onClockIn()
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.IN)
         ClockEventRepository.addClockInForUser(clock)
     }
@@ -81,6 +85,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onClockOut()
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.OUT)
         ClockEventRepository.addClockInForUser(clock)
     }
