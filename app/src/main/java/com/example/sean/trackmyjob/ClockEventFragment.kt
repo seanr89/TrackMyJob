@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Enums.ClockEventType
+import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 
 /**
  * A simple [Fragment] subclass.
@@ -64,14 +67,22 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         }// ...
     }
 
+    /**
+     *
+     */
     private fun onClockIn()
     {
-
+        var event = ClockEvent(ClockEventType.IN)
+        ClockEventRepository.addClockInForUser(event)
     }
 
+    /**
+     *
+     */
     private fun onClockOut()
     {
-
+        var event = ClockEvent(ClockEventType.OUT)
+        ClockEventRepository.addClockInForUser(event)
     }
 
     /**
