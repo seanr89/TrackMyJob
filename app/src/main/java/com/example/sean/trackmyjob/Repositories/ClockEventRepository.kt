@@ -53,11 +53,6 @@ object ClockEventRepository
         }
     }
 
-    fun getLastClockEventForUser()
-    {
-
-    }
-
     /**
      * Attempt to save a clock IN event
      * @param clock :
