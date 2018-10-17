@@ -71,7 +71,7 @@ class ClockEventListFragment : Fragment() {
     }
 
     /**
-     * 
+     *
      */
     private fun updateClockEventAdapter(events : MutableList<ClockEvent?>)
     {
