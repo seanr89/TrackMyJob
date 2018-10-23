@@ -3,6 +3,7 @@ package com.example.sean.trackmyjob
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +24,8 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
  */
 class ClockEventFragment : Fragment(), View.OnClickListener {
 
-
-    private var listener: OnFragmentInteractionListener? = null
+    private val TAG = "ClockEventFragment"
+    private var listener: OnFragmentShowAllEventsListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +36,17 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clock_event, container, false)
+        val view = inflater.inflate(R.layout.fragment_clock_event, container, false)
 
-        view!!.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
-        view!!.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
-    }
+        view.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        return view
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnFragmentShowAllEventsListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
@@ -64,25 +62,42 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         when (v!!.id) {
             R.id.btn_ClockIn -> onClockIn()
             R.id.btn_ClockOut -> onClockOut()
+            R.id.btn_ClockList -> onViewClockEvents()
         }// ...
     }
 
     /**
-     *
+     * request the last known clock event that was stored for the user and display the data
      */
-    private fun onClockIn()
+    private fun setLastKnowClockEventOnUI()
     {
-        var event = ClockEvent(ClockEventType.IN)
-        ClockEventRepository.addClockInForUser(event)
+        val lastClock = ClockEventRepository.getLastClockEvent()
     }
 
     /**
-     *
+     * add a clock in event for the current user
+     */
+    private fun onClockIn()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        val clock = ClockEvent(ClockEventType.IN)
+        ClockEventRepository.addClockInForUser(clock)
+    }
+
+    /**
+     * add a clock out event for the current user
      */
     private fun onClockOut()
     {
-        var event = ClockEvent(ClockEventType.OUT)
-        ClockEventRepository.addClockInForUser(event)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        val clock = ClockEvent(ClockEventType.OUT)
+        ClockEventRepository.addClockOutForUser(clock)
+    }
+
+    private fun onViewClockEvents()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        listener?.onShowAllClockEvents()
     }
 
     /**
@@ -96,9 +111,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+    interface OnFragmentShowAllEventsListener {
+        fun onShowAllClockEvents()
     }
 
     companion object {
@@ -108,7 +122,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
          *
          * @return A new instance of fragment ClockEventFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 ClockEventFragment().apply {

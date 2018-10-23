@@ -3,9 +3,16 @@ package com.example.sean.trackmyjob.Models
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 
 /**
- *
+ * data class object detailing an overview of client stats
+ * @param eventCount :
+ * @param currentStatus :
+ * @param lastEvent :
+ * @param weeklyHours :
+ * @param weeklyMinutes :
+ * @param totalHours :
+ * @param totalMinutes :
  */
-data class UserOverview(val events: Int,
+data class UserOverview(val eventCount: Int,
                         val currentStatus : ClockEventType = ClockEventType.OUT,
                         val lastEvent: ClockEvent,
                         val weeklyHours : Int = 0,
@@ -14,7 +21,8 @@ data class UserOverview(val events: Int,
                         val totalMinutes : Int = 0)
 {
     /**
-     *
+     * calculate and output to string the parameters
+     * @return string output of hours and minutes
      */
     fun totalHoursAndMinutesToString() : String
     {
@@ -23,6 +31,7 @@ data class UserOverview(val events: Int,
 
     /**
      *
+     * @return string output of hours and minutes
      */
     fun weeklyHoursAndMinutesToString() : String
     {

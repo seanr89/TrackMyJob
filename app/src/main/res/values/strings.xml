@@ -5,4 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ClockIn">Clock In</string>
     <string name="ClockOut">Clock Out</string>
+
+    <string name="sign_out">Sign Out</string>
+    <string name="ListClockEvents">View Clock Events</string>
+    <string name="CurrentEvent">Current Clock</string>
 </resources>
