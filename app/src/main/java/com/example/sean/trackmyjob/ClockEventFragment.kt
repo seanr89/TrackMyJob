@@ -67,6 +67,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         when (v!!.id) {
             R.id.btn_ClockIn -> onClockIn()
             R.id.btn_ClockOut -> onClockOut()
+            R.id.btn_ClockList -> onViewClockEvents()
         }// ...
     }
 
@@ -88,6 +89,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.OUT)
         ClockEventRepository.addClockOutForUser(clock)
+    }
+
+    private fun onViewClockEvents()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
     }
 
     /**

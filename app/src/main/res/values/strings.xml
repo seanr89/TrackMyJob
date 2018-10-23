@@ -7,4 +7,5 @@
     <string name="ClockOut">Clock Out</string>
 
     <string name="sign_out">Sign Out</string>
+    <string name="ListClockEvents">View Clock Events</string>
 </resources>

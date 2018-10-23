@@ -3,10 +3,8 @@ package com.example.sean.trackmyjob.Repositories
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import java.time.Clock
 
 object ClockEventRepository
 {
@@ -51,6 +49,35 @@ object ClockEventRepository
         {
             Log.e(TAG, "Exception occurred : ${e.message}")
         }
+    }
+
+    fun getLastClockEvent() : ClockEvent?
+    {
+        var event : ClockEvent? = null
+        try {
+            currentUserClockCollectionRef
+                    .orderBy("dateTime", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener {
+                        if(!it.isEmpty)
+                        {
+                            for(doc : DocumentSnapshot in it.documents)
+                            {
+                                event = doc.toObject(ClockEvent::class.java)
+                            }
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.e(TAG, "get returned with error : ${it.message}")
+                    }
+
+        }
+        catch (e : IllegalArgumentException)
+        {
+            Log.e(TAG, "Exception occurred : ${e.message}")
+        }
+        return event
     }
 
     /**
