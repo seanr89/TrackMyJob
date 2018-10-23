@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
  */
 class MyClockEventRecyclerViewAdapter(
         private var mValues: List<ClockEvent?>,

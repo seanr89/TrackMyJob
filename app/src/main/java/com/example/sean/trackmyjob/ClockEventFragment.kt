@@ -25,7 +25,7 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 class ClockEventFragment : Fragment(), View.OnClickListener {
 
     private val TAG = "ClockEventFragment"
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: OnFragmentShowAllEventsListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +44,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnFragmentShowAllEventsListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
@@ -69,6 +64,14 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             R.id.btn_ClockOut -> onClockOut()
             R.id.btn_ClockList -> onViewClockEvents()
         }// ...
+    }
+
+    /**
+     * request the last known clock event that was stored for the user and display the data
+     */
+    private fun setLastKnowClockEventOnUI()
+    {
+        val lastClock = ClockEventRepository.getLastClockEvent()
     }
 
     /**
@@ -94,6 +97,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private fun onViewClockEvents()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        listener?.onShowAllClockEvents()
     }
 
     /**
@@ -107,9 +111,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+    interface OnFragmentShowAllEventsListener {
+        fun onShowAllClockEvents()
     }
 
     companion object {

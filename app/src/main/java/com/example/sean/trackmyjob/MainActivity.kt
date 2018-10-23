@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentInteractionListener {
-
+class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
+    ClockEventListFragment.OnListFragmentInteractionListener
+{
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,11 +48,32 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentInteracti
         return true
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
     /**
      *
      */
-    override fun onFragmentInteraction(uri: Uri) {
+    override fun onListFragmentInteraction(item: ClockEvent?) {
     }
+
+    /**
+     *
+     */
+    override fun onShowAllClockEvents() {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        var newFragment = ClockEventListFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, newFragment)
+                .addToBackStack(null) //add the transaction to the back stack so the user can navigate back
+                .commit()
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
 
     /**
      * handle the signing out of the current user and return the previous activity

@@ -98,9 +98,8 @@ class ClockEventListFragment : Fragment() {
 
     companion object {
 
-        // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int) =
+        fun newInstance() =
                 ClockEventListFragment().apply {
                     arguments = Bundle().apply {
                     }
