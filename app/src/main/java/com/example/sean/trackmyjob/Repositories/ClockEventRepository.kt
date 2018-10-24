@@ -51,8 +51,13 @@ object ClockEventRepository
         }
     }
 
-    fun getLastClockEvent() : ClockEvent?
+    /**
+     *
+     */
+    fun getLastClockEvent(onComplete: (ClockEvent?) -> Unit)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
         var event : ClockEvent? = null
         try {
             currentUserClockCollectionRef
@@ -62,10 +67,12 @@ object ClockEventRepository
                     .addOnSuccessListener {
                         if(!it.isEmpty)
                         {
+                            Log.d(TAG, "item found for single clock event")
                             for(doc : DocumentSnapshot in it.documents)
                             {
                                 event = doc.toObject(ClockEvent::class.java)
                             }
+                            onComplete(event)
                         }
                     }
                     .addOnFailureListener {
@@ -77,7 +84,9 @@ object ClockEventRepository
         {
             Log.e(TAG, "Exception occurred : ${e.message}")
         }
-        return event
+        finally {
+            onComplete(null)
+        }
     }
 
     /**
