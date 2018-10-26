@@ -29,7 +29,7 @@ object ClockEventRepository
             currentUserClockCollectionRef
                     .get()
                     .addOnSuccessListener {
-                        if(!it.isEmpty)
+                        if(!it.isEmpty || it != null)
                         {
                             for(doc : DocumentSnapshot in it.documents)
                             {
@@ -52,7 +52,7 @@ object ClockEventRepository
     }
 
     /**
-     *
+     * @param onComplete : lambda function to allow handling of output
      */
     fun getLastClockEvent(onComplete: (ClockEvent?) -> Unit)
     {
@@ -65,7 +65,7 @@ object ClockEventRepository
                     .limit(1)
                     .get()
                     .addOnSuccessListener {
-                        if(!it.isEmpty)
+                        if(!it.isEmpty || it != null)
                         {
                             Log.d(TAG, "item found for single clock event")
                             for(doc : DocumentSnapshot in it.documents)

@@ -13,6 +13,8 @@ import android.widget.TextView
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
+import com.example.sean.trackmyjob.Utilities.HelperMethods
+import org.w3c.dom.Text
 
 /**
  * A simple [Fragment] subclass.
@@ -42,7 +44,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         view.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
         view.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
 
-        setLastKnownClockEventOnUI(view)
+        setLastKnownClockEventOnUI()
 
         return view
     }
@@ -72,23 +74,18 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      * request the last known clock event that was stored for the user and display the data
      */
-    private fun setLastKnownClockEventOnUI(view : View)
+    private fun setLastKnownClockEventOnUI()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         ClockEventRepository.getLastClockEvent{
-            Log.d(TAG, "find textView")
-            var txtClockEvent = view.findViewById<TextView>(R.id.txt_CurrentClockEvent)
-            Log.d(TAG, "textView found")
+            var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
+            var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
 
             if(it != null && txtClockEvent != null)
             {
-                Log.d(TAG, "items located")
                 txtClockEvent.text = it.event.toString()
-            }
-            else
-            {
-                Log.d(TAG, "no items found")
+                txtClockEventDate.text = HelperMethods.convertDateTimeToString(it.dateTimeToLocalDateTime())
             }
         }
     }

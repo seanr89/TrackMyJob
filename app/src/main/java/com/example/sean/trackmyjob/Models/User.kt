@@ -3,6 +3,9 @@ package com.example.sean.trackmyjob.Models
 import java.time.LocalDateTime
 import java.io.Serializable
 
+/**
+ * TODO - registration date needs to be edited to a long parameter
+ */
 data class User(var uid : String?,
                 val name : String,
                 val email : String,
