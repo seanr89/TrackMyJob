@@ -11,4 +11,5 @@
     <string name="CurrentEvent">Current Clock</string>
     <string name="eventDateTime">Date Time</string>
     <string name="CurrentEventDate">Date Time</string>
+    <string name="ClockEventPlaceholder">Unknown</string>
 </resources>

@@ -30,12 +30,4 @@ object TimeCalculator
 
         return diff
     }
-
-    /**
-     * TODO
-     */
-    fun addMyTimetoMyTime(current : MyTime, toAdd : MyTime) : MyTime
-    {
-        return null!!
-    }
 }

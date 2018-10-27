@@ -79,13 +79,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         ClockEventRepository.getLastClockEvent{
-            var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
-            var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
-
-            if(it != null && txtClockEvent != null)
+            if(it != null)
             {
-                txtClockEvent.text = it.event.toString()
-                txtClockEventDate.text = HelperMethods.convertDateTimeToString(it.dateTimeToLocalDateTime())
+                updateClockEventInfo(it)
             }
         }
     }
@@ -98,6 +94,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.IN)
         ClockEventRepository.addClockInForUser(clock)
+        updateClockEventInfo(clock)
     }
 
     /**
@@ -108,12 +105,26 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.OUT)
         ClockEventRepository.addClockOutForUser(clock)
+        updateClockEventInfo(clock)
     }
 
     private fun onViewClockEvents()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listener?.onShowAllClockEvents()
+    }
+
+    /**
+     * Operation to update and refresh the clock event displayed information
+     * @param clockEvent : the event to be used to push data out for display purposes!
+     */
+    private fun updateClockEventInfo(clockEvent: ClockEvent)
+    {
+        var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
+        var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
+
+        txtClockEvent.text = clockEvent.event.toString()
+        txtClockEventDate.text = HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime())
     }
 
     /**
