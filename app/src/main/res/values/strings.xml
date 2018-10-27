@@ -12,4 +12,9 @@
     <string name="eventDateTime">Date Time</string>
     <string name="CurrentEventDate">Date Time</string>
     <string name="ClockEventPlaceholder">Unknown</string>
+
+
+    <!-- Shared Prefs Key-->
+    <string name="pref_clockevent_event_key"></string>
+    <string name="pref_clockevent_date_key"></string>
 </resources>

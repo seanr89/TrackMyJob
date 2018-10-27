@@ -15,6 +15,7 @@ import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import org.w3c.dom.Text
+import java.time.Clock
 
 /**
  * A simple [Fragment] subclass.
@@ -94,6 +95,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.IN)
         ClockEventRepository.addClockInForUser(clock)
+        updateSharedPreferencesOfLastClock(clock)
         updateClockEventInfo(clock)
     }
 
@@ -105,13 +107,49 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val clock = ClockEvent(ClockEventType.OUT)
         ClockEventRepository.addClockOutForUser(clock)
+        //updateSharedPreferencesOfLastClock(clock)
+        onClockOutCalculateHoursWorked(clock)
         updateClockEventInfo(clock)
     }
 
+    /**
+     * trigger event to show all clock events on the app!
+     */
     private fun onViewClockEvents()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listener?.onShowAllClockEvents()
+    }
+
+    /**
+     * update the latest saved shared preference file of the last triggered clock event!
+     * @param clockEvent :
+     */
+    private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
+    {
+        val sharedPreferences = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
+
+        with (sharedPreferences.edit()) {
+            putInt(getString(R.string.pref_clockevent_event_key), clockEvent.event.ordinal)
+            putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
+            commit()
+        }
+    }
+
+    /**
+     * open, read and return the last saved clock event registered!
+     * @return : a ClockEvent
+     */
+    private fun readSharedPreferencesForLastClock() : ClockEvent
+    {
+        val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
+
+        val clock = ClockEvent()
+
+        clock.event = sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.ordinal) as ClockEventType
+        clock.dateTime = sharedPref.getLong(getString(R.string.pref_clockevent_date_key), 0)
+
+        return clock
     }
 
     /**
@@ -125,6 +163,22 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         txtClockEvent.text = clockEvent.event.toString()
         txtClockEventDate.text = HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime())
+    }
+
+    /**
+     *
+     * @param clockOutEvent :
+     */
+    private fun onClockOutCalculateHoursWorked(clockOutEvent: ClockEvent)
+    {
+        //first off all get the last clock event stored!!
+
+        //step1 - request the last stored clock on teh device!
+        val lastClock = readSharedPreferencesForLastClock()
+        if(lastClock.event == ClockEventType.IN)
+        {
+
+        }
     }
 
     /**
@@ -143,6 +197,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     }
 
     companion object {
+
+        private var mySharedPrefsEvents = "myClockEventsPrefs"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

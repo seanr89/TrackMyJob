@@ -4,8 +4,9 @@ import com.example.sean.trackmyjob.Models.MyTime
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-
-
+/**
+ * test object for calculating stuff!!
+ */
 object TimeCalculator
 {
     /**
