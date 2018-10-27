@@ -151,8 +151,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val clock = ClockEvent()
 
-        val output = sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value) as ClockEventType
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name + " " + output)
+        clock.event = ClockEventType.fromInt(sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value)) as ClockEventType
         clock.dateTime = sharedPref.getLong(getString(R.string.pref_clockevent_date_key), 0)
 
         return clock

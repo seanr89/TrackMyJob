@@ -40,12 +40,13 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         val account = GoogleSignIn.getLastSignedInAccount(this)
-//        if(account != null)
-//        {
-//            startActivity(Intent(this, MainActivity::class.java))
-//        }
-//        else
-//        {
+        if(account != null)
+        {
+            signIn()
+            //startActivity(Intent(this, MainActivity::class.java))
+        }
+        else
+        {
 
             mAuthListener = FirebaseAuth.AuthStateListener(object : FirebaseAuth.AuthStateListener, (FirebaseAuth) -> Unit {
                 override fun invoke(p1: FirebaseAuth) {
@@ -59,7 +60,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                 }
             })
             mAuth!!.addAuthStateListener(mAuthListener)
- //       }
+        }
 
     }
 
