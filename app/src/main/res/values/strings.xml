@@ -15,6 +15,6 @@
 
 
     <!-- Shared Prefs Key-->
-    <string name="pref_clockevent_event_key"></string>
-    <string name="pref_clockevent_date_key"></string>
+    <string name="pref_clockevent_event_key">STOREDEVENTKEY</string>
+    <string name="pref_clockevent_date_key">STOREDEVENTDATE</string>
 </resources>

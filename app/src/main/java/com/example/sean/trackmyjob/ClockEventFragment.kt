@@ -127,13 +127,17 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
     {
-        val sharedPreferences = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        with (sharedPreferences.edit()) {
-            putInt(getString(R.string.pref_clockevent_event_key), clockEvent.event.ordinal)
-            putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
-            commit()
-        }
+        val sharedPrefs = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+
+        var id = clockEvent.event.value
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name + " with event: " + id )
+
+        editor.putInt(getString(R.string.pref_clockevent_event_key), id)
+        editor.putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
+        editor.apply()
     }
 
     /**
@@ -142,11 +146,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun readSharedPreferencesForLastClock() : ClockEvent
     {
-        val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
+        val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val clock = ClockEvent()
 
-        clock.event = sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.ordinal) as ClockEventType
+        val output = sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value) as ClockEventType
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name + " " + output)
         clock.dateTime = sharedPref.getLong(getString(R.string.pref_clockevent_date_key), 0)
 
         return clock
