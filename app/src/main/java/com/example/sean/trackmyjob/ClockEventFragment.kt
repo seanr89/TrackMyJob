@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
@@ -104,7 +105,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         }
         else
         {
-            Toast.makeText(context, "You are already Clocked In!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "You are already Clocked In!", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -115,18 +116,21 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private fun onClockOut()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        val currentClockEvent = readSharedPreferencesForLastClock()
-        if(currentClockEvent.event == ClockEventType.OUT)
+        val lastClock = readSharedPreferencesForLastClock()
+        if(lastClock.event == ClockEventType.OUT)
         {
             val clock = ClockEvent(ClockEventType.OUT)
             ClockEventRepository.addClockOutForUser(clock)
-            onClockOutCalculateHoursWorked(clock)
+            onClockOutCalculateHoursWorked(clock, lastClock)
+
+            //update internal storage
             updateSharedPreferencesOfLastClock(clock)
+            //update ui of last clock details
             updateClockEventInfo(clock)
         }
         else
         {
-            Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -150,10 +154,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         val sharedPrefs = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val editor = sharedPrefs.edit()
-
-        var id = clockEvent.event.value
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name + " with event: " + id )
-
         editor.putInt(getString(R.string.pref_clockevent_event_key), id)
         editor.putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
         editor.apply()
@@ -182,6 +182,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateClockEventInfo(clockEvent: ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
         var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
         var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
 
@@ -192,17 +194,14 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      *
      * @param clockOutEvent :
+     * @param lastClock : the last know clock event to compared
      */
-    private fun onClockOutCalculateHoursWorked(clockOutEvent: ClockEvent)
+    private fun onClockOutCalculateHoursWorked(clockOutEvent: ClockEvent, lastClock : ClockEvent)
     {
-        //first off all get the last clock event stored!!
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        //step1 - request the last stored clock on teh device!
-        val lastClock = readSharedPreferencesForLastClock()
-        if(lastClock.event == ClockEventType.IN)
-        {
-
-        }
+        var timeDiff = TimeCalculator.difference(lastClock.dateTimeToLocalDateTime(), clockOutEvent.dateTimeToLocalDateTime())
+        Toast.makeText(context, "TimeDiff : ${timeDiff.hours} hours and ${timeDiff.minutes} mins", Toast.LENGTH_LONG).show()
     }
 
     /**
