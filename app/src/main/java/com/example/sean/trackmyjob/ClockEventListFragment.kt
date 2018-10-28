@@ -24,14 +24,6 @@ class ClockEventListFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null
     private lateinit var adapter : MyClockEventRecyclerViewAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        arguments?.let {
-//            columnCount = it.getInt(ARG_COLUMN_COUNT)
-//        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_clockevent_list, container, false)
@@ -71,7 +63,8 @@ class ClockEventListFragment : Fragment() {
     }
 
     /**
-     *
+     * operation to update the clockEvents recyclerAdapter with new events
+     * @param events : List of clockEvents
      */
     private fun updateClockEventAdapter(events : MutableList<ClockEvent?>)
     {

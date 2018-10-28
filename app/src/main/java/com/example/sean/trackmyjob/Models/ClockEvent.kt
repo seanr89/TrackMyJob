@@ -1,14 +1,10 @@
 package com.example.sean.trackmyjob.Models
 
-import android.util.Log
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Models.Enums.EventSubType
 import com.example.sean.trackmyjob.Utilities.HelperMethods
-import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
 
 /**
  * An individual clock event that marks if someone arrived or left a specific location or work
@@ -27,6 +23,10 @@ data class ClockEvent(var event : ClockEventType,
      */
     constructor() : this(ClockEventType.IN)
 
+    /**
+     * format dateTime and calculate LocalDateTime
+     * @return LocalDateTime of this dateTime info
+     */
     fun dateTimeToLocalDateTime() : LocalDateTime
     {
         return if(this.dateTime > 0)
