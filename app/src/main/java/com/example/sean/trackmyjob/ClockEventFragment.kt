@@ -96,7 +96,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val currentClockEvent = readSharedPreferencesForLastClock()
-        if(currentClockEvent.event == ClockEventType.IN)
+        if(currentClockEvent.event == ClockEventType.OUT)
         {
             val clock = ClockEvent(ClockEventType.IN)
             ClockEventRepository.addClockInForUser(clock)
@@ -117,12 +117,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val lastClock = readSharedPreferencesForLastClock()
-        if(lastClock.event == ClockEventType.OUT)
+        if(lastClock.event == ClockEventType.IN)
         {
             val clock = ClockEvent(ClockEventType.OUT)
-            ClockEventRepository.addClockOutForUser(clock)
             onClockOutCalculateHoursWorked(clock, lastClock)
 
+            //contact firebase and updated
+            ClockEventRepository.addClockOutForUser(clock)
             //update internal storage
             updateSharedPreferencesOfLastClock(clock)
             //update ui of last clock details
@@ -154,7 +155,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         val sharedPrefs = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val editor = sharedPrefs.edit()
-        editor.putInt(getString(R.string.pref_clockevent_event_key), id)
+        editor.putInt(getString(R.string.pref_clockevent_event_key), clockEvent.event.value)
         editor.putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
         editor.apply()
     }
@@ -170,7 +171,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val clock = ClockEvent()
 
-        clock.event = ClockEventType.fromInt(sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value)) as ClockEventType
+        val output = ClockEventType.fromInt(sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value))
+        clock.event = output ?: ClockEventType.IN
         clock.dateTime = sharedPref.getLong(getString(R.string.pref_clockevent_date_key), 0)
 
         return clock

@@ -1,5 +1,6 @@
 package com.example.sean.trackmyjob.Models
 
+import android.util.Log
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Models.Enums.EventSubType
 import com.example.sean.trackmyjob.Utilities.HelperMethods
@@ -28,7 +29,7 @@ data class ClockEvent(var event : ClockEventType,
 
     fun dateTimeToLocalDateTime() : LocalDateTime
     {
-        return if(dateTime <= 0)
+        return if(this.dateTime > 0)
         {
             HelperMethods.convertLongToLocalDateTime(this.dateTime)
         }
