@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
-import java.time.Clock
 
 object ClockEventRepository
 {

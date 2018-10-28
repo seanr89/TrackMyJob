@@ -7,6 +7,11 @@ import java.time.format.DateTimeFormatter
 
 object HelperMethods {
 
+    /**
+     * convert a datetime in utc from millisecond format to LocalDateTime
+     * @param dateMilliseconds : utc datetime in milliseconds
+     * @return LocalDateTime
+     */
     fun convertLongToLocalDateTime(dateMilliseconds : Long) : LocalDateTime
     {
         return Instant.ofEpochMilli(dateMilliseconds).atZone(ZoneId.systemDefault()).toLocalDateTime()

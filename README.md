@@ -42,3 +42,16 @@ The behavior for java.util.Date objects stored in Firestore is going to change A
     java.util.Date date = timestamp.toDate();
     
     Please audit all existing usages of java.util.Date when you enable the new behavior. In a future release, the behavior will be changed to the new behavior, so if you do not follow these steps, YOUR APP MAY BREAK.
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Ok first operations are now in motion
+- Clock in and Clock outs are being maintained and stored to firebase
+- Client/User initialisation on firebase included!!
+
+TODO 
+1. Holidays are not being managed at all yet for individual users!
+2. Additionally a method to calculate and store hours worked
+    - per week, month and total?
+3. Background service initialisation for alerting at start and end of day to clock in and out!!
