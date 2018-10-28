@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import android.content.Intent
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.sean.trackmyjob.Models.Enums.UserStatus
 import com.example.sean.trackmyjob.Repositories.UserRepository
@@ -47,7 +48,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         }
         else
         {
-
+            showSignInButton()
             mAuthListener = FirebaseAuth.AuthStateListener(object : FirebaseAuth.AuthStateListener, (FirebaseAuth) -> Unit {
                 override fun invoke(p1: FirebaseAuth) {
                 }
@@ -68,7 +69,9 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_sign_in)
 
-       mAuth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance()
+
+        showSignInButton()
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -89,11 +92,12 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     private fun signIn() {
         val signInIntent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
+        hideSignInButton()
     }
 
 
     /**
-     *
+     * trigger application sign the user out!
      */
     private fun signOut()
     {
@@ -101,6 +105,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         // sign out Firebase
         mAuth!!.signOut()
         FirebaseAuth.getInstance().signOut()
+        showSignInButton()
         // sign out Google
         //Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback { updateUI(null) }
     }
@@ -126,6 +131,25 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
             }
             //handleSignInResult(task)
         }
+    }
+
+    private fun hideSignInButton()
+    {
+        val progressBar = this.findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
+        val signInButton = this.findViewById<SignInButton>(R.id.btn_sign_in)
+        signInButton.visibility = View.INVISIBLE
+    }
+
+    /**
+     * handle the displaying/visibility of the sign in button
+     */
+    private fun showSignInButton()
+    {
+        val progressBar = this.findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.INVISIBLE
+        val signInButton = this.findViewById<SignInButton>(R.id.btn_sign_in)
+        signInButton.visibility = View.VISIBLE
     }
 
 //    /**

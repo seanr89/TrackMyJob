@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
@@ -93,10 +94,19 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private fun onClockIn()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        val clock = ClockEvent(ClockEventType.IN)
-        ClockEventRepository.addClockInForUser(clock)
-        updateSharedPreferencesOfLastClock(clock)
-        updateClockEventInfo(clock)
+        val currentClockEvent = readSharedPreferencesForLastClock()
+        if(currentClockEvent.event == ClockEventType.IN)
+        {
+            val clock = ClockEvent(ClockEventType.IN)
+            ClockEventRepository.addClockInForUser(clock)
+            updateSharedPreferencesOfLastClock(clock)
+            updateClockEventInfo(clock)
+        }
+        else
+        {
+            Toast.makeText(context, "You are already Clocked In!", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     /**
@@ -105,11 +115,20 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private fun onClockOut()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        val clock = ClockEvent(ClockEventType.OUT)
-        ClockEventRepository.addClockOutForUser(clock)
-        //updateSharedPreferencesOfLastClock(clock)
-        onClockOutCalculateHoursWorked(clock)
-        updateClockEventInfo(clock)
+        val currentClockEvent = readSharedPreferencesForLastClock()
+        if(currentClockEvent.event == ClockEventType.OUT)
+        {
+            val clock = ClockEvent(ClockEventType.OUT)
+            ClockEventRepository.addClockOutForUser(clock)
+            onClockOutCalculateHoursWorked(clock)
+            updateSharedPreferencesOfLastClock(clock)
+            updateClockEventInfo(clock)
+        }
+        else
+        {
+            Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     /**
