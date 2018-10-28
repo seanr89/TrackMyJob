@@ -133,7 +133,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         {
             Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     /**
@@ -151,7 +150,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         val sharedPrefs = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val editor = sharedPrefs.edit()
@@ -166,7 +165,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun readSharedPreferencesForLastClock() : ClockEvent
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
         val clock = ClockEvent()
@@ -184,7 +183,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateClockEventInfo(clockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
         var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
@@ -194,13 +193,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     }
 
     /**
-     *
-     * @param clockOutEvent :
-     * @param lastClock : the last know clock event to compared
+     * handle the calculation of hours worked from the two dates
+     * @param clockOutEvent : the clock event when clocked out (OUT)
+     * @param lastClock : the last know clock event to compared (IN)
      */
     private fun onClockOutCalculateHoursWorked(clockOutEvent: ClockEvent, lastClock : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         var timeDiff = TimeCalculator.difference(lastClock.dateTimeToLocalDateTime(), clockOutEvent.dateTimeToLocalDateTime())
         Toast.makeText(context, "TimeDiff : ${timeDiff.hours} hours and ${timeDiff.minutes} mins", Toast.LENGTH_LONG).show()

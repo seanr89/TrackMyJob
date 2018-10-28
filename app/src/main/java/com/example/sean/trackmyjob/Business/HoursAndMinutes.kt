@@ -1,4 +1,4 @@
-package com.example.sean.trackmyjob.Models
+package com.example.sean.trackmyjob.Business
 
 class HoursAndMinutes(var minutes : Int) {
 
