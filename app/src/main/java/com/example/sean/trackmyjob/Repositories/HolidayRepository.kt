@@ -1,6 +1,8 @@
 package com.example.sean.trackmyjob.Repositories
 
 import android.util.Log
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Holiday
 import com.example.sean.trackmyjob.Models.HolidayStats
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -56,6 +58,31 @@ object HolidayRepository {
                     .addOnFailureListener{
 
                     }
+        }catch (e : IllegalArgumentException)
+        {
+            Log.e(TAG, "Exception occurred : ${e.message}")
+        }
+    }
+
+    /**
+     *
+     */
+    fun getAllUserHolidaysForYear(year:Int, onComplete: (MutableList<Holiday?>) -> Unit)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        try {
+            var holidays = ArrayList<Holiday?>()
+
+            userHolidayCollectionRef.document(year.toString()).collection("holidays")
+                    .get()
+                    .addOnSuccessListener {
+
+                    }
+                    .addOnFailureListener{
+
+                    }
+
         }catch (e : IllegalArgumentException)
         {
             Log.e(TAG, "Exception occurred : ${e.message}")
