@@ -13,9 +13,7 @@ class HolidayRecyclerAdapter(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getItemCount(): Int = mValues.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
