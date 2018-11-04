@@ -3,9 +3,12 @@ package com.example.sean.trackmyjob.Adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sean.trackmyjob.Models.Holiday
 import com.example.sean.trackmyjob.R
+import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
+import kotlinx.android.synthetic.main.holiday_recycler_item.view.*
 
 class HolidayRecyclerAdapter(
         private var mValues: List<Holiday?>
@@ -48,6 +51,9 @@ class HolidayRecyclerAdapter(
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView)
     {
-
+        val mStartDateView: TextView = mView.txtViewStartDate
+        val mEndDateView: TextView = mView.txtViewEndDate
+        val mTypeView: TextView = mView.txtViewHolidayType
+        val mAttendView: TextView = mView.txtViewHolidayAttended
     }
 }
