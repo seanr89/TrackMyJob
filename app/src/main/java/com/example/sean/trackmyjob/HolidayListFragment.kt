@@ -3,11 +3,16 @@ package com.example.sean.trackmyjob
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sean.trackmyjob.Adapters.HolidayRecyclerAdapter
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Holiday
+import com.example.sean.trackmyjob.Repositories.HolidayRepository
+import java.time.LocalDateTime
 
 /**
  * A simple [Fragment] subclass.
@@ -17,6 +22,8 @@ import com.example.sean.trackmyjob.Adapters.HolidayRecyclerAdapter
  *
  */
 class HolidayListFragment : Fragment() {
+
+    private lateinit var _adapter : HolidayRecyclerAdapter
 
     private val TAG = "HolidayListFragment"
     private lateinit var adapter : HolidayRecyclerAdapter
@@ -32,7 +39,27 @@ class HolidayListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view  = inflater.inflate(R.layout.fragment_holiday_list, container, false)
 
+        _adapter = HolidayRecyclerAdapter(arrayListOf())
+
+        HolidayRepository.getAllUserHolidaysForYear(LocalDateTime.now().year){
+            if(!it.isEmpty())
+            {
+                refreshAdapterData(it)
+            }
+        }
+
         return view
+    }
+
+    /**
+     * handle the refreshing of adapter data
+     * @param data : list of nullable holidays
+     */
+    private fun refreshAdapterData(data : MutableList<Holiday?>)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        adapter.updateDataSet(data)
+        adapter.notifyDataSetChanged()
     }
 
     companion object {

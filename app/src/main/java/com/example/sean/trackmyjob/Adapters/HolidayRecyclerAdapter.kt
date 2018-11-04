@@ -19,6 +19,15 @@ class HolidayRecyclerAdapter(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    /**
+     * handle the updating of the recycler adapter data source!
+     * @param holidays : list of holiday objects
+     */
+    fun updateDataSet(holidays : MutableList<Holiday?>)
+    {
+        mValues = holidays
+    }
+
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView)
     {
 
