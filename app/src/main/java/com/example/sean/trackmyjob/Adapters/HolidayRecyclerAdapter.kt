@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sean.trackmyjob.Models.Holiday
 import com.example.sean.trackmyjob.R
+import com.example.sean.trackmyjob.Utilities.HelperMethods
+import com.google.rpc.Help
 import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
 import kotlinx.android.synthetic.main.holiday_recycler_item.view.*
 
@@ -30,9 +32,13 @@ class HolidayRecyclerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
 
+        //if the current holiday is not null
         if(item != null)
         {
-
+            holder.mStartDateView.text = HelperMethods.convertDateTimeToString(HelperMethods.convertLongToLocalDateTime(item.startDateTime))
+            holder.mEndDateView.text = HelperMethods.convertDateTimeToString(HelperMethods.convertLongToLocalDateTime(item.endDateTime))
+            holder.mTypeView.text = item.type.toString()
+            holder.mAttendView.text = item.attended.toString()
         }
     }
 
@@ -49,7 +55,10 @@ class HolidayRecyclerAdapter(
     /////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView)
+    /**
+     * custom class for handling each individual holiday item content
+     */
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView)
     {
         val mStartDateView: TextView = mView.txtViewStartDate
         val mEndDateView: TextView = mView.txtViewEndDate

@@ -14,7 +14,7 @@ import com.example.sean.trackmyjob.R
 import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [ClockEvent] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  */
 class MyClockEventRecyclerViewAdapter(

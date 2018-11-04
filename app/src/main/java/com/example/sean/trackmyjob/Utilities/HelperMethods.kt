@@ -26,21 +26,4 @@ object HelperMethods {
     {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
     }
-
-    /**
-     * format UTC EpocMillisecond dateTime to LocalDateTime
-     * @param longDate : the date to be converted to a LocalDateTime
-     * @return LocalDateTime of this dateTime info
-     */
-    fun dateTimeToLocalDateTime(longDate : Long) : LocalDateTime
-    {
-        return if(longDate > 0)
-        {
-            HelperMethods.convertLongToLocalDateTime(longDate)
-        }
-        else
-        {
-            LocalDateTime.now()
-        }
-    }
 }

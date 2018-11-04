@@ -1,5 +1,6 @@
 package com.example.sean.trackmyjob.Models
 
+import com.example.sean.trackmyjob.Models.Enums.DurationType
 import com.example.sean.trackmyjob.Models.Enums.HolidayType
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -15,5 +16,14 @@ data class Holiday(var startDateTime : Long = LocalDateTime.now().atZone(ZoneId.
                    var endDateTime: Long = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                    var type : HolidayType,
                    var attended: Boolean = false) {
+}
+
+
+data class DetailedHoliday(var type : HolidayType = HolidayType.UNKNOWN,
+                           var dates : List<Long>,
+                           var duration : Double,
+                           var durationType : DurationType)
+{
+
 }
 

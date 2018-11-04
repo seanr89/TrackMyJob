@@ -23,4 +23,6 @@
     <string name="HolidayEndDate">End Date :</string>
     <string name="HolidayType">Type :</string>
     <string name="HolidayAttended">Attended :</string>
+
+    <string name="AddHoliday">New Holiday</string>
 </resources>
