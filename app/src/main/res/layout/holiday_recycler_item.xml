@@ -46,12 +46,23 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/HolidayEndDate"
+            android:text="@string/Hours"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtViewEndDate"
-            android:layout_width="100dp"
+            android:id="@+id/txtViewHours"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Minutes"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtViewMinutes"
+            android:layout_width="75dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
@@ -94,7 +105,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtViewHolidayAttended"
+            android:id="@+id/txtViewHolidayStatus"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
 

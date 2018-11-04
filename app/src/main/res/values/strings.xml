@@ -20,7 +20,8 @@
 
     <!-- Holiday List View Item-->
     <string name="HolidayStartDate">Start Date :</string>
-    <string name="HolidayEndDate">End Date :</string>
+    <string name="Hours">Hours :</string>
+    <string name="Minutes">Minutes :</string>
     <string name="HolidayType">Type :</string>
     <string name="HolidayAttended">Attended :</string>
 
