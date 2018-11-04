@@ -17,4 +17,10 @@
     <!-- Shared Prefs Key-->
     <string name="pref_clockevent_event_key">STOREDEVENTKEY</string>
     <string name="pref_clockevent_date_key">STOREDEVENTDATE</string>
+
+    <!-- Holiday List View Item-->
+    <string name="HolidayStartDate">Start Date :</string>
+    <string name="HolidayEndDate">End Date :</string>
+    <string name="HolidayType">Type :</string>
+    <string name="HolidayAttended">Attended :</string>
 </resources>

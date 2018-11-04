@@ -50,7 +50,16 @@ class MyClockEventRecyclerViewAdapter(
         }
     }
 
+    fun updateDataSet(events : MutableList<ClockEvent?>)
+    {
+        mValues = events
+    }
+
     override fun getItemCount(): Int = mValues.size
+
+    /////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.item_number
@@ -59,10 +68,5 @@ class MyClockEventRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"
         }
-    }
-
-    fun updateDataSet(events : MutableList<ClockEvent?>)
-    {
-        mValues = events
     }
 }
