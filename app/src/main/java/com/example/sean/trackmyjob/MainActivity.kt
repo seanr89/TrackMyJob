@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 
@@ -100,16 +101,23 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
      */
     private fun sendTestNotification()
     {
+        //https@ //developer.android.com/training/notify-user/build-notification
+
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_background)
                 .setContentTitle("Title")
                 .setContentText("This is a test notification!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) {
+            // notificationId is a unique int for each notification that you must define
+            notify(notificationId, mBuilder.build())
+        }
     }
 
     /**
-     * 
+     *
      */
     private fun createNotificationChannel()
     {
@@ -132,5 +140,6 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
     companion object {
         private val CHANNEL_ID = "0234"
+        private val notificationId = 9876
     }
 }
