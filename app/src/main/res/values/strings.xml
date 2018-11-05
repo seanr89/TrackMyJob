@@ -6,7 +6,9 @@
     <string name="ClockIn">Clock In</string>
     <string name="ClockOut">Clock Out</string>
 
+    <string name="notify">Notification</string>
     <string name="sign_out">Sign Out</string>
+
     <string name="ListClockEvents">View Clock Events</string>
     <string name="CurrentEvent">Current Clock</string>
     <string name="eventDateTime">Date Time</string>
@@ -26,4 +28,9 @@
     <string name="HolidayAttended">Attended :</string>
 
     <string name="AddHoliday">New Holiday</string>
+
+
+    <!-- Notification Channel Content -->
+    <string name="channel_name">TrackMyJob</string>
+    <string name="channel_description">Tracking of my work clock ins</string>
 </resources>
