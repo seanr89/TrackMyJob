@@ -15,6 +15,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
+import android.app.AlarmManager
+import android.app.PendingIntent
+import java.util.*
+
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
     ClockEventListFragment.OnListFragmentInteractionListener
@@ -30,6 +34,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                     .commitNow()
 
             createNotificationChannel()
+
+            initialiseMorningAlarm()
+            initialiseEveningAlarm()
         }
     }
 
@@ -105,7 +112,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification_background)
+                .setSmallIcon(R.drawable.ic_app_notification)
                 .setContentTitle("Title")
                 .setContentText("This is a test notification!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -136,6 +143,53 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                     getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    /**
+     *
+     */
+    private fun initialiseMorningAlarm()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        // Set the alarm to start at 08:45 PM
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.set(Calendar.HOUR_OF_DAY, 8)
+        calendar.set(Calendar.MINUTE, 45)
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 1 day
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY, pendingIntent)
+    }
+
+    /**
+     *
+     */
+    private fun initialiseEveningAlarm()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        // Set the alarm to start at 5:20 PM
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.set(Calendar.HOUR_OF_DAY, 17)
+        calendar.set(Calendar.MINUTE, 20)
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 1 day
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
     companion object {
