@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                 return true
             }
             R.id.action_notification -> {
-                sendTestNotification()
+                sendTestNotification("Test")
             }
         }
         return true
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     /**
      *
      */
-    private fun sendTestNotification()
+    fun sendTestNotification(time : String)
     {
         //https@ //developer.android.com/training/notify-user/build-notification
 
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_app_notification)
                 .setContentTitle("Title")
-                .setContentText("This is a test notification!!")
+                .setContentText("It is : $time")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(this)) {

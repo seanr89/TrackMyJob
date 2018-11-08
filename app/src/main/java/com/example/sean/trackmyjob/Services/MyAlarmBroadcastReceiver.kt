@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.sean.trackmyjob.MainActivity
 import java.time.LocalDateTime
 
 class MyAlarmBroadcastReceiver : BroadcastReceiver()
@@ -14,14 +15,15 @@ class MyAlarmBroadcastReceiver : BroadcastReceiver()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val act = context as MainActivity
+
         if(isMorning())
         {
-
+            act.sendTestNotification("Morning")
         }
         else
         {
-
+            act.sendTestNotification("Evening")
         }
     }
 
