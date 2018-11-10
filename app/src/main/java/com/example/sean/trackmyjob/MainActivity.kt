@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 {
     private val TAG = "MainActivity"
     private lateinit var morningAlarm : AlarmManager
+    private lateinit var eveningAlarm : AlarmManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +36,12 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                     .commitNow()
 
             morningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            eveningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             createNotificationChannel()
 
             initialiseMorningAlarm()
-            //disabled to allow testing of an individual alarm
-            //initialiseEveningAlarm()
+            initialiseEveningAlarm()
         }
     }
 
@@ -63,9 +64,6 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                 signOutUser()
                 return true
             }
-            R.id.action_notification -> {
-                sendTestNotification("Test")
-            }
         }
         return true
     }
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     }
 
     /**
-     *
+     * handle request to show fragment for all clock events!
      */
     override fun onShowAllClockEvents() {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
@@ -108,27 +106,27 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     }
 
     /**
-     *
+     * send a test notification to the app to alert the user to make sure they clock in or out!!
      */
-    fun sendTestNotification(time : String)
-    {
-        //https@ //developer.android.com/training/notify-user/build-notification
-
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_app_notification)
-                .setContentTitle("Title")
-                .setContentText("It is : $time")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(notificationId, mBuilder.build())
-        }
-    }
+//    fun sendTestNotification(time : String)
+//    {
+//        //https@ //developer.android.com/training/notify-user/build-notification
+//
+//        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+//        var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setSmallIcon(R.drawable.ic_app_notification)
+//                .setContentTitle("Title")
+//                .setContentText("It is : $time")
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//
+//        with(NotificationManagerCompat.from(this)) {
+//            // notificationId is a unique int for each notification that you must define
+//            notify(notificationId, mBuilder.build())
+//        }
+//    }
 
     /**
-     *
+     * Initialise the notification channel for the app to allow for notifications to be displayed!
      */
     private fun createNotificationChannel()
     {
@@ -150,7 +148,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     }
 
     /**
-     *
+     * initialise the alarm manager for morning notification alerts
      */
     private fun initialiseMorningAlarm()
     {
@@ -160,30 +158,24 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 08:45 PM
-//        val calendar = Calendar.getInstance()
-//        calendar.timeInMillis = System.currentTimeMillis()
-//        Log.d(TAG, "Time selected is : ${calendar.timeInMillis}")
-//        calendar.set(Calendar.HOUR_OF_DAY, 12)
-//        calendar.set(Calendar.MINUTE, 38)
-//
-//        Log.d(TAG, "Time selected is : ${calendar.timeInMillis}")
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.set(Calendar.HOUR_OF_DAY, 12)
+        calendar.set(Calendar.MINUTE, 38)
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 1 day
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis + 10000,
-//                AlarmManager.INTERVAL_DAY, pendingIntent)
-        morningAlarm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent)
+        morningAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis + 10000,
+                AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
     /**
-     *
+     * initialise the alarm manager for evening notification alerts
      */
     private fun initialiseEveningAlarm()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
@@ -195,7 +187,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 1 day
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+        eveningAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 

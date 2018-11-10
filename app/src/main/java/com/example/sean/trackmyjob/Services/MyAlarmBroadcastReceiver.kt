@@ -4,8 +4,17 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.sean.trackmyjob.MainActivity
+import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
+import androidx.core.content.ContextCompat.getSystemService
+import android.app.NotificationManager
+
+
+
+
 
 class MyAlarmBroadcastReceiver : BroadcastReceiver()
 {
@@ -15,14 +24,34 @@ class MyAlarmBroadcastReceiver : BroadcastReceiver()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-//        val act = context as MainActivity
         if(isMorning())
         {
-            //act.sendTestNotification("Morning")
+            sendNotification(context,"In")
         }
         else
         {
-            //act.sendTestNotification("Evening")
+            sendNotification(context,"Out")
+        }
+    }
+
+    /**
+     * send a test notification to the app to alert the user to make sure they clock in or out!!
+     */
+    fun sendNotification(context: Context?,time : String)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //https@ //developer.android.com/training/notify-user/build-notification
+
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        if(context != null) {
+            var mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_app_notification)
+                    .setContentTitle("Clock In")
+                    .setContentText("Remember to Clock $time")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(notificationId, mBuilder.build())
         }
     }
 
@@ -36,5 +65,10 @@ class MyAlarmBroadcastReceiver : BroadcastReceiver()
             return false
         }
         return true
+    }
+
+    companion object {
+        private val CHANNEL_ID = "0234"
+        private val notificationId = 9876
     }
 }
