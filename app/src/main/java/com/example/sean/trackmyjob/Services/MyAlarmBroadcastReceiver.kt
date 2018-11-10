@@ -15,15 +15,14 @@ class MyAlarmBroadcastReceiver : BroadcastReceiver()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val act = context as MainActivity
-
+//        val act = context as MainActivity
         if(isMorning())
         {
-            act.sendTestNotification("Morning")
+            //act.sendTestNotification("Morning")
         }
         else
         {
-            act.sendTestNotification("Evening")
+            //act.sendTestNotification("Evening")
         }
     }
 

@@ -16,6 +16,7 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 import android.app.AlarmManager
 import android.app.PendingIntent
+import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
 import java.util.*
 
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     ClockEventListFragment.OnListFragmentInteractionListener
 {
     private val TAG = "MainActivity"
+    private lateinit var morningAlarm : AlarmManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,13 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                     .replace(R.id.container, ClockEventFragment.newInstance())
                     .commitNow()
 
+            morningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
             createNotificationChannel()
 
             initialiseMorningAlarm()
-            initialiseEveningAlarm()
+            //disabled to allow testing of an individual alarm
+            //initialiseEveningAlarm()
         }
     }
 
@@ -151,20 +156,23 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val intent = Intent(this, MyAlarmBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 08:45 PM
-        val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
-        calendar.set(Calendar.HOUR_OF_DAY, 8)
-        calendar.set(Calendar.MINUTE, 45)
+//        val calendar = Calendar.getInstance()
+//        calendar.timeInMillis = System.currentTimeMillis()
+//        Log.d(TAG, "Time selected is : ${calendar.timeInMillis}")
+//        calendar.set(Calendar.HOUR_OF_DAY, 12)
+//        calendar.set(Calendar.MINUTE, 38)
+//
+//        Log.d(TAG, "Time selected is : ${calendar.timeInMillis}")
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 1 day
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY, pendingIntent)
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis + 10000,
+//                AlarmManager.INTERVAL_DAY, pendingIntent)
+        morningAlarm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent)
     }
 
     /**
