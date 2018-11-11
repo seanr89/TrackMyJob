@@ -1,13 +1,9 @@
 package com.example.sean.trackmyjob.Repositories
 
 import android.util.Log
-import com.example.sean.trackmyjob.Models.Enums.UserStatus
-import com.example.sean.trackmyjob.Models.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import java.time.LocalDateTime
 
 /**
  * repository calls for event statistics

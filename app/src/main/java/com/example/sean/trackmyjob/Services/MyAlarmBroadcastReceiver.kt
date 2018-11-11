@@ -43,7 +43,7 @@ class MyAlarmBroadcastReceiver : BroadcastReceiver()
         if(context != null) {
             var mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
-                    .setContentTitle("Clock In")
+                    .setContentTitle("Clock Events")
                     .setContentText("Remember to Clock $time")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 

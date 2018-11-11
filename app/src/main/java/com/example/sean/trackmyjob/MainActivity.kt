@@ -185,12 +185,12 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val intent = Intent(this, MyAlarmBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 5:20 PM
         val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.timeInMillis = System.currentTimeMillis()
         calendar.set(Calendar.HOUR_OF_DAY, 17)
         calendar.set(Calendar.MINUTE, 20)
 
