@@ -5,17 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.example.sean.trackmyjob.MainActivity
 import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
-import androidx.core.content.ContextCompat.getSystemService
 import android.app.NotificationManager
 
 
-
-
-
+/**
+ * BoardcastReceiver for handling alarmManager event calls for clockIn and ClockOut
+ */
 class MyAlarmBroadcastReceiver : BroadcastReceiver()
 {
     private val TAG = "MyAlarmBroadcastReceiver"

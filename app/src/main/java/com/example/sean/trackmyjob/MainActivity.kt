@@ -21,7 +21,7 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
-    ClockEventListFragment.OnListFragmentInteractionListener
+    ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidysListener
 {
     private val TAG = "MainActivity"
     private lateinit var morningAlarm : AlarmManager
@@ -85,6 +85,15 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     override fun onShowAllClockEvents() {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         var newFragment = ClockEventListFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, newFragment)
+                .addToBackStack(null) //add the transaction to the back stack so the user can navigate back
+                .commit()
+    }
+
+    override fun onShowAllHolidays() {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        var newFragment = HolidayListFragment.newInstance()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, newFragment)
                 .addToBackStack(null) //add the transaction to the back stack so the user can navigate back
@@ -160,12 +169,12 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         // Set the alarm to start at 08:45 PM
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        calendar.set(Calendar.HOUR_OF_DAY, 12)
-        calendar.set(Calendar.MINUTE, 38)
+        calendar.set(Calendar.HOUR_OF_DAY, 8)
+        calendar.set(Calendar.MINUTE, 40)
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 1 day
-        morningAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis + 10000,
+        morningAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 

@@ -32,6 +32,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
     private val TAG = "ClockEventFragment"
     private var listener: OnFragmentShowAllEventsListener? = null
+    private var listenerShowHolidays : OnFragmentShowAllHolidysListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +60,18 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+        if(context is OnFragmentShowAllHolidysListener)
+        {
+            listenerShowHolidays = context
+        }else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentShowAllHolidysListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         listener = null
+        listenerShowHolidays = null
     }
 
     override fun onClick(v: View?) {
@@ -71,6 +79,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             R.id.btn_ClockIn -> onClockIn()
             R.id.btn_ClockOut -> onClockOut()
             R.id.btn_ClockList -> onViewClockEvents()
+            R.id.btn_HolidayList -> onViewHolidays()
         }// ...
     }
 
@@ -145,6 +154,15 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     }
 
     /**
+     * trigger event to show all holidays for the user!!
+     */
+    private fun onViewHolidays()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //listener?.onShowAllClockEvents()
+    }
+
+    /**
      * update the latest saved shared preference file of the last triggered clock event!
      * @param clockEvent :
      */
@@ -205,6 +223,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         Toast.makeText(context, "TimeDiff : ${timeDiff.hours} hours and ${timeDiff.minutes} mins", Toast.LENGTH_LONG).show()
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -219,6 +240,17 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     interface OnFragmentShowAllEventsListener {
         fun onShowAllClockEvents()
     }
+
+    /**
+     *
+     */
+    interface  OnFragmentShowAllHolidysListener{
+        fun onShowAllHolidays()
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     companion object {
 

@@ -28,6 +28,7 @@
         </activity>
 
         <receiver android:name=".Services.MyAlarmBroadcastReceiver"></receiver>
+        <receiver android:name=".Business.RestartBroadcastReceiver"></receiver>
     </application>
 
 </manifest>

@@ -70,7 +70,7 @@ class HolidayListFragment : Fragment() {
          * @return A new instance of fragment HolidayListFragment.
          */
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
                 HolidayListFragment().apply {
                     arguments = Bundle().apply {
                     }
