@@ -16,6 +16,7 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 import android.app.AlarmManager
 import android.app.PendingIntent
+import com.example.sean.trackmyjob.Services.MorningAlarmBroadcastReceiver
 import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
 import java.util.*
 
@@ -38,7 +39,8 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
             morningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             eveningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            createNotificationChannel()
+            createNotificationChannel(CHANNEL_ID_MORN)
+            createNotificationChannel(CHANNEL_ID)
 
             initialiseMorningAlarm()
             initialiseEveningAlarm()
@@ -115,29 +117,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     }
 
     /**
-     * send a test notification to the app to alert the user to make sure they clock in or out!!
-     */
-//    fun sendTestNotification(time : String)
-//    {
-//        //https@ //developer.android.com/training/notify-user/build-notification
-//
-//        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-//        var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_app_notification)
-//                .setContentTitle("Title")
-//                .setContentText("It is : $time")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//
-//        with(NotificationManagerCompat.from(this)) {
-//            // notificationId is a unique int for each notification that you must define
-//            notify(notificationId, mBuilder.build())
-//        }
-//    }
-
-    /**
      * Initialise the notification channel for the app to allow for notifications to be displayed!
      */
-    private fun createNotificationChannel()
+    private fun createNotificationChannel(chanelID : String)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         // Create the NotificationChannel, but only on API 26+ because
@@ -146,7 +128,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel(chanelID, name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system
@@ -163,7 +145,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val intent = Intent(this, MyAlarmBroadcastReceiver::class.java)
+        val intent = Intent(this, MorningAlarmBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 08:45 PM
@@ -202,6 +184,6 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
     companion object {
         private val CHANNEL_ID = "0234"
-        private val notificationId = 9876
+        private val CHANNEL_ID_MORN = "0235"
     }
 }

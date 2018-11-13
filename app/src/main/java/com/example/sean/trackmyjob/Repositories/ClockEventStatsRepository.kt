@@ -1,9 +1,11 @@
 package com.example.sean.trackmyjob.Repositories
 
 import android.util.Log
+import com.example.sean.trackmyjob.Models.TimeDiff
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import java.sql.Time
 
 /**
  * repository calls for event statistics
@@ -32,5 +34,21 @@ object ClockEventStatsRepository {
                 Log.d(TAG, "No Summary Exists")
             }
         }
+    }
+
+    /**
+     * @param time : the time in hours and minutes to update too!
+     */
+    fun updateWeekHoursAndMinutes(time : TimeDiff)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+    }
+
+    /**
+     * @param time : the time in hours and minutes to update too!
+     */
+    fun updateMonthlyHoursAndMinutes(time : TimeDiff)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sean.trackmyjob.Services
 
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,15 +8,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
-import android.app.NotificationManager
 
-
-/**
- * BoardcastReceiver for handling alarmManager event calls for clockIn and ClockOut
- */
-open class MyAlarmBroadcastReceiver : BroadcastReceiver()
-{
-    private val TAG = "MyAlarmBroadcastReceiver"
+class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
+    private val TAG = "MorningAlarmBroadcastReceiver"
 
     override fun onReceive(context: Context?, intent: Intent?)
     {
@@ -36,17 +31,17 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
      */
     fun sendNotification(context: Context?,time : String)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name + time)
         //https@ //developer.android.com/training/notify-user/build-notification
 
         if(context != null) {
-            var mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+            val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
-                    .setContentTitle("Clock Events")
+                    .setContentTitle("Clock In")
                     .setContentText("Remember to Clock $time")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(notificationId, mBuilder.build())
         }
     }
@@ -64,7 +59,7 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
     }
 
     companion object {
-        private val CHANNEL_ID = "0234"
-        private val notificationId = 9876
+        private val CHANNEL_ID = "0235"
+        private val notificationId = 9877
     }
 }
