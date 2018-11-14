@@ -1,6 +1,9 @@
 package com.example.sean.trackmyjob.Repositories
 
 import android.util.Log
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.ClockEventStats
+import com.example.sean.trackmyjob.Models.Enums.UserStatus
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -23,16 +26,27 @@ object ClockEventStatsRepository {
      * hours per week, month and lifetime!
      * current week and month!
      */
-    fun requestCurrentUserClockStatsSummary(onComplete:() -> Unit) {
+    fun requestCurrentUserClockStatsSummary(onComplete:(ClockEventStats?) -> Unit) {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         currentUserClockStatsSummaryDocRef.get().addOnSuccessListener { documentSnapshot ->
-            if (!documentSnapshot.exists()) {
-                //Initialise the new user object and save to the firestore
-
+            if (documentSnapshot.exists()) {
+                onComplete(documentSnapshot.toObject(ClockEventStats::class.java))
             } else {
                 Log.d(TAG, "No Summary Exists")
+                onComplete(null)
             }
+        }
+    }
+
+    /**
+     * save the provided clockEventStats object to firestore for the current user
+     * @param clockEventStats
+     */
+    fun createStatsSummary(clockEventStats: ClockEventStats)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        currentUserClockStatsSummaryDocRef.set(clockEventStats).addOnSuccessListener {
         }
     }
 

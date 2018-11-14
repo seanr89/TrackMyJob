@@ -24,6 +24,7 @@ import java.time.Clock
  * Activities that contain this fragment must implement the
  * [ClockEventFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
+ * and [ClockEventStatsFragment.OnFragmentShowAllHolidaysListener] as well
  * Use the [ClockEventFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
@@ -32,7 +33,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
     private val TAG = "ClockEventFragment"
     private var listener: OnFragmentShowAllEventsListener? = null
-    private var listenerShowHolidays : OnFragmentShowAllHolidysListener? = null
+    private var listenerShowHolidays : OnFragmentShowAllHolidaysListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +61,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
-        if(context is OnFragmentShowAllHolidysListener)
+        if(context is OnFragmentShowAllHolidaysListener)
         {
             listenerShowHolidays = context
         }else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentShowAllHolidysListener")
+            throw RuntimeException(context.toString() + " must implement OnFragmentShowAllHolidaysListener")
         }
     }
 
@@ -80,6 +81,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             R.id.btn_ClockOut -> onClockOut()
             R.id.btn_ClockList -> onViewClockEvents()
             R.id.btn_HolidayList -> onViewHolidays()
+            R.id.btn_ClockStats -> onViewClockEventStats()
         }// ...
     }
 
@@ -160,6 +162,16 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //listener?.onShowAllClockEvents()
+        Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * trigger event to show the clock event stats
+     */
+    private fun onViewClockEventStats()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -244,7 +256,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      *
      */
-    interface  OnFragmentShowAllHolidysListener{
+    interface  OnFragmentShowAllHolidaysListener{
         fun onShowAllHolidays()
     }
 

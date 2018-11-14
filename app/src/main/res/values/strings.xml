@@ -34,4 +34,5 @@
     <string name="channel_name">TrackMyJob</string>
     <string name="channel_description">Tracking of my work clock ins</string>
     <string name="ListHolidays">View Holidays</string>
+    <string name="ClockStats">Clock Event Stats</string>
 </resources>
