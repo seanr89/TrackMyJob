@@ -75,9 +75,26 @@ class ClockEventStatsManager
      */
     private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //check if the date of the last clock in matches the current day and is the start of a month/week
         val lastClock = getLastClockLastClockType(lastClockEvent)
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        when(lastClock)
+        {
+            LastClock.NEW_DAY ->{
+                //Hours and Minutes do not need to updated then!!
+            }
+            LastClock.NEW_WEEK ->{
+                //Update the week id/value the next increment and set weekly hours/minutes back to zero
+            }
+            LastClock.NEW_MONTH ->{
+                //Update the week id/value the next increment and set weekly+monthly hours/minutes back to zero
+                //Archive monthly information as well!!
+            }
+            LastClock.SAME_DAY ->{
+                //Does anything need to be done!!
+            }
+        }
     }
 
     /**
@@ -87,9 +104,22 @@ class ClockEventStatsManager
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        val lastClock = getLastClockLastClockType(lastClockEvent)
+        //val lastClock = getLastClockLastClockType(lastClockEvent)
+
+        var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
+        var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.weeklyTime)
+        var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.monthlyTime)
+
+        clockEventStats.weeklyTime = combinedDiffWeekly
+        clockEventStats.monthlyTime = combinedDiffMonthly
+
+        //now to update!!
     }
 
+    /**
+     * @param lastClockEvent
+     * @return an enum detailing what the last clock type was in relation to the current date!!
+     */
     private fun getLastClockLastClockType(lastClockEvent: ClockEvent) : LastClock
     {
         var result: LastClock = LastClock.SAME_DAY
@@ -107,7 +137,7 @@ class ClockEventStatsManager
     }
 
     /**
-     * 
+     *
      */
     private enum class LastClock
     {

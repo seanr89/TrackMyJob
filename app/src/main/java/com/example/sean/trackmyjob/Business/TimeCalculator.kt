@@ -3,6 +3,7 @@ package com.example.sean.trackmyjob.Business
 import android.util.Log
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Utilities.HelperMethods
+import java.sql.Time
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -38,47 +39,65 @@ object TimeCalculator
         return diff
     }
 
-    /**
-     * check if the two provided dates are on the same day
-     * @param previous :
-     * @param current :
-     * @return Boolean :
-     */
-    fun isNewDay(previous : LocalDateTime, current : LocalDateTime) : Boolean
+    fun combineTimeDiffs(timeDiffCurrent : TimeDiff, timeDiffStored : TimeDiff) : TimeDiff
     {
-        val dateOne = current.toLocalDate()
-        val dateTwo = previous.toLocalDate()
-        if (!dateOne.isEqual(dateTwo)) {
-            return false
-        }
-        return true
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        var combinedTimeDiff = TimeDiff()
+
+        combinedTimeDiff.hours = timeDiffCurrent.hours + timeDiffStored.hours
+        combinedTimeDiff.minutes = timeDiffCurrent.minutes + timeDiffStored.minutes
+
+        var timeCalc = HoursAndMinutes(combinedTimeDiff.minutes.toInt())
+        val calculatedHours = timeCalc.calculateHours()
+        val calculatedMinutes = timeCalc.calculateRemainingMinutesFromHours()
+
+        combinedTimeDiff.hours + calculatedHours
+        combinedTimeDiff.minutes = calculatedMinutes.toLong()
+
+        return combinedTimeDiff
     }
 
-    /**
-     * check if the two provided dates are on the same month
-     * @param previous :
-     * @param current :
-     * @return Boolean :
-     */
-    fun isNewMonth(previous : LocalDateTime, current : LocalDateTime) : Boolean
-    {
-        if (current.monthValue == previous.monthValue) {
-            return false
-        }
-        return true
-    }
-
-    /**
-     *
-     * @param previous :
-     * @param current :
-     * @return Booleab
-     */
-    fun isNewWeek(previous : LocalDateTime, current : LocalDateTime) : Boolean
-    {
-        if (previous.dayOfWeek <= DayOfWeek.SUNDAY && current.dayOfWeek == DayOfWeek.MONDAY) {
-            return true
-        }
-        return false
-    }
+//    /**
+//     * check if the two provided dates are on the same day
+//     * @param previous :
+//     * @param current :
+//     * @return Boolean :
+//     */
+//    fun isNewDay(previous : LocalDateTime, current : LocalDateTime) : Boolean
+//    {
+//        val dateOne = current.toLocalDate()
+//        val dateTwo = previous.toLocalDate()
+//        if (!dateOne.isEqual(dateTwo)) {
+//            return false
+//        }
+//        return true
+//    }
+//
+//    /**
+//     * check if the two provided dates are on the same month
+//     * @param previous :
+//     * @param current :
+//     * @return Boolean :
+//     */
+//    fun isNewMonth(previous : LocalDateTime, current : LocalDateTime) : Boolean
+//    {
+//        if (current.monthValue == previous.monthValue) {
+//            return false
+//        }
+//        return true
+//    }
+//
+//    /**
+//     *
+//     * @param previous :
+//     * @param current :
+//     * @return Booleab
+//     */
+//    fun isNewWeek(previous : LocalDateTime, current : LocalDateTime) : Boolean
+//    {
+//        if (previous.dayOfWeek <= DayOfWeek.SUNDAY && current.dayOfWeek == DayOfWeek.MONDAY) {
+//            return true
+//        }
+//        return false
+//    }
 }
