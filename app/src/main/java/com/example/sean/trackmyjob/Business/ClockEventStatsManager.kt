@@ -5,7 +5,9 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Models.TimeDiff
+import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
+import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDate
 import java.util.*
 
@@ -18,7 +20,7 @@ class ClockEventStatsManager
      * include weekly and monthly hours worked and monthly stats archiving
      * @param clockEvent : the clock event to handle update events from!!
      */
-    fun handleClockEventAndUpdateStatsIfRequired(clockEvent: ClockEvent)
+    fun handleClockEventAndUpdateStatsIfRequired(clockEvent: ClockEvent, lastClockEvent : ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
@@ -27,7 +29,7 @@ class ClockEventStatsManager
             if(it != null)
             {
                 // we need to parse the data then if we have stats!!
-                processClockInAndCurrentStats(clockEvent, it)
+                processClockInAndCurrentStats(clockEvent, it, lastClockEvent)
             } else {
                 //nothing else then needs to be done!!
                 createNewClockEventStatsAndSave()
@@ -36,19 +38,22 @@ class ClockEventStatsManager
     }
 
     /**
-     *
+     * executes the handling of a clock in or out
+     * @param clockEvent :
+     * @param clockEventStats :
+     * @param lastClockEvent :
      */
-    private fun processClockInAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?){
+    private fun processClockInAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent){
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        //Step 1 - check if this is a clock out or in
+        //Check if this is a clock out or in
         if(clockEvent.event == ClockEventType.IN)
         {
-            handleClockIn(clockEvent)
+            handleClockIn(clockEvent, clockEventStats as ClockEventStats, lastClockEvent)
         }
         else if(clockEvent.event == ClockEventType.OUT)
         {
-            handleClockOut(clockEvent)
+            handleClockOut(clockEvent, clockEventStats as ClockEventStats, lastClockEvent)
         }
     }
 
@@ -64,13 +69,51 @@ class ClockEventStatsManager
     }
 
 
-    private fun handleClockIn(clockEvent: ClockEvent)
+    /**
+     * handle process of a clockin event
+     * @param clockEvent : the clock event to handle
+     */
+    private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
+        //check if the date of the last clock in matches the current day and is the start of a month/week
+        val lastClock = getLastClockLastClockType(lastClockEvent)
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
     }
 
-    private fun handleClockOut(clockEvent: ClockEvent)
+    /**
+     * @param clockEvent :
+     * @param clockEventStats :
+     */
+    private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        val lastClock = getLastClockLastClockType(lastClockEvent)
+    }
+
+    private fun getLastClockLastClockType(lastClockEvent: ClockEvent) : LastClock
+    {
+        var result: LastClock = LastClock.SAME_DAY
+        if(!HelperMethods.doesDateMatchToday(lastClockEvent.dateTimeToLocalDateTime()))
+        {
+            result = LastClock.NEW_DAY
+            if(HelperMethods.isDayStartOfMonth())
+                result = LastClock.NEW_MONTH
+            else if(HelperMethods.isDayStartOfWeek())
+            {
+                result = LastClock.NEW_WEEK
+            }
+        }
+        return  result
+    }
+
+    /**
+     * 
+     */
+    private enum class LastClock
+    {
+        NEW_DAY,
+        NEW_WEEK,
+        NEW_MONTH,
+        SAME_DAY
     }
 }

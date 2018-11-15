@@ -1,9 +1,11 @@
 package com.example.sean.trackmyjob.Utilities
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 object HelperMethods {
 
@@ -25,5 +27,36 @@ object HelperMethods {
     fun convertDateTimeToString(date: LocalDateTime): String
     {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+    }
+
+    /**
+     *
+     */
+    fun isDayStartOfWeek() : Boolean
+    {
+        if(LocalDate.now().dayOfWeek.value == 1)
+        {
+            return true
+        }
+        return false
+    }
+
+    /**
+     *
+     */
+    fun isDayStartOfMonth() : Boolean
+    {
+        if(LocalDate.now().dayOfMonth == 1)
+        {
+            return true
+        }
+        return false
+    }
+
+    fun doesDateMatchToday(date : LocalDateTime) : Boolean
+    {
+        return (date.dayOfWeek.value == LocalDateTime.now().dayOfWeek.value
+                && date.monthValue == LocalDateTime.now().monthValue
+                && date.year == LocalDateTime.now().year)
     }
 }
