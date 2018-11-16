@@ -51,6 +51,14 @@ object ClockEventStatsRepository {
     }
 
     /**
+     *
+     */
+    fun updateClockEventStatsSummary(clockEventStats: ClockEventStats)
+    {
+
+    }
+
+    /**
      * @param time : the time in hours and minutes to update too!
      */
     fun updateWeekHoursAndMinutes(time : TimeDiff)

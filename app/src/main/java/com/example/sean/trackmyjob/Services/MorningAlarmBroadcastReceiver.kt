@@ -7,6 +7,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.sean.trackmyjob.R
+import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDateTime
 
 class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
@@ -16,13 +17,12 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        if(isMorning())
+        if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
-            sendNotification(context,"In")
-        }
-        else
-        {
-            sendNotification(context,"Out")
+            if(isMorning())
+            {
+                sendNotification(context,"In")
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
 import android.app.NotificationManager
+import com.example.sean.trackmyjob.Utilities.HelperMethods
 
 
 /**
@@ -21,13 +22,12 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        if(isMorning())
+        if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
-            sendNotification(context,"In")
-        }
-        else
-        {
-            sendNotification(context,"Out")
+            if(!isMorning())
+            {
+                sendNotification(context,"Out")
+            }
         }
     }
 
@@ -42,7 +42,7 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
         if(context != null) {
             var mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
-                    .setContentTitle("Clock Events")
+                    .setContentTitle("Clock Out")
                     .setContentText("Remember to Clock $time")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 

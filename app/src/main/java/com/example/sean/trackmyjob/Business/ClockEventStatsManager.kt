@@ -29,7 +29,7 @@ class ClockEventStatsManager
             if(it != null)
             {
                 // we need to parse the data then if we have stats!!
-                processClockInAndCurrentStats(clockEvent, it, lastClockEvent)
+                processClockEventAndCurrentStats(clockEvent, it, lastClockEvent)
             } else {
                 //nothing else then needs to be done!!
                 createNewClockEventStatsAndSave()
@@ -43,7 +43,7 @@ class ClockEventStatsManager
      * @param clockEventStats :
      * @param lastClockEvent :
      */
-    private fun processClockInAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent){
+    private fun processClockEventAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent){
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         //Check if this is a clock out or in
@@ -63,15 +63,17 @@ class ClockEventStatsManager
     private fun createNewClockEventStatsAndSave()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        val stats = ClockEventStats(Calendar.WEEK_OF_YEAR, LocalDate.now().month.name, LocalDate.now().year, TimeDiff(), TimeDiff())
 
+        val stats = ClockEventStats(Calendar.WEEK_OF_YEAR, LocalDate.now().month.name, LocalDate.now().year)
         ClockEventStatsRepository.createStatsSummary(stats)
     }
 
 
     /**
      * handle process of a clockin event
-     * @param clockEvent : the clock event to handle
+     * @param clockEvent : the clock event to process and attempt to fix
+     * @param clockEventStats : the current stats of clock events
+     * @param lastClockEvent : the last known clock event stored!
      */
     private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
@@ -82,14 +84,14 @@ class ClockEventStatsManager
         when(lastClock)
         {
             LastClock.NEW_DAY ->{
-                //Hours and Minutes do not need to updated then!!
+                resetDailyTime(clockEventStats)
             }
             LastClock.NEW_WEEK ->{
-                //Update the week id/value the next increment and set weekly hours/minutes back to zero
+                resetWeeklyTime(clockEventStats)
             }
             LastClock.NEW_MONTH ->{
-                //Update the week id/value the next increment and set weekly+monthly hours/minutes back to zero
-                //Archive monthly information as well!!
+                resetMonthlyTime(clockEventStats)
+                archiveStatsInformation()
             }
             LastClock.SAME_DAY ->{
                 //Does anything need to be done!!
@@ -98,22 +100,26 @@ class ClockEventStatsManager
     }
 
     /**
+     *
      * @param clockEvent :
      * @param clockEventStats :
+     * @param lastClockEvent :
      */
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        //val lastClock = getLastClockLastClockType(lastClockEvent)
 
         var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
+        var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.dailyTime)
         var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.weeklyTime)
         var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.monthlyTime)
 
+        clockEventStats.dailyTime = combinedDiffDaily
         clockEventStats.weeklyTime = combinedDiffWeekly
         clockEventStats.monthlyTime = combinedDiffMonthly
 
         //now to update!!
+        ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
 
     /**
@@ -136,8 +142,44 @@ class ClockEventStatsManager
         return  result
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+
     /**
      *
+     * @param clockEventStats :
+     */
+    private fun resetDailyTime(clockEventStats: ClockEventStats)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+    }
+
+    /**
+     * @param clockEventStats :
+     */
+    private fun resetWeeklyTime(clockEventStats: ClockEventStats)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+    }
+
+    /**
+     * @param clockEventStats :
+     */
+    private fun resetMonthlyTime(clockEventStats: ClockEventStats)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    private fun archiveStatsInformation()
+    {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * custom enum to handle clock events!
      */
     private enum class LastClock
     {

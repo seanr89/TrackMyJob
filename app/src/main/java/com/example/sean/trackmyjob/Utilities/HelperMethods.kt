@@ -1,9 +1,6 @@
 package com.example.sean.trackmyjob.Utilities
 
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -48,6 +45,19 @@ object HelperMethods {
     {
         if(LocalDate.now().dayOfMonth == 1)
         {
+            return true
+        }
+        return false
+    }
+
+    /**
+     * return true if the provided dateTime is saturday or sunday!
+     * @param dateTime : the dateTime to query
+     * @return true if weekend else false
+     */
+    fun isWeekend(dateTime : LocalDateTime) : Boolean
+    {
+        if(dateTime.dayOfWeek <= DayOfWeek.SATURDAY || dateTime.dayOfWeek == DayOfWeek.SUNDAY) {
             return true
         }
         return false
