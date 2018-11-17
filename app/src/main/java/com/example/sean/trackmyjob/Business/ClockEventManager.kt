@@ -1,7 +1,9 @@
 package com.example.sean.trackmyjob.Business
 
+import android.content.Context
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 
 /**
@@ -11,30 +13,82 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 class ClockEventManager {
 
     private val TAG = "ClockEventManager"
+    private val context : Context?
+    private val prefsHelper : PreferencesHelper
 
-    constructor()
+    constructor(con: Context?)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        context = con
+        prefsHelper = PreferencesHelper(context)
     }
 
+    /**
+     *
+     */
     fun saveClock(clockEvent: ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+
+        val lastClock = prefsHelper.readLastStoredClock()
+        when(clockEvent.event)
+        {
+            ClockEventType.IN -> clockInUser(clockEvent, lastClock)
+            ClockEventType.OUT -> clockOutUser(clockEvent, lastClock)
+        }
 
     }
 
-    private fun ClockInUser(clockEvent : ClockEvent)
+    /**
+     *
+     */
+    private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        //contact firebase and updated
-        ClockEventRepository.addClockOutForUser(clockEvent)
+        if(lastClock != null)
+        {
+            if(lastClock.event == ClockEventType.OUT)
+            {
+                ClockEventRepository.addClockInForUser(clockEvent)
+
+                val statsManager = ClockEventStatsManager()
+                statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+
+                prefsHelper.updateLastStoredClock(clockEvent)
+            }
+        }
+        else
+        {
+            //contact firebase and updated
+            ClockEventRepository.addClockOutForUser(clockEvent)
+        }
     }
 
-    private fun ClockOutUser(clockEvent : ClockEvent)
+    /**
+     *
+     */
+    private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        //contact firebase and updated
-        ClockEventRepository.addClockOutForUser(clockEvent)
+        if(lastClock != null)
+        {
+            if(lastClock.event == ClockEventType.IN)
+            {
+                ClockEventRepository.addClockInForUser(clockEvent)
+
+                val statsManager = ClockEventStatsManager()
+                statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+
+                prefsHelper.updateLastStoredClock(clockEvent)
+            }
+        }
+        else
+        {
+            //contact firebase and updated
+            ClockEventRepository.addClockOutForUser(clockEvent)
+        }
     }
 }

@@ -184,8 +184,6 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful)
                     {
-                        Log.w(TAG, "Sign in successful")
-                        Toast.makeText(this, "Firebase Auth Complete", Toast.LENGTH_LONG).show()
                         val userRepo = UserRepository()
                         userRepo.initCurrentUserIfFirstTime {
                             startActivity(Intent(this, MainActivity::class.java))
@@ -193,8 +191,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                     } else
                     {
                         Log.w(TAG, "SignInWithCredential:failure", task.exception)
-                        Toast.makeText(this, "Firebase Auth Failed", Toast.LENGTH_LONG).show()
-                        //startActivity(Intent(this, MainActivity::class.java))
+                        Toast.makeText(this, "Auth Failed", Toast.LENGTH_LONG).show()
                     }
                 }
     }
