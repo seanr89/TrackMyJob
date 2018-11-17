@@ -16,6 +16,9 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.sean.trackmyjob.Services.MorningAlarmBroadcastReceiver
 import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
 import java.util.*
@@ -44,6 +47,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
             initialiseMorningAlarm()
             initialiseEveningAlarm()
+
+            //request the use give permission to use locations!!
+            getLocationPermission()
         }
     }
 
@@ -128,7 +134,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //https://gist.github.com/BrandonSmith/6679223
-        
+
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -193,8 +199,50 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     //////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Check and prompt user to give access to location
+     */
+    private fun getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            //mMap.isMyLocationEnabled = true
+            //mLocationPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    /**
+     * Overridden
+     * Handles the result of the request for location permissions.
+     */
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
+    {
+        when (requestCode) {
+            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] === PackageManager.PERMISSION_GRANTED)
+                {
+                }
+            }
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
 
     companion object {
+        private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private val CHANNEL_ID = "0234"
         private val CHANNEL_ID_MORN = "0235"
     }
