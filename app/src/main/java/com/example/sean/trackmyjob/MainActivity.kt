@@ -22,12 +22,17 @@ import androidx.core.content.ContextCompat
 import com.example.sean.trackmyjob.Services.MorningAlarmBroadcastReceiver
 import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
 import java.util.*
+import android.content.SharedPreferences
+
+
 
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
     ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener
 {
     private val TAG = "MainActivity"
+    //var preferences: SharedPreferences? = null
+
     private lateinit var morningAlarm : AlarmManager
     private lateinit var eveningAlarm : AlarmManager
 

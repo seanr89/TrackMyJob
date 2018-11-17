@@ -1,7 +1,6 @@
 package com.example.sean.trackmyjob
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,13 +11,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sean.trackmyjob.Business.ClockEventStatsManager
+import com.example.sean.trackmyjob.Business.PreferencesHelper
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
-import org.w3c.dom.Text
-import java.time.Clock
 
 /**
  * A simple [Fragment] subclass.
@@ -198,13 +196,10 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
     {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val sharedPrefs = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
-        val editor = sharedPrefs.edit()
-        editor.putInt(getString(R.string.pref_clockevent_event_key), clockEvent.event.value)
-        editor.putLong(getString(R.string.pref_clockevent_date_key), clockEvent.dateTime)
-        editor.apply()
+        val prefsHelper = PreferencesHelper(context)
+        prefsHelper.updateLastStoredClock(clockEvent)
     }
 
     /**
@@ -215,14 +210,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        val sharedPref = this.activity!!.getSharedPreferences(mySharedPrefsEvents, Context.MODE_PRIVATE)
-        val clock = ClockEvent()
-
-        val output = ClockEventType.fromInt(sharedPref.getInt(getString(R.string.pref_clockevent_event_key), ClockEventType.IN.value))
-        clock.event = output ?: ClockEventType.IN
-        clock.dateTime = sharedPref.getLong(getString(R.string.pref_clockevent_date_key), 0)
-
-        return clock
+        val prefsHelper = PreferencesHelper(context)
+        return prefsHelper.readLastStoredClock()
     }
 
     /**
