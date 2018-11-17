@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.sean.trackmyjob.Business.DistanceChecker
+import com.example.sean.trackmyjob.Business.MyLocationManager
 import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDateTime
@@ -21,13 +23,22 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
         {
             if(isMorning())
             {
-                sendNotification(context,"In")
+                val latLngProvider = MyLocationManager(context)
+                if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng())) {
+
+                }
+                else
+                {
+                    sendNotification(context, "In")
+                }
             }
         }
     }
 
     /**
      * send a test notification to the app to alert the user to make sure they clock in or out!!
+     * @param context :
+     * @param time :
      */
     fun sendNotification(context: Context?,time : String)
     {

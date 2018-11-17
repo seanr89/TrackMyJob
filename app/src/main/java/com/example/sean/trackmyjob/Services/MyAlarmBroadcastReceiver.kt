@@ -8,6 +8,9 @@ import androidx.core.app.NotificationCompat
 import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
 import android.app.NotificationManager
+import android.location.LocationManager
+import com.example.sean.trackmyjob.Business.DistanceChecker
+import com.example.sean.trackmyjob.Business.MyLocationManager
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 
 
@@ -26,7 +29,11 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
         {
             if(!isMorning())
             {
-                sendNotification(context,"Out")
+                val latLngProvider = MyLocationManager(context)
+                if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng()))
+                {
+                    sendNotification(context,"Out")
+                }
             }
         }
     }
