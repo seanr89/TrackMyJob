@@ -116,12 +116,19 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         startActivity(Intent(this, GoogleSignInActivity::class.java))
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
+
     /**
      * Initialise the notification channel for the app to allow for notifications to be displayed!
      */
     private fun createNotificationChannel(chanelID : String)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //https://gist.github.com/BrandonSmith/6679223
+        
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -181,6 +188,11 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         eveningAlarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY, pendingIntent)
     }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
 
     companion object {
         private val CHANNEL_ID = "0234"

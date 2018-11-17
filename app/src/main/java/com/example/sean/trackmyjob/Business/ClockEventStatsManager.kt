@@ -8,6 +8,7 @@ import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
+import java.sql.Time
 import java.time.LocalDate
 import java.util.*
 
@@ -145,35 +146,63 @@ class ClockEventStatsManager
     ////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     *
+     * handle the resetting of daily stats
      * @param clockEventStats :
      */
     private fun resetDailyTime(clockEventStats: ClockEventStats)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        clockEventStats.dailyTime = TimeDiff()
+
+        ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
 
     /**
+     * handle the resetting of daily, and weekly stats
      * @param clockEventStats :
      */
     private fun resetWeeklyTime(clockEventStats: ClockEventStats)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        clockEventStats.dailyTime = TimeDiff()
+        clockEventStats.weeklyTime = TimeDiff()
+        clockEventStats.week = Calendar.WEEK_OF_YEAR
+
+        ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
 
     /**
+     * handle the resetting of daily, weekly and monthly stats
      * @param clockEventStats :
      */
     private fun resetMonthlyTime(clockEventStats: ClockEventStats)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        clockEventStats.dailyTime = TimeDiff()
+        clockEventStats.weeklyTime = TimeDiff()
+        clockEventStats.monthlyTime = TimeDiff()
+
+        clockEventStats.week = Calendar.WEEK_OF_YEAR
+        clockEventStats.month = LocalDate.now().month.name
+
+        if(LocalDate.now().year != clockEventStats.year)
+        {
+            clockEventStats.year = LocalDate.now().year
+        }
+        ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * TODO
+     */
     private fun archiveStatsInformation()
     {
-
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name + "TODO")
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

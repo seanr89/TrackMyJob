@@ -52,10 +52,23 @@ object ClockEventStatsRepository {
 
     /**
      *
+     * @param clockEventStats
      */
     fun updateClockEventStatsSummary(clockEventStats: ClockEventStats)
     {
+        currentUserClockStatsSummaryDocRef.update(
+            "Week", clockEventStats.week,
+                "Month", clockEventStats.month,
+                "Year", clockEventStats.year,
+                "DailyTime.Hours", clockEventStats.dailyTime.hours,
+                "DailyTime.Minutes", clockEventStats.dailyTime.minutes,
+                "WeeklyTime.Hours", clockEventStats.weeklyTime.hours,
+                "WeeklyTime.Minutes", clockEventStats.weeklyTime.minutes,
+                "MonthlyTime.Hours", clockEventStats.monthlyTime.hours,
+                "MonthlyTime.Minutes", clockEventStats.monthlyTime.minutes
+                ).addOnSuccessListener {
 
+        }
     }
 
     /**

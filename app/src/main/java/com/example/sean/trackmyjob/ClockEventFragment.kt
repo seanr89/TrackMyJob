@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.sean.trackmyjob.Business.ClockEventStatsManager
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -100,6 +101,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
+
     /**
      * add a clock in event for the current user
      */
@@ -113,6 +119,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             ClockEventRepository.addClockInForUser(clock)
             updateSharedPreferencesOfLastClock(clock)
             updateClockEventInfo(clock)
+
+            val statsManager = ClockEventStatsManager()
+            statsManager.handleClockEventAndUpdateStatsIfRequired(clock, currentClockEvent)
         }
         else
         {
@@ -139,12 +148,21 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             updateSharedPreferencesOfLastClock(clock)
             //update ui of last clock details
             updateClockEventInfo(clock)
+
+            //trigger the current stats for the week to be updated!
+            val statsManager = ClockEventStatsManager()
+            statsManager.handleClockEventAndUpdateStatsIfRequired(clock, lastClock)
         }
         else
         {
             Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_SHORT).show()
         }
     }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * trigger event to show all clock events on the app!
