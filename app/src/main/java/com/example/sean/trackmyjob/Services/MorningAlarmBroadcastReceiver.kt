@@ -6,8 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.sean.trackmyjob.Business.ClockEventManager
 import com.example.sean.trackmyjob.Business.DistanceChecker
 import com.example.sean.trackmyjob.Business.MyLocationManager
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDateTime
@@ -26,6 +29,9 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                 val latLngProvider = MyLocationManager(context)
                 if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng())) {
 
+                    var clockManager = ClockEventManager(context)
+                    val clock = ClockEvent(ClockEventType.IN)
+                    clockManager.saveClock(clock)
                 }
                 else
                 {

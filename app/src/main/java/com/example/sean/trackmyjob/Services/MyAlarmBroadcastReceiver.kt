@@ -9,8 +9,11 @@ import com.example.sean.trackmyjob.R
 import java.time.LocalDateTime
 import android.app.NotificationManager
 import android.location.LocationManager
+import com.example.sean.trackmyjob.Business.ClockEventManager
 import com.example.sean.trackmyjob.Business.DistanceChecker
 import com.example.sean.trackmyjob.Business.MyLocationManager
+import com.example.sean.trackmyjob.Models.ClockEvent
+import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 
 
@@ -31,6 +34,12 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
             {
                 val latLngProvider = MyLocationManager(context)
                 if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng()))
+                {
+                    var clockManager = ClockEventManager(context)
+                    val clock = ClockEvent(ClockEventType.OUT)
+                    clockManager.saveClock(clock)
+                }
+                else
                 {
                     sendNotification(context,"Out")
                 }
