@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.provider.Settings.Global.getString
+import android.util.Log
 import com.example.sean.trackmyjob.MainActivity
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -14,6 +15,8 @@ import com.example.sean.trackmyjob.R.string.pref_clockevent_event_key
 class PreferencesHelper
 {
     private lateinit var prefs : SharedPreferences
+    private val TAG = "PreferencesHelper"
+
     constructor(context: Context?)
     {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -25,6 +28,8 @@ class PreferencesHelper
      */
     fun readLastStoredClock() : ClockEvent
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
         val clock = ClockEvent()
 
         val output = ClockEventType.fromInt(prefs.getInt(pref_clockevent_event_key, ClockEventType.IN.value))
@@ -39,6 +44,8 @@ class PreferencesHelper
      */
     fun updateLastStoredClock(clockEvent: ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
         val editor = prefs.edit()
         editor.putInt(pref_clockevent_event_key, clockEvent.event.value)
         editor.putLong(pref_clockevent_date_key, clockEvent.dateTime)

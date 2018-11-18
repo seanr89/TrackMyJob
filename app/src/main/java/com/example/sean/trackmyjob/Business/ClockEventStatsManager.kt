@@ -82,6 +82,7 @@ class ClockEventStatsManager
         //check if the date of the last clock in matches the current day and is the start of a month/week
         val lastClock = getLastClockLastClockType(lastClockEvent)
 
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name + "with type : $lastClock")
         when(lastClock)
         {
             LastClock.NEW_DAY ->{

@@ -6,7 +6,9 @@ import com.google.android.gms.maps.model.LatLng
 
 object DistanceChecker {
 
+    private val TAG = "DistanceChecker"
     private const val DISTANCE_LIMIT = 500
+
     /**
      * query and return if the current location is near the default office location
      * @param onComplete :
@@ -15,12 +17,12 @@ object DistanceChecker {
     {
         if(currentLatLng != null)
         {
-            var officeLatLng = getOfficeLocation()
-            var selectedLocation = Location("")
+            val officeLatLng = getOfficeLocation()
+            val selectedLocation = Location("")
             selectedLocation.latitude = officeLatLng.latitude
             selectedLocation.longitude = officeLatLng.longitude
 
-            var currentLocation = Location("")
+            val currentLocation = Location("")
             currentLocation.latitude = currentLatLng.latitude
             currentLocation.longitude = currentLatLng.longitude
 
@@ -33,9 +35,8 @@ object DistanceChecker {
     /**
      * get the office location - currently hardcoded to the Randox Science Park
      */
-    private fun getOfficeLocation() : com.google.android.gms.maps.model.LatLng
+    private fun getOfficeLocation() : LatLng
     {
-        var latLng = LatLng(54.720255,-6.2299717)
-        return latLng
+        return LatLng(54.720255,-6.2299717)
     }
 }

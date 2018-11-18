@@ -26,6 +26,7 @@ class MyLocationManager {
     }
 
     /**
+     *
      * @return
      */
     fun getDeviceLatLng() : LatLng?

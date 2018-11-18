@@ -14,6 +14,7 @@ import java.time.temporal.ChronoUnit
 object TimeCalculator
 {
     private val TAG = "TimeCalculator"
+
     /**
      * calculate the time difference between the two times
      * @param start : a clock in date and time
@@ -28,13 +29,15 @@ object TimeCalculator
         //temp object in order to append the hours back to it so the correct amount of minutes can be appended!
         var fromTemp = LocalDateTime.from(start)
 
-        val hours = fromTemp.until(stop, ChronoUnit.HOURS)
+        val hours = stop.until(fromTemp, ChronoUnit.HOURS)
         fromTemp = fromTemp.plusHours(hours)
 
-        val minutes = fromTemp.until(stop, ChronoUnit.MINUTES)
+        val minutes = stop.until(fromTemp, ChronoUnit.MINUTES)
 
         diff.hours = hours
         diff.minutes = minutes
+
+        Log.d(TAG, "difference is $hours hrs + $minutes mins")
 
         return diff
     }

@@ -208,25 +208,25 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      * update the latest saved shared preference file of the last triggered clock event!
      * @param clockEvent :
      */
-    private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
-        val prefsHelper = PreferencesHelper(context)
-        prefsHelper.updateLastStoredClock(clockEvent)
-    }
+//    private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
+//    {
+//        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+//
+//        val prefsHelper = PreferencesHelper(context)
+//        prefsHelper.updateLastStoredClock(clockEvent)
+//    }
 
     /**
      * open, read and return the last saved clock event registered!
      * @return : a ClockEvent
      */
-    private fun readSharedPreferencesForLastClock() : ClockEvent
-    {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
-        val prefsHelper = PreferencesHelper(context)
-        return prefsHelper.readLastStoredClock()
-    }
+//    private fun readSharedPreferencesForLastClock() : ClockEvent
+//    {
+//        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+//
+//        val prefsHelper = PreferencesHelper(context)
+//        return prefsHelper.readLastStoredClock()
+//    }
 
     /**
      * Operation to update and refresh the clock event displayed information
