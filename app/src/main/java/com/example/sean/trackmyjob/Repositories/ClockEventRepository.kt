@@ -89,30 +89,11 @@ object ClockEventRepository
     }
 
     /**
-     * Attempt to save a clock IN event
-     * @param clock :
-     */
-    fun addClockInForUser(clock : ClockEvent)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        addClockEventForUser(clock)
-    }
-
-    /**
-     * Attempt to save a clock OUT event
-     * @param clock :
-     */
-    fun addClockOutForUser(clock : ClockEvent)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        addClockEventForUser(clock)
-    }
-
-    /**
      * provides operation to insert a clockEvent operation for a client
      * @param clock : the clock event to insert
+     * @param onComplete :
      */
-    private fun addClockEventForUser(clock : ClockEvent)
+    fun addClockEventForUser(clock : ClockEvent, onComplete: (Boolean) -> Unit)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 

@@ -9,9 +9,9 @@ package com.example.sean.trackmyjob.Models
  * @param weeklyTime :
  * @param monthlyTime :
  */
-data class ClockEventStats(var week : Int,
-                           var month : String,
-                           var year : Int,
+data class ClockEventStats(var week : Int = 0,
+                           var month : String = "January",
+                           var year : Int = 0,
                            var dailyTime : TimeDiff = TimeDiff(),
                            var weeklyTime : TimeDiff = TimeDiff(),
                            var monthlyTime : TimeDiff = TimeDiff()) {

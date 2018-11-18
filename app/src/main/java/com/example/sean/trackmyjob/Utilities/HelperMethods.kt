@@ -69,4 +69,17 @@ object HelperMethods {
                 && date.monthValue == LocalDateTime.now().monthValue
                 && date.year == LocalDateTime.now().year)
     }
+
+    /**
+     * method to query the current time and check if is in the morning!!
+     * @param dateTime : the dateTime to query
+     * @return false if after 12pm (default)
+     */
+    fun isMorning(dateTime : LocalDateTime) : Boolean
+    {
+        if (dateTime.hour >= 12) {
+            return false
+        }
+        return true
+    }
 }

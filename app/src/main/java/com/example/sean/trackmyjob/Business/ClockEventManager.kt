@@ -10,26 +10,26 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
  * new manager class to provide cental logic for clock event controls
  * to allow core functionally to be removed from activities and fragments for clock events!
  */
-class ClockEventManager {
+class ClockEventManager
+/**
+ * constructor
+ */(con: Context?) {
 
     private val TAG = "ClockEventManager"
-    private val context : Context?
+    private val context : Context? = con
     private val prefsHelper : PreferencesHelper
 
-    constructor(con: Context?)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        context = con
+    init {
         prefsHelper = PreferencesHelper(context)
     }
 
     /**
-     *
+     * save the clock event to storage and execute summary update!
+     * @param clockEvent : the clock event to save!
      */
     fun saveClock(clockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val lastClock = prefsHelper.readLastStoredClock()
         when(clockEvent.event)
@@ -37,21 +37,25 @@ class ClockEventManager {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock)
             ClockEventType.OUT -> clockOutUser(clockEvent, lastClock)
         }
-
     }
 
     /**
-     *
+     * clock in the user!!
+     * @param clockEvent :
+     * @param lastClock :
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         if(lastClock != null)
         {
             if(lastClock.event == ClockEventType.OUT)
             {
-                ClockEventRepository.addClockInForUser(clockEvent)
+                ClockEventRepository.addClockEventForUser(clockEvent)
+                {
+
+                }
 
                 val statsManager = ClockEventStatsManager()
                 statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
@@ -62,22 +66,31 @@ class ClockEventManager {
         else
         {
             //contact firebase and updated
-            ClockEventRepository.addClockOutForUser(clockEvent)
+            prefsHelper.updateLastStoredClock(clockEvent)
+            ClockEventRepository.addClockEventForUser(clockEvent)
+            {
+
+            }
         }
     }
 
     /**
-     *
+     * clock out the user!!
+     * @param clockEvent :
+     * @param lastClock :
      */
     private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         if(lastClock != null)
         {
             if(lastClock.event == ClockEventType.IN)
             {
-                ClockEventRepository.addClockInForUser(clockEvent)
+                ClockEventRepository.addClockEventForUser(clockEvent)
+                {
+
+                }
 
                 val statsManager = ClockEventStatsManager()
                 statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
@@ -88,7 +101,11 @@ class ClockEventManager {
         else
         {
             //contact firebase and updated
-            ClockEventRepository.addClockOutForUser(clockEvent)
+            prefsHelper.updateLastStoredClock(clockEvent)
+            ClockEventRepository.addClockEventForUser(clockEvent)
+            {
+
+            }
         }
     }
 }

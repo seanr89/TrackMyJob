@@ -30,12 +30,12 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
 
         if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
-            if(!isMorning())
+            if(!HelperMethods.isMorning(LocalDateTime.now()))
             {
                 val latLngProvider = MyLocationManager(context)
                 if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng()))
                 {
-                    var clockManager = ClockEventManager(context)
+                    val clockManager = ClockEventManager(context)
                     val clock = ClockEvent(ClockEventType.OUT)
                     clockManager.saveClock(clock)
                 }
@@ -56,7 +56,7 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
         //https@ //developer.android.com/training/notify-user/build-notification
 
         if(context != null) {
-            var mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+            val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
                     .setContentTitle("Clock Out")
                     .setContentText("Remember to Clock $time")
@@ -65,18 +65,6 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(notificationId, mBuilder.build())
         }
-    }
-
-    /**
-     * method to query the current time and check if is in the morning!!
-     * @return false if after 12pm (default)
-     */
-    private fun isMorning() : Boolean
-    {
-        if (LocalDateTime.now().hour >= 12) {
-            return false
-        }
-        return true
     }
 
     companion object {

@@ -110,11 +110,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onClockIn()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.IN)
         clockManager.saveClock(clock)
+
+        updateClockEventInfo(clock)
 
 //        val currentClockEvent = readSharedPreferencesForLastClock()
 //        if(currentClockEvent.event == ClockEventType.OUT)
@@ -144,6 +146,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.OUT)
         clockManager.saveClock(clock)
+
+        updateClockEventInfo(clock)
 //        val lastClock = readSharedPreferencesForLastClock()
 //        if(lastClock.event == ClockEventType.IN)
 //        {

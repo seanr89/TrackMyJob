@@ -39,15 +39,20 @@ object TimeCalculator
         return diff
     }
 
+    /**
+     * @param timeDiffCurrent :
+     * @param timeDiffStored :
+     * @return TimeDiff
+     */
     fun combineTimeDiffs(timeDiffCurrent : TimeDiff, timeDiffStored : TimeDiff) : TimeDiff
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        var combinedTimeDiff = TimeDiff()
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        val combinedTimeDiff = TimeDiff()
 
         combinedTimeDiff.hours = timeDiffCurrent.hours + timeDiffStored.hours
         combinedTimeDiff.minutes = timeDiffCurrent.minutes + timeDiffStored.minutes
 
-        var timeCalc = HoursAndMinutes(combinedTimeDiff.minutes.toInt())
+        val timeCalc = HoursAndMinutes(combinedTimeDiff.minutes.toInt())
         val calculatedHours = timeCalc.calculateHours()
         val calculatedMinutes = timeCalc.calculateRemainingMinutesFromHours()
 
@@ -56,48 +61,4 @@ object TimeCalculator
 
         return combinedTimeDiff
     }
-
-//    /**
-//     * check if the two provided dates are on the same day
-//     * @param previous :
-//     * @param current :
-//     * @return Boolean :
-//     */
-//    fun isNewDay(previous : LocalDateTime, current : LocalDateTime) : Boolean
-//    {
-//        val dateOne = current.toLocalDate()
-//        val dateTwo = previous.toLocalDate()
-//        if (!dateOne.isEqual(dateTwo)) {
-//            return false
-//        }
-//        return true
-//    }
-//
-//    /**
-//     * check if the two provided dates are on the same month
-//     * @param previous :
-//     * @param current :
-//     * @return Boolean :
-//     */
-//    fun isNewMonth(previous : LocalDateTime, current : LocalDateTime) : Boolean
-//    {
-//        if (current.monthValue == previous.monthValue) {
-//            return false
-//        }
-//        return true
-//    }
-//
-//    /**
-//     *
-//     * @param previous :
-//     * @param current :
-//     * @return Booleab
-//     */
-//    fun isNewWeek(previous : LocalDateTime, current : LocalDateTime) : Boolean
-//    {
-//        if (previous.dayOfWeek <= DayOfWeek.SUNDAY && current.dayOfWeek == DayOfWeek.MONDAY) {
-//            return true
-//        }
-//        return false
-//    }
 }
