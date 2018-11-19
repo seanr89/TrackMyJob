@@ -34,6 +34,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private val TAG = "ClockEventFragment"
     private var listener: OnFragmentShowAllEventsListener? = null
     private var listenerShowHolidays : OnFragmentShowAllHolidaysListener? = null
+    private var listenerShowStats : OnFragmentShowStats? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,12 +68,21 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         }else {
             throw RuntimeException(context.toString() + " must implement OnFragmentShowAllHolidaysListener")
         }
+        if(context is OnFragmentShowStats)
+        {
+            listenerShowStats = context
+        }
+        else
+        {
+            throw RuntimeException(context.toString() + " must implement OnFragmentShowStats")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         listener = null
         listenerShowHolidays = null
+        listenerShowStats = null
     }
 
     override fun onClick(v: View?) {
@@ -117,23 +127,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         clockManager.saveClock(clock)
 
         updateClockEventInfo(clock)
-
-//        val currentClockEvent = readSharedPreferencesForLastClock()
-//        if(currentClockEvent.event == ClockEventType.OUT)
-//        {
-//            val clock = ClockEvent(ClockEventType.IN)
-//            ClockEventRepository.addClockInForUser(clock)
-//            updateSharedPreferencesOfLastClock(clock)
-//            updateClockEventInfo(clock)
-//
-//            val statsManager = ClockEventStatsManager()
-//            statsManager.handleClockEventAndUpdateStatsIfRequired(clock, currentClockEvent)
-//        }
-//        else
-//        {
-//            Toast.makeText(context, "You are already Clocked In!", Toast.LENGTH_SHORT).show()
-//        }
-
     }
 
     /**
@@ -148,27 +141,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         clockManager.saveClock(clock)
 
         updateClockEventInfo(clock)
-//        val lastClock = readSharedPreferencesForLastClock()
-//        if(lastClock.event == ClockEventType.IN)
-//        {
-//            val clock = ClockEvent(ClockEventType.OUT)
-//            onClockOutCalculateHoursWorked(clock, lastClock)
-//
-//            //contact firebase and updated
-//            ClockEventRepository.addClockOutForUser(clock)
-//            //update internal storage
-//            updateSharedPreferencesOfLastClock(clock)
-//            //update ui of last clock details
-//            updateClockEventInfo(clock)
-//
-//            //trigger the current stats for the week to be updated!
-//            val statsManager = ClockEventStatsManager()
-//            statsManager.handleClockEventAndUpdateStatsIfRequired(clock, lastClock)
-//        }
-//        else
-//        {
-//            Toast.makeText(context, "You are already Clocked Out!", Toast.LENGTH_SHORT).show()
-//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -201,32 +173,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private fun onViewClockEventStats()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        listenerShowStats?.onShowEventStats()
         Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
     }
-
-    /**
-     * update the latest saved shared preference file of the last triggered clock event!
-     * @param clockEvent :
-     */
-//    private fun updateSharedPreferencesOfLastClock(clockEvent: ClockEvent)
-//    {
-//        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-//
-//        val prefsHelper = PreferencesHelper(context)
-//        prefsHelper.updateLastStoredClock(clockEvent)
-//    }
-
-    /**
-     * open, read and return the last saved clock event registered!
-     * @return : a ClockEvent
-     */
-//    private fun readSharedPreferencesForLastClock() : ClockEvent
-//    {
-//        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-//
-//        val prefsHelper = PreferencesHelper(context)
-//        return prefsHelper.readLastStoredClock()
-//    }
 
     /**
      * Operation to update and refresh the clock event displayed information
@@ -279,6 +228,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     interface  OnFragmentShowAllHolidaysListener{
         fun onShowAllHolidays()
+    }
+
+    interface OnFragmentShowStats
+    {
+        fun onShowEventStats()
     }
 
 

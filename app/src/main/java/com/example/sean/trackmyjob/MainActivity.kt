@@ -25,7 +25,8 @@ import java.util.*
 import android.content.SharedPreferences
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
-    ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener
+    ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener,
+        ClockEventFragment.OnFragmentShowStats
 {
     private val TAG = "MainActivity"
 
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
      * handle request to show fragment for all clock events!
      */
     override fun onShowAllClockEvents() {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         var newFragment = ClockEventListFragment.newInstance()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, newFragment)
@@ -101,12 +102,23 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     }
 
     override fun onShowAllHolidays() {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         var newFragment = HolidayListFragment.newInstance()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, newFragment)
                 .addToBackStack(null) //add the transaction to the back stack so the user can navigate back
                 .commit()
+    }
+
+    override fun onShowEventStats()
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        var newFragment = ClockEventStatsFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, newFragment)
+                .addToBackStack(null) //add the transaction to the back stack so the user can navigate back
+                .commit()
+
     }
 
     //////////////////////////////////////////////////////////////////////////////////
