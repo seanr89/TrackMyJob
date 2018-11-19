@@ -26,18 +26,27 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
 
         if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
+            //d(TAG, "not the weekend")
             if(HelperMethods.isMorning(LocalDateTime.now()))
             {
+                //d(TAG, "is the morning")
                 val latLngProvider = MyLocationManager(context)
-                if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng())) {
-
-                    val clockManager = ClockEventManager(context)
-                    val clock = ClockEvent(ClockEventType.IN)
-                    clockManager.saveClock(clock)
-                }
-                else
-                {
-                    sendNotification(context, "In")
+                latLngProvider.getDeviceLatLng {
+                    if(it != null)
+                    {
+                        if(DistanceChecker.isNearLocation(it))
+                        {
+                            val clockManager = ClockEventManager(context)
+                            val clock = ClockEvent(ClockEventType.IN)
+                            clock.automatic = true
+                            clockManager.saveClock(clock)
+                        }
+                        else
+                        {
+                            sendNotification(context,"In")
+                        }
+                    }
+                    else{sendNotification(context,"In")}
                 }
             }
         }
@@ -50,9 +59,6 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
      */
     fun sendNotification(context: Context?,time : String)
     {
-        d(TAG, object{}.javaClass.enclosingMethod.name + time)
-        //https@ //developer.android.com/training/notify-user/build-notification
-
         if(context != null) {
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)

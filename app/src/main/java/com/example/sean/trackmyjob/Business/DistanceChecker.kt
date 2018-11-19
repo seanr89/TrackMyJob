@@ -1,6 +1,7 @@
 package com.example.sean.trackmyjob.Business
 
 import android.location.Location
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 
 
@@ -15,6 +16,7 @@ object DistanceChecker {
      */
     fun isNearLocation(currentLatLng : LatLng?) : Boolean
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         if(currentLatLng != null)
         {
             val officeLatLng = getOfficeLocation()
@@ -27,13 +29,15 @@ object DistanceChecker {
             currentLocation.longitude = currentLatLng.longitude
 
             val distance = currentLocation.distanceTo(selectedLocation)
+
             return distance < DISTANCE_LIMIT
         }
-        return null!!
+        return false
     }
 
     /**
-     * get the office location - currently hardcoded to the Randox Science Park
+     * get the office location
+     * @return the current Latitude and Longitude of the Randox Science Park
      */
     private fun getOfficeLocation() : LatLng
     {

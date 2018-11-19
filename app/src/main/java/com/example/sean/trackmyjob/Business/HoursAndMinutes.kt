@@ -1,7 +1,5 @@
 package com.example.sean.trackmyjob.Business
 
-import android.util.Log
-
 class HoursAndMinutes(var minutes : Int) {
 
     private val TAG = "HoursAndMinutes"
@@ -12,11 +10,9 @@ class HoursAndMinutes(var minutes : Int) {
      */
     fun calculateHours() : Int
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name + " mins : $minutes")
         if(minutes >= 60)
         {
             val hours = minutes.rem(60)
-            //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + " calc'd hours $hours")
             return hours
         }
         return 0
@@ -28,16 +24,13 @@ class HoursAndMinutes(var minutes : Int) {
      */
     fun calculateRemainingMinutesFromHours() : Int
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         val hours = calculateHours()
         var mins : Int
         if(hours != 0)
         {
             mins = hours * 60
-            //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + " remaining ${minutes - mins}")
             return minutes - mins
         }
-        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + " remaining $minutes")
         return minutes
     }
 }

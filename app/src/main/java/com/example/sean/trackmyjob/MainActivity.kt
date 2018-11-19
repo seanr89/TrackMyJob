@@ -24,14 +24,10 @@ import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
 import java.util.*
 import android.content.SharedPreferences
 
-
-
-
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
     ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener
 {
     private val TAG = "MainActivity"
-    //var preferences: SharedPreferences? = null
 
     private lateinit var morningAlarm : AlarmManager
     private lateinit var eveningAlarm : AlarmManager
@@ -134,10 +130,10 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 
     /**
      * Initialise the notification channel for the app to allow for notifications to be displayed!
+     * @param chanelID : the planned notification ID
      */
     private fun createNotificationChannel(chanelID : String)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //https://gist.github.com/BrandonSmith/6679223
 
         // Create the NotificationChannel, but only on API 26+ because

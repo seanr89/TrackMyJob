@@ -40,12 +40,11 @@ class ClockEventStatsManager
 
     /**
      * executes the handling of a clock in or out
-     * @param clockEvent :
-     * @param clockEventStats :
-     * @param lastClockEvent :
+     * @param clockEvent : the current clock event just triggered
+     * @param clockEventStats : the currently stored stats for the user!
+     * @param lastClockEvent : the last stored clock event!
      */
     private fun processClockEventAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent){
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         //Check if this is a clock out or in
         if(clockEvent.event == ClockEventType.IN)
@@ -78,7 +77,6 @@ class ClockEventStatsManager
      */
     private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //check if the date of the last clock in matches the current day and is the start of a month/week
         val lastClock = getLastClockLastClockType(lastClockEvent)
 
@@ -102,15 +100,13 @@ class ClockEventStatsManager
     }
 
     /**
-     *
-     * @param clockEvent :
-     * @param clockEventStats :
-     * @param lastClockEvent :
+     * Handle a clock out event and process the updating of stats
+     * @param clockEvent : the clock event to process and attempt to fix
+     * @param clockEventStats : the current stats of clock events
+     * @param lastClockEvent : the last known clock event stored!
      */
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
         var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.dailyTime)
         var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.weeklyTime)
@@ -125,6 +121,7 @@ class ClockEventStatsManager
     }
 
     /**
+     * Handle the request to find out what type of clock this is in regards to day, week or month refresh!
      * @param lastClockEvent
      * @return an enum detailing what the last clock type was in relation to the current date!!
      */
@@ -152,8 +149,6 @@ class ClockEventStatsManager
      */
     private fun resetDailyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         clockEventStats.dailyTime = TimeDiff()
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
@@ -165,8 +160,6 @@ class ClockEventStatsManager
      */
     private fun resetWeeklyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         clockEventStats.dailyTime = TimeDiff()
         clockEventStats.weeklyTime = TimeDiff()
         clockEventStats.week = Calendar.WEEK_OF_YEAR
@@ -180,8 +173,6 @@ class ClockEventStatsManager
      */
     private fun resetMonthlyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         clockEventStats.dailyTime = TimeDiff()
         clockEventStats.weeklyTime = TimeDiff()
         clockEventStats.monthlyTime = TimeDiff()

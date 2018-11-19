@@ -43,13 +43,13 @@ object TimeCalculator
     }
 
     /**
-     * @param timeDiffCurrent :
-     * @param timeDiffStored :
-     * @return TimeDiff
+     * Handle the combining of two TimeDiff objects and return it
+     * @param timeDiffCurrent : the current time diff to take the hours and minutes from
+     * @param timeDiffStored : the stored timeDiff to append to!
+     * @return TimeDiff with hours and minutes combined
      */
     fun combineTimeDiffs(timeDiffCurrent : TimeDiff, timeDiffStored : TimeDiff) : TimeDiff
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         val combinedTimeDiff = TimeDiff()
 
         combinedTimeDiff.hours = timeDiffCurrent.hours + timeDiffStored.hours

@@ -57,7 +57,7 @@ object HelperMethods {
      */
     fun isWeekend(dateTime : LocalDateTime) : Boolean
     {
-        if(dateTime.dayOfWeek <= DayOfWeek.SATURDAY || dateTime.dayOfWeek == DayOfWeek.SUNDAY) {
+        if(dateTime.dayOfWeek == DayOfWeek.SATURDAY || dateTime.dayOfWeek == DayOfWeek.SUNDAY) {
             return true
         }
         return false

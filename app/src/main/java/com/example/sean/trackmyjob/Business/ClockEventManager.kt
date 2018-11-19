@@ -41,26 +41,21 @@ class ClockEventManager
 
     /**
      * clock in the user!!
-     * @param clockEvent :
-     * @param lastClock :
+     * @param clockEvent : the current clock in event to save
+     * @param lastClock : the last stored clock in event (onApp)
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         if(lastClock != null)
         {
             if(lastClock.event == ClockEventType.OUT)
             {
                 ClockEventRepository.addClockEventForUser(clockEvent)
                 {
-
+                    val statsManager = ClockEventStatsManager()
+                    statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+                    prefsHelper.updateLastStoredClock(clockEvent)
                 }
-
-                val statsManager = ClockEventStatsManager()
-                statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-
-                prefsHelper.updateLastStoredClock(clockEvent)
             }
         }
         else
@@ -76,26 +71,24 @@ class ClockEventManager
 
     /**
      * clock out the user!!
-     * @param clockEvent :
-     * @param lastClock :
+     * @param clockEvent : the current clock in event to save
+     * @param lastClock : the last stored clock in event (onApp)
      */
     private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         if(lastClock != null)
         {
             if(lastClock.event == ClockEventType.IN)
             {
                 ClockEventRepository.addClockEventForUser(clockEvent)
                 {
-
+                    if(it)
+                    {
+                        val statsManager = ClockEventStatsManager()
+                        statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+                        prefsHelper.updateLastStoredClock(clockEvent)
+                    }
                 }
-
-                val statsManager = ClockEventStatsManager()
-                statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-
-                prefsHelper.updateLastStoredClock(clockEvent)
             }
         }
         else

@@ -33,16 +33,24 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
             if(!HelperMethods.isMorning(LocalDateTime.now()))
             {
                 val latLngProvider = MyLocationManager(context)
-                if(DistanceChecker.isNearLocation(latLngProvider.getDeviceLatLng()))
-                {
-                    val clockManager = ClockEventManager(context)
-                    val clock = ClockEvent(ClockEventType.OUT)
-                    clockManager.saveClock(clock)
+                latLngProvider.getDeviceLatLng {
+                    if(it != null)
+                    {
+                        if(DistanceChecker.isNearLocation(it))
+                        {
+                            val clockManager = ClockEventManager(context)
+                            val clock = ClockEvent(ClockEventType.OUT)
+                            clock.automatic = true
+                            clockManager.saveClock(clock)
+                        }
+                        else
+                        {
+                            sendNotification(context,"Out")
+                        }
+                    }
+                    else{sendNotification(context,"Out")}
                 }
-                else
-                {
-                    sendNotification(context,"Out")
-                }
+
             }
         }
     }
@@ -52,7 +60,6 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
      */
     fun sendNotification(context: Context?,time : String)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         //https@ //developer.android.com/training/notify-user/build-notification
 
         if(context != null) {

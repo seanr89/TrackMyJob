@@ -12,18 +12,17 @@ import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.R.string.pref_clockevent_date_key
 import com.example.sean.trackmyjob.R.string.pref_clockevent_event_key
 
-class PreferencesHelper
-{
-    private lateinit var prefs : SharedPreferences
+class PreferencesHelper(context: Context?) {
+
+    private var prefs : SharedPreferences
     private val TAG = "PreferencesHelper"
 
-    constructor(context: Context?)
-    {
+    init {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     /**
-     *
+     * Handle the request to read the last stored clock event on the app!
      * @return ClockEvent
      */
     fun readLastStoredClock() : ClockEvent
@@ -40,6 +39,7 @@ class PreferencesHelper
     }
 
     /**
+     * Handle the updating of the last stored clock event!
      * @param clockEvent :
      */
     fun updateLastStoredClock(clockEvent: ClockEvent)
@@ -52,11 +52,10 @@ class PreferencesHelper
         editor.apply()
     }
 
-     companion object {
-         private var mySharedPrefsEvents = "myClockEventsPrefs"
+    companion object {
 
-         private const val pref_clockevent_event_key = "STOREDEVENTKEY"
-         private const val pref_clockevent_date_key = "STOREDEVENTDATE"
+     private const val pref_clockevent_event_key = "STOREDEVENTKEY"
+     private const val pref_clockevent_date_key = "STOREDEVENTDATE"
 
-     }
+    }
 }
