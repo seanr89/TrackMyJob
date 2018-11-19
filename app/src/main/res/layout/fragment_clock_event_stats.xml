@@ -55,6 +55,8 @@
             android:text=""/>
     </LinearLayout>
 
+    <!---->
+    <!---->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,10 +67,47 @@
     <!-- Daily Stats -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Hours"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewDailyHours"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Minutes"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewDailyMinutes"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
 
     </LinearLayout>
 
+    <!---->
+    <!---->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,10 +118,47 @@
     <!-- Weekly Stats -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Hours"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewWeeklyHours"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Minutes"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewWeeklyMinutes"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
 
     </LinearLayout>
 
+    <!---->
+    <!---->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,7 +169,42 @@
     <!-- Monthly Stats -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Hours"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewMonthlyHours"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="175dp"
+                android:layout_height="25dp"
+                android:text="Minutes"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtViewMonthlyMinutes"
+                android:layout_width="125dp"
+                android:layout_height="25dp"
+                android:text=""/>
+        </LinearLayout>
 
     </LinearLayout>
 
