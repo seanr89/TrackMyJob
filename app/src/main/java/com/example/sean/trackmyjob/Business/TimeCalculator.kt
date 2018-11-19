@@ -29,10 +29,10 @@ object TimeCalculator
         //temp object in order to append the hours back to it so the correct amount of minutes can be appended!
         var fromTemp = LocalDateTime.from(start)
 
-        val hours = stop.until(fromTemp, ChronoUnit.HOURS)
-        fromTemp = fromTemp.plusHours(hours)
+        val hours = stop.until(fromTemp, ChronoUnit.HOURS).toInt()
+        fromTemp = fromTemp.plusHours(hours.toLong())
 
-        val minutes = stop.until(fromTemp, ChronoUnit.MINUTES)
+        val minutes = stop.until(fromTemp, ChronoUnit.MINUTES).toInt()
 
         diff.hours = hours
         diff.minutes = minutes
@@ -60,7 +60,7 @@ object TimeCalculator
         val calculatedMinutes = timeCalc.calculateRemainingMinutesFromHours()
 
         combinedTimeDiff.hours + calculatedHours
-        combinedTimeDiff.minutes = calculatedMinutes.toLong()
+        combinedTimeDiff.minutes = calculatedMinutes
 
         return combinedTimeDiff
     }
