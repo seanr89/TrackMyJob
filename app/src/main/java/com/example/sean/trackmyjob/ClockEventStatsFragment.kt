@@ -57,6 +57,7 @@ class ClockEventStatsFragment : Fragment() {
     }
 
     /**
+     * trigger ui refresh of provided clock event summary stats
      * @param stats :
      */
     private fun updateUIWithStats(stats : ClockEventStats)
@@ -70,7 +71,7 @@ class ClockEventStatsFragment : Fragment() {
     }
 
     /**
-     *
+     * handle the updating of the top UI records
      * @param stats :
      */
     private fun updateTopRecords(stats: ClockEventStats)
@@ -87,7 +88,7 @@ class ClockEventStatsFragment : Fragment() {
     }
 
     /**
-     *
+     * Handle the updating of daily, weekly or monthly stats from timeDiff
      * @param timeDiff :
      * @param hoursID :
      * @param minutesID :

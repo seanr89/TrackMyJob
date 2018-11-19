@@ -26,7 +26,7 @@ import android.content.SharedPreferences
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
     ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener,
-        ClockEventFragment.OnFragmentShowStats
+        ClockEventFragment.OnFragmentShowStatsListener
 {
     private val TAG = "MainActivity"
 

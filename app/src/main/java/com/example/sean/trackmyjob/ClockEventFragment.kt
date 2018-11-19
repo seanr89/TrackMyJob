@@ -34,7 +34,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     private val TAG = "ClockEventFragment"
     private var listener: OnFragmentShowAllEventsListener? = null
     private var listenerShowHolidays : OnFragmentShowAllHolidaysListener? = null
-    private var listenerShowStats : OnFragmentShowStats? = null
+    private var listenerShowStats : OnFragmentShowStatsListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +49,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         view.findViewById<Button>(R.id.btn_ClockIn).setOnClickListener(this)
         view.findViewById<Button>(R.id.btn_ClockOut).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_HolidayList).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_ClockList).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_ClockStats).setOnClickListener(this)
+
+
 
         setLastKnownClockEventOnUI()
 
@@ -68,13 +73,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         }else {
             throw RuntimeException(context.toString() + " must implement OnFragmentShowAllHolidaysListener")
         }
-        if(context is OnFragmentShowStats)
-        {
+        if(context is OnFragmentShowStatsListener) {
             listenerShowStats = context
         }
-        else
-        {
-            throw RuntimeException(context.toString() + " must implement OnFragmentShowStats")
+        else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentShowStatsListener")
         }
     }
 
@@ -174,7 +177,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listenerShowStats?.onShowEventStats()
-        Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -230,7 +233,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         fun onShowAllHolidays()
     }
 
-    interface OnFragmentShowStats
+    interface OnFragmentShowStatsListener
     {
         fun onShowEventStats()
     }
