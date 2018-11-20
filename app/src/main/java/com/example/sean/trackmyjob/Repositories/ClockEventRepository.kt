@@ -66,7 +66,7 @@ object ClockEventRepository
                     .addOnSuccessListener {
                         if(!it.isEmpty || it != null)
                         {
-                            Log.d(TAG, "item found for single clock event")
+                            //Log.d(TAG, "item found for single clock event")
                             for(doc : DocumentSnapshot in it.documents)
                             {
                                 event = doc.toObject(ClockEvent::class.java)
@@ -95,15 +95,16 @@ object ClockEventRepository
      */
     fun addClockEventForUser(clock : ClockEvent, onComplete: (Boolean) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
+        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         currentUserClockCollectionRef
                 .add(clock)
                 .addOnSuccessListener {
                     Log.d(TAG, "DocumentSnapshot added with ID: " + it.id)
+                    onComplete(true)
                 }
                 .addOnFailureListener {
                     Log.e(TAG, "add returned with error : ${it.message}")
+                    onComplete(false)
                 }
     }
 }

@@ -105,6 +105,8 @@ class ClockEventStatsManager
      */
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
         var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
         var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
         var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)

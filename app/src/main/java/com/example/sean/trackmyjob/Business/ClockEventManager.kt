@@ -51,7 +51,7 @@ class ClockEventManager
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        if(lastClock.dateTime <= 0)
+        if(lastClock.dateTime >= 0)
         {
             if(lastClock.event == ClockEventType.OUT)
             {
@@ -82,7 +82,9 @@ class ClockEventManager
      */
     private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        if(lastClock.dateTime <= 0)
+        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+
+        if(lastClock.dateTime >= 0)
         {
             if(lastClock.event == ClockEventType.IN)
             {

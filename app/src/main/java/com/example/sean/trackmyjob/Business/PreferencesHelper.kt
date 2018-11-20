@@ -33,7 +33,7 @@ class PreferencesHelper(context: Context?) {
 
         val output = ClockEventType.fromInt(prefs.getInt(pref_clockevent_event_key, ClockEventType.IN.value))
         clock.event = output ?: ClockEventType.IN
-        clock.dateTime = prefs.getLong(pref_clockevent_date_key, 0)
+        clock.dateTime = prefs.getLong(pref_clockevent_date_key, 1)
 
         return clock
     }
