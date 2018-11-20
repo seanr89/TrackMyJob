@@ -1,14 +1,11 @@
 package com.example.sean.trackmyjob.Repositories
 
 import android.util.Log
-import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
-import com.example.sean.trackmyjob.Models.Enums.UserStatus
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import java.sql.Time
 
 /**
  * repository calls for event statistics
@@ -23,8 +20,8 @@ object ClockEventStatsRepository {
 
     /**
      * request the current statistics for the current user including :
-     * hours per week, month and lifetime!
-     * current week and month!
+     * Hours per Week, Month and lifetime!
+     * current Week and Month!
      */
     fun requestCurrentUserClockStatsSummary(onComplete:(ClockEventStats?) -> Unit) {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
@@ -57,22 +54,22 @@ object ClockEventStatsRepository {
     fun updateClockEventStatsSummary(clockEventStats: ClockEventStats)
     {
         currentUserClockStatsSummaryDocRef.update(
-            "Week", clockEventStats.week,
-                "Month", clockEventStats.month,
-                "Year", clockEventStats.year,
-                "DailyTime.Hours", clockEventStats.dailyTime.hours,
-                "DailyTime.Minutes", clockEventStats.dailyTime.minutes,
-                "WeeklyTime.Hours", clockEventStats.weeklyTime.hours,
-                "WeeklyTime.Minutes", clockEventStats.weeklyTime.minutes,
-                "MonthlyTime.Hours", clockEventStats.monthlyTime.hours,
-                "MonthlyTime.Minutes", clockEventStats.monthlyTime.minutes
+            "Week", clockEventStats.Week,
+                "Month", clockEventStats.Month,
+                "Year", clockEventStats.Year,
+                "DailyTime.Hours", clockEventStats.DailyTime.Hours,
+                "DailyTime.Minutes", clockEventStats.DailyTime.Minutes,
+                "WeeklyTime.Hours", clockEventStats.WeeklyTime.Hours,
+                "WeeklyTime.Minutes", clockEventStats.WeeklyTime.Minutes,
+                "MonthlyTime.Hours", clockEventStats.MonthlyTime.Hours,
+                "MonthlyTime.Minutes", clockEventStats.MonthlyTime.Minutes
                 ).addOnSuccessListener {
 
         }
     }
 
     /**
-     * @param time : the time in hours and minutes to update too!
+     * @param time : the time in Hours and Minutes to update too!
      */
     fun updateWeekHoursAndMinutes(time : TimeDiff)
     {
@@ -80,7 +77,7 @@ object ClockEventStatsRepository {
     }
 
     /**
-     * @param time : the time in hours and minutes to update too!
+     * @param time : the time in Hours and Minutes to update too!
      */
     fun updateMonthlyHoursAndMinutes(time : TimeDiff)
     {

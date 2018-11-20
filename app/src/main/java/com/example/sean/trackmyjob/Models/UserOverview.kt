@@ -22,7 +22,7 @@ data class UserOverview(val eventCount: Int,
 {
     /**
      * calculate and output to string the parameters
-     * @return string output of hours and minutes
+     * @return string output of Hours and Minutes
      */
     fun totalHoursAndMinutesToString() : String
     {
@@ -31,7 +31,7 @@ data class UserOverview(val eventCount: Int,
 
     /**
      *
-     * @return string output of hours and minutes
+     * @return string output of Hours and Minutes
      */
     fun weeklyHoursAndMinutesToString() : String
     {

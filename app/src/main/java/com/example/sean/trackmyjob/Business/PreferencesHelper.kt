@@ -29,7 +29,7 @@ class PreferencesHelper(context: Context?) {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
-        val clock = ClockEvent()
+        var clock = ClockEvent()
 
         val output = ClockEventType.fromInt(prefs.getInt(pref_clockevent_event_key, ClockEventType.IN.value))
         clock.event = output ?: ClockEventType.IN

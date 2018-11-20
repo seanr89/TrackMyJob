@@ -27,7 +27,7 @@ class ClockEventManager
      * save the clock event to storage and execute summary update!
      * @param clockEvent : the clock event to save!
      */
-    fun saveClock(clockEvent: ClockEvent)
+    fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
@@ -35,7 +35,12 @@ class ClockEventManager
         when(clockEvent.event)
         {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock)
-            ClockEventType.OUT -> clockOutUser(clockEvent, lastClock)
+            {
+                onComplete(it)
+            }
+            ClockEventType.OUT -> clockOutUser(clockEvent, lastClock){
+                onComplete(it)
+            }
         }
     }
 
@@ -44,9 +49,9 @@ class ClockEventManager
      * @param clockEvent : the current clock in event to save
      * @param lastClock : the last stored clock in event (onApp)
      */
-    private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent)
+    private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        if(lastClock != null)
+        if(lastClock.dateTime <= 0)
         {
             if(lastClock.event == ClockEventType.OUT)
             {
@@ -55,6 +60,7 @@ class ClockEventManager
                     val statsManager = ClockEventStatsManager()
                     statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
                     prefsHelper.updateLastStoredClock(clockEvent)
+                    onComplete(it)
                 }
             }
         }
@@ -64,7 +70,7 @@ class ClockEventManager
             prefsHelper.updateLastStoredClock(clockEvent)
             ClockEventRepository.addClockEventForUser(clockEvent)
             {
-
+                onComplete(it)
             }
         }
     }
@@ -74,9 +80,9 @@ class ClockEventManager
      * @param clockEvent : the current clock in event to save
      * @param lastClock : the last stored clock in event (onApp)
      */
-    private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent)
+    private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        if(lastClock != null)
+        if(lastClock.dateTime <= 0)
         {
             if(lastClock.event == ClockEventType.IN)
             {
@@ -88,6 +94,7 @@ class ClockEventManager
                         statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
                         prefsHelper.updateLastStoredClock(clockEvent)
                     }
+                    onComplete(it)
                 }
             }
         }
@@ -97,7 +104,7 @@ class ClockEventManager
             prefsHelper.updateLastStoredClock(clockEvent)
             ClockEventRepository.addClockEventForUser(clockEvent)
             {
-
+                onComplete(it)
             }
         }
     }

@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.util.*
 
 /**
- * custom object to hold user holiday stats for a calendar year
+ * custom object to hold user holiday stats for a calendar Year
  * @param year :
  * @param totalHolidayCount :
  * @param publicHolidayCount :

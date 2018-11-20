@@ -5,10 +5,8 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Models.TimeDiff
-import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
-import java.sql.Time
 import java.time.LocalDate
 import java.util.*
 
@@ -18,7 +16,7 @@ class ClockEventStatsManager
 
     /**
      * handles communication to the stats repo and will review and attempt to update stats accordingly
-     * include weekly and monthly hours worked and monthly stats archiving
+     * include weekly and monthly Hours worked and monthly stats archiving
      * @param clockEvent : the clock event to handle update events from!!
      */
     fun handleClockEventAndUpdateStatsIfRequired(clockEvent: ClockEvent, lastClockEvent : ClockEvent)
@@ -77,7 +75,7 @@ class ClockEventStatsManager
      */
     private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
-        //check if the date of the last clock in matches the current day and is the start of a month/week
+        //check if the date of the last clock in matches the current day and is the start of a Month/Week
         val lastClock = getLastClockLastClockType(lastClockEvent)
 
         Log.d(TAG, object{}.javaClass.enclosingMethod.name + "with type : $lastClock")
@@ -108,20 +106,20 @@ class ClockEventStatsManager
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
-        var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.dailyTime)
-        var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.weeklyTime)
-        var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.monthlyTime)
+        var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
+        var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)
+        var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.MonthlyTime)
 
-        clockEventStats.dailyTime = combinedDiffDaily
-        clockEventStats.weeklyTime = combinedDiffWeekly
-        clockEventStats.monthlyTime = combinedDiffMonthly
+        clockEventStats.DailyTime = combinedDiffDaily
+        clockEventStats.WeeklyTime = combinedDiffWeekly
+        clockEventStats.MonthlyTime = combinedDiffMonthly
 
         //now to update!!
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
 
     /**
-     * Handle the request to find out what type of clock this is in regards to day, week or month refresh!
+     * Handle the request to find out what type of clock this is in regards to day, Week or Month refresh!
      * @param lastClockEvent
      * @return an enum detailing what the last clock type was in relation to the current date!!
      */
@@ -149,7 +147,7 @@ class ClockEventStatsManager
      */
     private fun resetDailyTime(clockEventStats: ClockEventStats)
     {
-        clockEventStats.dailyTime = TimeDiff()
+        clockEventStats.DailyTime = TimeDiff()
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
@@ -160,9 +158,9 @@ class ClockEventStatsManager
      */
     private fun resetWeeklyTime(clockEventStats: ClockEventStats)
     {
-        clockEventStats.dailyTime = TimeDiff()
-        clockEventStats.weeklyTime = TimeDiff()
-        clockEventStats.week = Calendar.WEEK_OF_YEAR
+        clockEventStats.DailyTime = TimeDiff()
+        clockEventStats.WeeklyTime = TimeDiff()
+        clockEventStats.Week = Calendar.WEEK_OF_YEAR
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
@@ -173,16 +171,16 @@ class ClockEventStatsManager
      */
     private fun resetMonthlyTime(clockEventStats: ClockEventStats)
     {
-        clockEventStats.dailyTime = TimeDiff()
-        clockEventStats.weeklyTime = TimeDiff()
-        clockEventStats.monthlyTime = TimeDiff()
+        clockEventStats.DailyTime = TimeDiff()
+        clockEventStats.WeeklyTime = TimeDiff()
+        clockEventStats.MonthlyTime = TimeDiff()
 
-        clockEventStats.week = Calendar.WEEK_OF_YEAR
-        clockEventStats.month = LocalDate.now().month.name
+        clockEventStats.Week = Calendar.WEEK_OF_YEAR
+        clockEventStats.Month = LocalDate.now().month.name
 
-        if(LocalDate.now().year != clockEventStats.year)
+        if(LocalDate.now().year != clockEventStats.Year)
         {
-            clockEventStats.year = LocalDate.now().year
+            clockEventStats.Year = LocalDate.now().year
         }
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }

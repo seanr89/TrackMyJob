@@ -41,14 +41,19 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.OUT)
                             clock.automatic = true
-                            clockManager.saveClock(clock)
+                            clockManager.saveClock(clock){
+                                if(it)
+                                {
+                                    sendNotification(context,"You have been automatically clocked out", "Clock Event")
+                                }
+                            }
                         }
                         else
                         {
-                            sendNotification(context,"Out")
+                            sendNotification(context,"Are you still in work?", "Clock Event")
                         }
                     }
-                    else{sendNotification(context,"Out")}
+                    else{sendNotification(context, "Please remember to clock out","Clock Event")}
                 }
 
             }
@@ -57,16 +62,19 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
 
     /**
      * send a test notification to the app to alert the user to make sure they clock in or out!!
+     * @param context :
+     * @param content :
+     * @param title :
      */
-    fun sendNotification(context: Context?,time : String)
+    fun sendNotification(context: Context?, content : String, title : String)
     {
         //https@ //developer.android.com/training/notify-user/build-notification
 
         if(context != null) {
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
-                    .setContentTitle("Clock Out")
-                    .setContentText("Remember to Clock $time")
+                    .setContentTitle(title)
+                    .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

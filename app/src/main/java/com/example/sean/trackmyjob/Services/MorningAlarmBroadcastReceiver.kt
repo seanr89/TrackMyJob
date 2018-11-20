@@ -22,14 +22,12 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?)
     {
-        d(TAG, object{}.javaClass.enclosingMethod.name)
+        d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
-            //d(TAG, "not the weekend")
             if(HelperMethods.isMorning(LocalDateTime.now()))
             {
-                //d(TAG, "is the morning")
                 val latLngProvider = MyLocationManager(context)
                 latLngProvider.getDeviceLatLng {
                     if(it != null)
@@ -40,13 +38,16 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                             val clock = ClockEvent(ClockEventType.IN)
                             clock.automatic = true
                             clockManager.saveClock(clock)
+                            {
+                                sendNotification(context,"You have been automatically clocked in!", "Clock Event")
+                            }
                         }
                         else
                         {
-                            sendNotification(context,"In")
+                            sendNotification(context,"Are you in work?", "Clock Event")
                         }
                     }
-                    else{sendNotification(context,"In")}
+                    else{sendNotification(context, "Please remember to clock in!","Clock Event")}
                 }
             }
         }
@@ -57,13 +58,13 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
      * @param context : the parent context
      * @param time : the time parameter to use!
      */
-    fun sendNotification(context: Context?,time : String)
+    fun sendNotification(context: Context?, content : String, title : String)
     {
         if(context != null) {
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)
-                    .setContentTitle("Clock In")
-                    .setContentText("Remember to Clock $time")
+                    .setContentTitle(title)
+                    .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -30,8 +30,8 @@ object HolidayRepository {
     }
 
     /**
-     * request the user holiday stats for the current year
-     * function requests the current year
+     * request the user holiday stats for the current Year
+     * function requests the current Year
      */
     fun getHolidayStatsForCurrentUserAndYear(onComplete:() -> Unit)
     {

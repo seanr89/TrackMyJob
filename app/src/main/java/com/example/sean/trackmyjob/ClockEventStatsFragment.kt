@@ -2,7 +2,6 @@ package com.example.sean.trackmyjob
 
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import android.widget.TextView
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
-import kotlinx.android.synthetic.main.fragment_clock_event_stats.*
 
 
 /**
@@ -65,9 +63,9 @@ class ClockEventStatsFragment : Fragment() {
         d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         updateTopRecords(stats)
-        updateTimeDiffRecords(stats.dailyTime, R.id.txtViewDailyHours, R.id.txtViewDailyMinutes)
-        updateTimeDiffRecords(stats.weeklyTime, R.id.txtViewWeeklyHours, R.id.txtViewWeeklyMinutes)
-        updateTimeDiffRecords(stats.monthlyTime, R.id.txtViewMonthlyHours, R.id.txtViewMonthlyMinutes)
+        updateTimeDiffRecords(stats.DailyTime, R.id.txtViewDailyHours, R.id.txtViewDailyMinutes)
+        updateTimeDiffRecords(stats.WeeklyTime, R.id.txtViewWeeklyHours, R.id.txtViewWeeklyMinutes)
+        updateTimeDiffRecords(stats.MonthlyTime, R.id.txtViewMonthlyHours, R.id.txtViewMonthlyMinutes)
     }
 
     /**
@@ -82,9 +80,9 @@ class ClockEventStatsFragment : Fragment() {
         val txtViewMonth = view!!.findViewById<TextView>(R.id.txtViewMonth)
         val txtViewYear = view!!.findViewById<TextView>(R.id.txtViewYear)
 
-        txtViewWeek.text = stats.week.toString()
-        txtViewMonth.text = stats.month
-        txtViewYear.text = stats.year.toString()
+        txtViewWeek.text = stats.Week.toString()
+        txtViewMonth.text = stats.Month
+        txtViewYear.text = stats.Year.toString()
     }
 
     /**
@@ -100,8 +98,8 @@ class ClockEventStatsFragment : Fragment() {
         val txtViewHours = view!!.findViewById<TextView>(hoursID)
         val txtViewMinutes = view!!.findViewById<TextView>(minutesID)
 
-        txtViewHours.text = timeDiff.hours.toString()
-        txtViewMinutes.text = timeDiff.minutes.toString()
+        txtViewHours.text = timeDiff.Hours.toString()
+        txtViewMinutes.text = timeDiff.Minutes.toString()
     }
 
     companion object {

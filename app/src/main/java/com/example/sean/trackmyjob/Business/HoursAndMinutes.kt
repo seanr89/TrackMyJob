@@ -5,8 +5,8 @@ class HoursAndMinutes(var minutes : Int) {
     private val TAG = "HoursAndMinutes"
 
     /**
-     * calculate the number of complete hours in the minutes provided
-     * @return integer value of total number of hours in the provided minutes
+     * calculate the number of complete Hours in the Minutes provided
+     * @return integer value of total number of Hours in the provided Minutes
      */
     fun calculateHours() : Int
     {
@@ -19,8 +19,8 @@ class HoursAndMinutes(var minutes : Int) {
     }
 
     /**
-     * calculate the number of remaining minutes without hours
-     * @return integer value of remain minutes with hours calculated
+     * calculate the number of remaining Minutes without Hours
+     * @return integer value of remain Minutes with Hours calculated
      */
     fun calculateRemainingMinutesFromHours() : Int
     {

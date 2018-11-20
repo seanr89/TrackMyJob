@@ -11,8 +11,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sean.trackmyjob.Business.ClockEventManager
-import com.example.sean.trackmyjob.Business.ClockEventStatsManager
-import com.example.sean.trackmyjob.Business.PreferencesHelper
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -127,9 +125,12 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.IN)
-        clockManager.saveClock(clock)
-
-        updateClockEventInfo(clock)
+        clockManager.saveClock(clock){
+            if(it)
+            {
+                updateClockEventInfo(clock)
+            }
+        }
     }
 
     /**
@@ -142,8 +143,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.OUT)
         clockManager.saveClock(clock)
+        {
+            if(it)
+            {
+                updateClockEventInfo(clock)
+            }
+        }
 
-        updateClockEventInfo(clock)
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +202,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     }
 
     /**
-     * handle the calculation of hours worked from the two dates
+     * handle the calculation of Hours worked from the two dates
      * @param clockOutEvent : the clock event when clocked out (OUT)
      * @param lastClock : the last know clock event to compared (IN)
      */
@@ -205,7 +211,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
         var timeDiff = TimeCalculator.difference(lastClock.dateTimeToLocalDateTime(), clockOutEvent.dateTimeToLocalDateTime())
-        Toast.makeText(context, "TimeDiff : ${timeDiff.hours} hours and ${timeDiff.minutes} mins", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "TimeDiff : ${timeDiff.Hours} Hours and ${timeDiff.Minutes} mins", Toast.LENGTH_LONG).show()
     }
 
     ////////////////////////////////////////////////////////////////////////////////
