@@ -10,8 +10,10 @@ import android.widget.TextView
 import com.example.sean.trackmyjob.ClockEventListFragment.OnListFragmentInteractionListener
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.R
+import com.example.sean.trackmyjob.Utilities.HelperMethods
+import com.google.rpc.Help
 
-import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
+import kotlinx.android.synthetic.main.clockevent_list_item.view.*
 
 /**
  * [RecyclerView.Adapter] that can display a [ClockEvent] and makes a call to the
@@ -35,14 +37,18 @@ class MyClockEventRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_clockeventlist, parent, false)
+                .inflate(R.layout.clockevent_list_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-//        holder.mIdView.text = item.id
-//        holder.mContentView.text = item.content
+
+        val automatic = if(item.automatic) "Automatic" else "Manual"
+        holder.mviewEventType.text = item!!.event.toString()
+        holder.mviewEventDate.text = HelperMethods.convertDateTimeToString(HelperMethods.convertLongToLocalDateTime(item.dateTime))
+        holder.mviewEventSubType.text = item.subType.toString()
+        holder.mviewEventAutomatic.text = automatic
 
         with(holder.mView) {
             tag = item
@@ -62,11 +68,14 @@ class MyClockEventRecyclerViewAdapter(
     /////////////////////////////////////////////////////////////////////////////////
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+        val mviewEventType: TextView = mView.txtViewEventType
+        val mviewEventDate: TextView = mView.txtViewEventDate
+        val mviewEventSubType: TextView = mView.txtViewEventSubType
+        val mviewEventAutomatic: TextView = mView.txtViewEventAutomatic
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
+
+//        override fun toString(): String {
+//            return super.toString() + " '" + mContentView.text + "'"
+//        }
     }
 }

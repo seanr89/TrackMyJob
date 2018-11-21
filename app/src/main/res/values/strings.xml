@@ -35,4 +35,7 @@
     <string name="channel_description">Tracking of my work clock ins</string>
     <string name="ListHolidays">View Holidays</string>
     <string name="ClockStats">Clock Event Stats</string>
+    <string name="eventType">Event Type</string>
+    <string name="EventSubType">Sub Type</string>
+    <string name="eventAutomatic">Automated</string>
 </resources>

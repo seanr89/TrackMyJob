@@ -9,7 +9,7 @@ import com.example.sean.trackmyjob.Models.Holiday
 import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import com.google.rpc.Help
-import kotlinx.android.synthetic.main.fragment_clockeventlist.view.*
+import kotlinx.android.synthetic.main.clockevent_list_item.view.*
 import kotlinx.android.synthetic.main.holiday_recycler_item.view.*
 
 class HolidayRecyclerAdapter(
