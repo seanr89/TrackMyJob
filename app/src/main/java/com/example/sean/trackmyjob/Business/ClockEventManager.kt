@@ -57,11 +57,18 @@ class ClockEventManager
             {
                 ClockEventRepository.addClockEventForUser(clockEvent)
                 {
-                    val statsManager = ClockEventStatsManager()
-                    statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                    prefsHelper.updateLastStoredClock(clockEvent)
+                    if(it)
+                    {
+                        val statsManager = ClockEventStatsManager()
+                        statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+                        prefsHelper.updateLastStoredClock(clockEvent)
+                    }
                     onComplete(it)
                 }
+            }
+            else{
+
+                onComplete(false)
             }
         }
         else
@@ -99,6 +106,7 @@ class ClockEventManager
                     onComplete(it)
                 }
             }
+            else{ onComplete(false) }
         }
         else
         {

@@ -107,17 +107,26 @@ class ClockEventStatsManager
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
-        var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
-        var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)
-        var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.MonthlyTime)
+        if(lastClockEvent.event == ClockEventType.IN)
+        {
+            var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
+            if(diff.Minutes >= 0)
+            {
+                var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
+                var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)
+                var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.MonthlyTime)
 
-        clockEventStats.DailyTime = combinedDiffDaily
-        clockEventStats.WeeklyTime = combinedDiffWeekly
-        clockEventStats.MonthlyTime = combinedDiffMonthly
+                clockEventStats.DailyTime = combinedDiffDaily
+                clockEventStats.WeeklyTime = combinedDiffWeekly
+                clockEventStats.MonthlyTime = combinedDiffMonthly
 
-        //now to update!!
-        ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
+                //now to update!!
+                ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
+            }
+            else{
+                Log.e(TAG, "Minutes are negative - this is a problem!!")
+            }
+        }
     }
 
     /**

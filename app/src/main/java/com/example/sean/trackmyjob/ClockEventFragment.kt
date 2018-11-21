@@ -3,13 +3,12 @@ package com.example.sean.trackmyjob
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.sean.trackmyjob.Business.ClockEventManager
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
@@ -51,10 +50,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         view.findViewById<Button>(R.id.btn_ClockList).setOnClickListener(this)
         view.findViewById<Button>(R.id.btn_ClockStats).setOnClickListener(this)
 
-
-
         setLastKnownClockEventOnUI()
-
         return view
     }
 
@@ -121,14 +117,15 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onClockIn()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.IN)
         clockManager.saveClock(clock){
             if(it)
             {
                 updateClockEventInfo(clock)
+            }
+            else{
+                Toast.makeText(context, "Clock In Failed!", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -138,8 +135,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onClockOut()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.OUT)
         clockManager.saveClock(clock)
@@ -147,6 +142,10 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             if(it)
             {
                 updateClockEventInfo(clock)
+            }
+            else
+            {
+                Toast.makeText(context, "Clock Out Failed!", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -183,7 +182,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listenerShowStats?.onShowEventStats()
-        //Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -192,8 +190,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun updateClockEventInfo(clockEvent: ClockEvent)
     {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
         var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
 
@@ -201,18 +197,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         txtClockEventDate.text = HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime())
     }
 
-    /**
-     * handle the calculation of Hours worked from the two dates
-     * @param clockOutEvent : the clock event when clocked out (OUT)
-     * @param lastClock : the last know clock event to compared (IN)
-     */
-    private fun onClockOutCalculateHoursWorked(clockOutEvent: ClockEvent, lastClock : ClockEvent)
-    {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
-        var timeDiff = TimeCalculator.difference(lastClock.dateTimeToLocalDateTime(), clockOutEvent.dateTimeToLocalDateTime())
-        Toast.makeText(context, "TimeDiff : ${timeDiff.Hours} Hours and ${timeDiff.Minutes} mins", Toast.LENGTH_LONG).show()
-    }
 
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
@@ -249,8 +236,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     ////////////////////////////////////////////////////////////////////////////////
 
     companion object {
-
-        private var mySharedPrefsEvents = "myClockEventsPrefs"
 
         /**
          * Use this factory method to create a new instance of

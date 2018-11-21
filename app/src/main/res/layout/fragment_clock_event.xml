@@ -7,11 +7,12 @@
     tools:context=".ClockEventFragment">
 
     <LinearLayout
+        android:id="@+id/linearContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="25dp">
+        android:layout_marginBottom="25dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linLayoutCurrentClock"
@@ -53,45 +54,55 @@
                 android:id="@+id/txt_CurrentClockEventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:text="Test"
-                android:textAlignment="center"
-                android:layout_marginTop="5dp"/>
+                android:textAlignment="center" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_ClockIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ClockIn" />
+
+        <Button
+            android:id="@+id/btn_ClockOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ClockOut" />
+
+        <Button
+            android:id="@+id/btn_ClockList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:text="@string/ListClockEvents" />
+
+        <Button
+            android:id="@+id/btn_HolidayList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ListHolidays" />
+
+        <Button
+            android:id="@+id/btn_ClockStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ClockStats" />
 
     </LinearLayout>
 
 
-
-    <Button
-        android:id="@+id/btn_ClockIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ClockIn" />
-
-    <Button
-        android:id="@+id/btn_ClockOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ClockOut" />
-
-    <Button
-        android:id="@+id/btn_ClockList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:text="@string/ListClockEvents" />
-
-    <Button
-        android:id="@+id/btn_HolidayList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ListHolidays" />
-
-    <Button
-        android:id="@+id/btn_ClockStats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ClockStats" />
+    <!--<ProgressBar-->
+        <!--android:id="@+id/progressBar"-->
+        <!--style="?android:attr/progressBarStyleLarge"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:visibility="invisible" />-->
 
 </LinearLayout>
