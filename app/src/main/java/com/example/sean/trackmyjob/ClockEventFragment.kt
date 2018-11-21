@@ -161,7 +161,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onViewClockEvents()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listener?.onShowAllClockEvents()
     }
 
@@ -170,9 +169,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onViewHolidays()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        //listener?.onShowAllClockEvents()
-        Toast.makeText(context, "Not Yet Available!", Toast.LENGTH_SHORT).show()
+        listenerShowHolidays?.onShowAllHolidays()
     }
 
     /**
@@ -180,7 +177,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun onViewClockEventStats()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         listenerShowStats?.onShowEventStats()
     }
 
@@ -222,7 +218,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      *
      */
-    interface  OnFragmentShowAllHolidaysListener{
+    interface OnFragmentShowAllHolidaysListener{
         fun onShowAllHolidays()
     }
 
