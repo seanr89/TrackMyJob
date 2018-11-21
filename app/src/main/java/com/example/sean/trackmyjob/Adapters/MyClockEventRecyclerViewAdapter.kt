@@ -44,8 +44,8 @@ class MyClockEventRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
 
-        val automatic = if(item.automatic) "Automatic" else "Manual"
-        holder.mviewEventType.text = item!!.event.toString()
+        val automatic = if(item!!.automatic) "Automatic" else "Manual"
+        holder.mviewEventType.text = item.event.toString()
         holder.mviewEventDate.text = HelperMethods.convertDateTimeToString(HelperMethods.convertLongToLocalDateTime(item.dateTime))
         holder.mviewEventSubType.text = item.subType.toString()
         holder.mviewEventAutomatic.text = automatic
