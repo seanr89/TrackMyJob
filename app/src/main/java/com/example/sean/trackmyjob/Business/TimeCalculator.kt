@@ -52,7 +52,7 @@ object TimeCalculator
         combinedTimeDiff.Hours = timeDiffCurrent.Hours + timeDiffStored.Hours
         combinedTimeDiff.Minutes = timeDiffCurrent.Minutes + timeDiffStored.Minutes
 
-        val timeCalc = HoursAndMinutes(combinedTimeDiff.Minutes.toInt())
+        val timeCalc = HoursAndMinutes(combinedTimeDiff.Minutes)
         val calculatedHours = timeCalc.calculateHours()
         val calculatedMinutes = timeCalc.calculateRemainingMinutesFromHours()
 

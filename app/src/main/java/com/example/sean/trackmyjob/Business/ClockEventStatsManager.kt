@@ -21,7 +21,7 @@ class ClockEventStatsManager
      */
     fun handleClockEventAndUpdateStatsIfRequired(clockEvent: ClockEvent, lastClockEvent : ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         //Step 1. request the current stats
         ClockEventStatsRepository.requestCurrentUserClockStatsSummary {
@@ -78,7 +78,7 @@ class ClockEventStatsManager
         //check if the date of the last clock in matches the current day and is the start of a Month/Week
         val lastClock = getLastClockLastClockType(lastClockEvent)
 
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name + "with type : $lastClock")
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + "with type : $lastClock")
         when(lastClock)
         {
             LastClock.NEW_DAY ->{
@@ -109,12 +109,12 @@ class ClockEventStatsManager
 
         if(lastClockEvent.event == ClockEventType.IN)
         {
-            var diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
+            val diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
             if(diff.Minutes >= 0)
             {
-                var combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
-                var combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)
-                var combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.MonthlyTime)
+                val combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
+                val combinedDiffWeekly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.WeeklyTime)
+                val combinedDiffMonthly = TimeCalculator.combineTimeDiffs(diff, clockEventStats.MonthlyTime)
 
                 clockEventStats.DailyTime = combinedDiffDaily
                 clockEventStats.WeeklyTime = combinedDiffWeekly

@@ -2,6 +2,7 @@ package com.example.sean.trackmyjob.Business
 
 import android.content.Context
 import android.util.Log
+import android.util.Log.d
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
@@ -30,8 +31,9 @@ class ClockEventManager
     fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         val lastClock = prefsHelper.readLastStoredClock()
+        d(TAG, "lastClock dateTime of : ${lastClock.dateTime}")
+
         when(clockEvent.event)
         {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock)
@@ -67,18 +69,13 @@ class ClockEventManager
                 }
             }
             else{
-
+                d(TAG, "User is already logged in!!")
                 onComplete(false)
             }
         }
-        else
-        {
-            //contact firebase and updated
-            prefsHelper.updateLastStoredClock(clockEvent)
-            ClockEventRepository.addClockEventForUser(clockEvent)
-            {
-                onComplete(it)
-            }
+        else{
+            d(TAG, "Unable to identify last clock!")
+            onComplete(false)
         }
     }
 
@@ -89,7 +86,7 @@ class ClockEventManager
      */
     private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         if(lastClock.dateTime >= 0)
         {
@@ -106,16 +103,15 @@ class ClockEventManager
                     onComplete(it)
                 }
             }
-            else{ onComplete(false) }
+            else
+            {
+                d(TAG, "User is already logged out!!")
+                onComplete(false)
+            }
         }
         else
         {
-            //contact firebase and updated
-            prefsHelper.updateLastStoredClock(clockEvent)
-            ClockEventRepository.addClockEventForUser(clockEvent)
-            {
-                onComplete(it)
-            }
+            onComplete(false)
         }
     }
 }

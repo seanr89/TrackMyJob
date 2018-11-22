@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.sean.trackmyjob.Business.ClockEventManager
+import com.example.sean.trackmyjob.Business.PreferencesHelper
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -50,7 +51,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         view.findViewById<Button>(R.id.btn_ClockList).setOnClickListener(this)
         view.findViewById<Button>(R.id.btn_ClockStats).setOnClickListener(this)
 
-        setLastKnownClockEventOnUI()
+        setLastKnownClockEventOnUI(view)
         return view
     }
 
@@ -95,16 +96,19 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      * request the last known clock event that was stored for the user and display the data
      */
-    private fun setLastKnownClockEventOnUI()
+    private fun setLastKnownClockEventOnUI(view : View)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
 
-        ClockEventRepository.getLastClockEvent{
-            if(it != null)
-            {
-                updateClockEventInfo(it)
-            }
-        }
+        val prefs = PreferencesHelper(context)
+        updateClockEventInfo(view, prefs.readLastStoredClock())
+
+//        ClockEventRepository.getLastClockEvent{
+//            if(it != null)
+//            {
+//                updateClockEventInfo(it)
+//            }
+//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +126,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         clockManager.saveClock(clock){
             if(it)
             {
-                updateClockEventInfo(clock)
+                updateClockEventInfo(view,clock)
             }
             else{
                 Toast.makeText(context, "Clock In Failed!", Toast.LENGTH_LONG).show()
@@ -141,7 +145,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         {
             if(it)
             {
-                updateClockEventInfo(clock)
+                updateClockEventInfo(view, clock)
             }
             else
             {
@@ -184,7 +188,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      * Operation to update and refresh the clock event displayed information
      * @param clockEvent : the event to be used to push data out for display purposes!
      */
-    private fun updateClockEventInfo(clockEvent: ClockEvent)
+    private fun updateClockEventInfo(view : View?, clockEvent: ClockEvent)
     {
         var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
         var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
