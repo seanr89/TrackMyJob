@@ -69,12 +69,10 @@ class ClockEventManager
                 }
             }
             else{
-                d(TAG, "User is already logged in!!")
                 onComplete(false)
             }
         }
         else{
-            d(TAG, "Unable to identify last clock!")
             onComplete(false)
         }
     }
@@ -86,8 +84,6 @@ class ClockEventManager
      */
     private fun clockOutUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         if(lastClock.dateTime >= 0)
         {
             if(lastClock.event == ClockEventType.IN)
@@ -105,7 +101,6 @@ class ClockEventManager
             }
             else
             {
-                d(TAG, "User is already logged out!!")
                 onComplete(false)
             }
         }

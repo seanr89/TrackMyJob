@@ -19,10 +19,7 @@ object ClockEventRepository
      */
     fun requestAllClockEventsForCurrentUser(onComplete:(MutableList<ClockEvent?>) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         var events = ArrayList<ClockEvent?>()
-
         try
         {
             currentUserClockCollectionRef
@@ -55,8 +52,6 @@ object ClockEventRepository
      */
     fun getLastClockEvent(onComplete: (ClockEvent?) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         var event : ClockEvent? = null
         try {
             currentUserClockCollectionRef
@@ -66,7 +61,6 @@ object ClockEventRepository
                     .addOnSuccessListener {
                         if(!it.isEmpty || it != null)
                         {
-                            //Log.d(TAG, "item found for single clock event")
                             for(doc : DocumentSnapshot in it.documents)
                             {
                                 event = doc.toObject(ClockEvent::class.java)
@@ -91,11 +85,10 @@ object ClockEventRepository
     /**
      * provides operation to insert a clockEvent operation for a client
      * @param clock : the clock event to insert
-     * @param onComplete :
+     * @param onComplete : handles if the add completed successfully or not with a boolean
      */
     fun addClockEventForUser(clock : ClockEvent, onComplete: (Boolean) -> Unit)
     {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         currentUserClockCollectionRef
                 .add(clock)
                 .addOnSuccessListener {

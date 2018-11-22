@@ -102,13 +102,6 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
         val prefs = PreferencesHelper(context)
         updateClockEventInfo(view, prefs.readLastStoredClock())
-
-//        ClockEventRepository.getLastClockEvent{
-//            if(it != null)
-//            {
-//                updateClockEventInfo(it)
-//            }
-//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////
