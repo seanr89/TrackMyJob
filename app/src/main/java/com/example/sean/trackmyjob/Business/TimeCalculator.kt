@@ -55,7 +55,7 @@ object TimeCalculator
         val calculatedHours = timeCalc.calculateHours()
         val calculatedMinutes = timeCalc.calculateRemainingMinutesFromHours()
 
-        combinedTimeDiff.Hours + calculatedHours
+        combinedTimeDiff.Hours = combinedTimeDiff.Hours + calculatedHours
         combinedTimeDiff.Minutes = calculatedMinutes
 
         return combinedTimeDiff

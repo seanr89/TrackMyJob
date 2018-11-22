@@ -64,7 +64,9 @@ object ClockEventStatsRepository {
                 "MonthlyTime.Hours", clockEventStats.MonthlyTime.Hours,
                 "MonthlyTime.Minutes", clockEventStats.MonthlyTime.Minutes
                 ).addOnSuccessListener {
-
+                Log.d(TAG, "stats updated")
+        }.addOnFailureListener {
+            Log.d(TAG, "stats failed")
         }
     }
 

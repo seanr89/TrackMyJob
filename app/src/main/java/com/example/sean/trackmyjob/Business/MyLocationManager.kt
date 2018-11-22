@@ -5,8 +5,8 @@ import android.util.Log
 import android.util.Log.e
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.crash.FirebaseCrash.log
 
 class MyLocationManager
 /**
@@ -52,14 +52,14 @@ class MyLocationManager
         }
         catch(e: KotlinNullPointerException)
         {
-            Log.e("Exception: %s", e.message)
+            log("${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
+            onLocated(null)
         }
         catch(e: SecurityException)
         {
-            Log.e("Exception: %s", e.message)
+            log("${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
+            onLocated(null)
         }
-
-       // return currentLatLng
     }
 
 }
