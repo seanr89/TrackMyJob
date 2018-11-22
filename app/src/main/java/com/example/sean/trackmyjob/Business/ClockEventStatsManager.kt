@@ -60,8 +60,6 @@ class ClockEventStatsManager
      */
     private fun createNewClockEventStatsAndSave()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         val stats = ClockEventStats(Calendar.WEEK_OF_YEAR, LocalDate.now().month.name, LocalDate.now().year)
         ClockEventStatsRepository.createStatsSummary(stats)
     }
@@ -105,8 +103,6 @@ class ClockEventStatsManager
      */
     private fun handleClockOut(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-
         if(lastClockEvent.event == ClockEventType.IN)
         {
             val diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())

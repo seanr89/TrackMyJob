@@ -3,6 +3,8 @@ package com.example.sean.trackmyjob.Repositories
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crash.FirebaseCrash
+import com.google.firebase.crash.FirebaseCrash.log
 import com.google.firebase.firestore.*
 
 object ClockEventRepository
@@ -37,7 +39,8 @@ object ClockEventRepository
                         onComplete(events)
                     }
                     .addOnFailureListener {
-                        Log.e(TAG, "get returned with error : ${it.message}")
+                        //Log.e(TAG, "get returned with error : ${it.message}")
+                        log("Request clock events failed with message ${it.message}")
                         onComplete(events)
                     }
         }
@@ -69,13 +72,15 @@ object ClockEventRepository
                         }
                     }
                     .addOnFailureListener {
-                        Log.e(TAG, "get returned with error : ${it.message}")
+                        //Log.e(TAG, "get returned with error : ${it.message}")
+                        log("Request latest clock event failed with message ${it.message}")
                     }
 
         }
         catch (e : IllegalArgumentException)
         {
-            Log.e(TAG, "Exception occurred : ${e.message}")
+            log("exception triggered : ${e.message}")
+            //Log.e(TAG, "Exception occurred : ${e.message}")
         }
         finally {
             onComplete(null)

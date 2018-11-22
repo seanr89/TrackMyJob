@@ -20,7 +20,6 @@ object TimeCalculator
      */
     fun difference(start: LocalDateTime, stop: LocalDateTime): TimeDiff
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         val diff = TimeDiff(0, 0)
 
         //temp object in order to append the Hours back to it so the correct amount of Minutes can be appended!
