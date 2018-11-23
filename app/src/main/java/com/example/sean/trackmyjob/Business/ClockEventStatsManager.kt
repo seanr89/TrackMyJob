@@ -7,6 +7,7 @@ import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
+import com.google.firebase.crash.FirebaseCrash.log
 import java.time.LocalDate
 import java.util.*
 
@@ -120,7 +121,7 @@ class ClockEventStatsManager
                 ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
             }
             else{
-                Log.e(TAG, "Minutes are negative - this is a problem!!")
+                log("$TAG : Minutes are negative - this is a problem!!")
             }
         }
     }

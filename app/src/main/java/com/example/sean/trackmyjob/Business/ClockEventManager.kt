@@ -32,8 +32,6 @@ class ClockEventManager
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         val lastClock = prefsHelper.readLastStoredClock()
-        d(TAG, "lastClock dateTime of : ${lastClock.dateTime}")
-
         when(clockEvent.event)
         {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock)
@@ -56,21 +54,9 @@ class ClockEventManager
     {
         if(lastClock.dateTime >= 0)
         {
-            if(lastClock.event == ClockEventType.OUT)
+            clockUser(clockEvent, lastClock, ClockEventType.IN)
             {
-                ClockEventRepository.addClockEventForUser(clockEvent)
-                {
-                    if(it)
-                    {
-                        prefsHelper.updateLastStoredClock(clockEvent)
-                        val statsManager = ClockEventStatsManager()
-                        statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                    }
-                    onComplete(it)
-                }
-            }
-            else{
-                onComplete(false)
+                onComplete(it)
             }
         }
         else{
@@ -87,26 +73,42 @@ class ClockEventManager
     {
         if(lastClock.dateTime >= 0)
         {
-            if(lastClock.event == ClockEventType.IN)
+            clockUser(clockEvent, lastClock, ClockEventType.OUT)
             {
-                ClockEventRepository.addClockEventForUser(clockEvent)
-                {
-                    if(it)
-                    {
-                        prefsHelper.updateLastStoredClock(clockEvent)
-                        val statsManager = ClockEventStatsManager()
-                        statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                    }
-                    onComplete(it)
-                }
+                onComplete(it)
             }
-            else
+        }
+        else
+        {   //unable to id last known clock stored!!
+            onComplete(false)
+        }
+    }
+
+    /**
+     * NEEDS TO BE DETAILED
+     * @param clockEvent :
+     * @param lastClock :
+     * @param type :
+     * @param onComplete([Boolean]) :
+     */
+    private fun clockUser(clockEvent : ClockEvent, lastClock : ClockEvent, type: ClockEventType, onComplete:(Boolean) -> Unit)
+    {
+        if(lastClock.event != type)
+        {
+            ClockEventRepository.addClockEventForUser(clockEvent)
             {
-                onComplete(false)
+                if(it)
+                {
+                    prefsHelper.updateLastStoredClock(clockEvent)
+                    val statsManager = ClockEventStatsManager()
+                    statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+                }
+                onComplete(it)
             }
         }
         else
         {
+            //you are already clocked out!!
             onComplete(false)
         }
     }
