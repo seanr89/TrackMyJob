@@ -22,6 +22,7 @@ object ClockEventStatsRepository {
      * request the current statistics for the current user including :
      * Hours per Week, Month and lifetime!
      * current Week and Month!
+     * @param onComplete([ClockEventStats?])
      */
     fun requestCurrentUserClockStatsSummary(onComplete:(ClockEventStats?) -> Unit) {
         Log.d(TAG, object{}.javaClass.enclosingMethod.name)
@@ -48,8 +49,8 @@ object ClockEventStatsRepository {
     }
 
     /**
-     *
-     * @param clockEventStats
+     * handle the updating of the current stats for daily, weekly and monthly information
+     * @param clockEventStats : stats update to be used to update the entire object
      */
     fun updateClockEventStatsSummary(clockEventStats: ClockEventStats)
     {
@@ -66,23 +67,15 @@ object ClockEventStatsRepository {
                 ).addOnSuccessListener {
                 Log.d(TAG, "stats updated")
         }.addOnFailureListener {
-            Log.d(TAG, "stats failed")
+            Log.d(TAG, "Failed to update clock event stats!")
         }
     }
 
     /**
-     * @param time : the time in Hours and Minutes to update too!
+     *
      */
-    fun updateWeekHoursAndMinutes(time : TimeDiff)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-    }
+    fun archiveWeeklyStats(){
 
-    /**
-     * @param time : the time in Hours and Minutes to update too!
-     */
-    fun updateMonthlyHoursAndMinutes(time : TimeDiff)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
     }
 }

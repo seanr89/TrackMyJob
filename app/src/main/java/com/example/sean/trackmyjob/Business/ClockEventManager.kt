@@ -47,9 +47,10 @@ class ClockEventManager
     }
 
     /**
-     * clock in the user!!
+     * clock in the user
      * @param clockEvent : the current clock in event to save
      * @param lastClock : the last stored clock in event (onApp)
+     * @param onComplete([Boolean]) : returnable/lambda fun handling event completion!
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
@@ -61,9 +62,9 @@ class ClockEventManager
                 {
                     if(it)
                     {
+                        prefsHelper.updateLastStoredClock(clockEvent)
                         val statsManager = ClockEventStatsManager()
                         statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                        prefsHelper.updateLastStoredClock(clockEvent)
                     }
                     onComplete(it)
                 }
@@ -92,9 +93,9 @@ class ClockEventManager
                 {
                     if(it)
                     {
+                        prefsHelper.updateLastStoredClock(clockEvent)
                         val statsManager = ClockEventStatsManager()
                         statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                        prefsHelper.updateLastStoredClock(clockEvent)
                     }
                     onComplete(it)
                 }

@@ -26,23 +26,28 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
 
     override fun onReceive(context: Context?, intent: Intent?)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
+        //ensure the current day is not a weekend!
         if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
+            //ensure this is not triggering before 12!!
             if(!HelperMethods.isMorning(LocalDateTime.now()))
             {
+
+                //request the current location of the device!
                 val latLngProvider = MyLocationManager(context)
                 latLngProvider.getDeviceLatLng {
                     if(it != null)
                     {
+                        //if we can id a location check if you are near work/the office!
                         if(DistanceChecker.isNearLocation(it))
                         {
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.OUT)
                             clock.automatic = true
-                            clockManager.saveClock(clock){
-                                if(it)
+                            clockManager.saveClock(clock){ clocked ->
+                                if(clocked)
                                 {
                                     sendNotification(context,"You have been automatically clocked out", "Clock Event")
                                 }
@@ -53,10 +58,12 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
                             sendNotification(context,"Are you still in work?", "Clock Event")
                         }
                     }
-                    else{sendNotification(context, "Please remember to clock out","Clock Event")}
+                    else{
+                        // if we cannot guarantee location lets ask the user to clock out!!
+                        sendNotification(context, "Please remember to clock out","Clock Event")}
                 }
 
-            }
+            } //this is not the morning
         }
     }
 

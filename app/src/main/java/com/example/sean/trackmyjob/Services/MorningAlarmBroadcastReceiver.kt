@@ -37,9 +37,9 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.IN)
                             clock.automatic = true
-                            clockManager.saveClock(clock)
-                            {
-                                sendNotification(context,"You have been automatically clocked in!", "Clock Event")
+                            clockManager.saveClock(clock) {clocked ->
+                                if(clocked)
+                                    sendNotification(context,"You have been automatically clocked in!", "Clock Event")
                             }
                         }
                         else
