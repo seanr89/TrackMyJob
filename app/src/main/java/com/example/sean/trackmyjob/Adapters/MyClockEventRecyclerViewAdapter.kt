@@ -1,5 +1,6 @@
 package com.example.sean.trackmyjob.Adapters
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class MyClockEventRecyclerViewAdapter(
     : RecyclerView.Adapter<MyClockEventRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
+    private val TAG = "MyClockEventRecyclerViewAdapter"
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -56,8 +58,13 @@ class MyClockEventRecyclerViewAdapter(
         }
     }
 
+    /**
+     * Handle the updating of the adapters data set for display purposes!
+     * @param events : mutable list of clock events
+     */
     fun updateDataSet(events : MutableList<ClockEvent?>)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         mValues = events
     }
 
@@ -73,9 +80,5 @@ class MyClockEventRecyclerViewAdapter(
         val mviewEventSubType: TextView = mView.txtViewEventSubType
         val mviewEventAutomatic: TextView = mView.txtViewEventAutomatic
 
-
-//        override fun toString(): String {
-//            return super.toString() + " '" + mContentView.text + "'"
-//        }
     }
 }

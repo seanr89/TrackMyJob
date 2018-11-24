@@ -101,6 +101,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                 .commit()
     }
 
+    /**
+     *
+     */
     override fun onShowAllHolidays() {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         var newFragment = HolidayListFragment.newInstance()
@@ -110,6 +113,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
                 .commit()
     }
 
+    /**
+     *
+     */
     override fun onShowEventStats()
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)

@@ -22,19 +22,19 @@ class ClockEventListFragment : Fragment() {
 
     private val TAG = "ClockEventListFragment"
     private var listener: OnListFragmentInteractionListener? = null
-    private lateinit var adapter : MyClockEventRecyclerViewAdapter
+    private lateinit var mAdapter : MyClockEventRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_clockevent_list, container, false)
 
-        adapter = MyClockEventRecyclerViewAdapter(arrayListOf(), listener)
+        mAdapter = MyClockEventRecyclerViewAdapter(arrayListOf(), listener)
 
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager =  LinearLayoutManager(context)
-                adapter = adapter
+                adapter = mAdapter
             }
         }
 
@@ -68,10 +68,14 @@ class ClockEventListFragment : Fragment() {
      */
     private fun updateClockEventAdapter(events : MutableList<ClockEvent?>)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        adapter.updateDataSet(events)
-        adapter.notifyDataSetChanged()
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        mAdapter.updateDataSet(events)
+        mAdapter.notifyDataSetChanged()
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * This interface must be implemented by activities that contain this
@@ -88,6 +92,10 @@ class ClockEventListFragment : Fragment() {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: ClockEvent?)
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     companion object {
 

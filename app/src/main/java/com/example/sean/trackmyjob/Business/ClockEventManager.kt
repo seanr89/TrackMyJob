@@ -27,6 +27,7 @@ class ClockEventManager
     /**
      * save the clock event to storage and execute summary update!
      * @param clockEvent : the clock event to save!
+     * @param onComplete([Boolean]) :
      */
     fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
@@ -85,7 +86,7 @@ class ClockEventManager
     }
 
     /**
-     * NEEDS TO BE DETAILED
+     * NEEDS TO BE DETAILED and tested!!
      * @param clockEvent :
      * @param lastClock :
      * @param type :

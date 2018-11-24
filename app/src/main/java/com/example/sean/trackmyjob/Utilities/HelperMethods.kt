@@ -27,7 +27,7 @@ object HelperMethods {
     }
 
     /**
-     *
+     * check if the current day denotes the start of a week!
      */
     fun isDayStartOfWeek() : Boolean
     {
@@ -39,7 +39,7 @@ object HelperMethods {
     }
 
     /**
-     *
+     * check if the current day denotes the start of a month!!
      */
     fun isDayStartOfMonth() : Boolean
     {
@@ -63,6 +63,10 @@ object HelperMethods {
         return false
     }
 
+    /**
+     * check of the provided date matches the LocalDate
+     * @param date :
+     */
     fun doesDateMatchToday(date : LocalDateTime) : Boolean
     {
         return (date.dayOfWeek.value == LocalDateTime.now().dayOfWeek.value

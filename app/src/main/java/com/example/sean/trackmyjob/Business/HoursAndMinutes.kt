@@ -1,7 +1,5 @@
 package com.example.sean.trackmyjob.Business
 
-import android.util.Log
-
 class HoursAndMinutes(var minutes : Int) {
 
     private val TAG = "HoursAndMinutes"

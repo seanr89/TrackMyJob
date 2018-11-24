@@ -3,7 +3,6 @@ package com.example.sean.trackmyjob.Repositories
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.crash.FirebaseCrash
 import com.google.firebase.crash.FirebaseCrash.log
 import com.google.firebase.firestore.*
 
@@ -46,7 +45,7 @@ object ClockEventRepository
         }
         catch (e : IllegalArgumentException)
         {
-            Log.e(TAG, "Exception occurred : ${e.message}")
+            log("$TAG Exception occurred : ${e.message}")
         }
     }
 
@@ -80,7 +79,6 @@ object ClockEventRepository
         catch (e : IllegalArgumentException)
         {
             log("exception triggered : ${e.message}")
-            //Log.e(TAG, "Exception occurred : ${e.message}")
         }
         finally {
             onComplete(null)
