@@ -35,7 +35,7 @@
 
         <receiver android:name=".Services.MyAlarmBroadcastReceiver"></receiver>
         <receiver android:name=".Services.MorningAlarmBroadcastReceiver"></receiver>
-        <receiver android:name=".Business.RestartBroadcastReceiver"></receiver>
+        <receiver android:name=".Services.EveningAlarmBroadcastReceiver" />
     </application>
 
 </manifest>
