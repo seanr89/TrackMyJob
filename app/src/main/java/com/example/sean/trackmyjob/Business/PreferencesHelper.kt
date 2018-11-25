@@ -3,14 +3,9 @@ package com.example.sean.trackmyjob.Business
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.provider.Settings.Global.getString
 import android.util.Log
-import com.example.sean.trackmyjob.MainActivity
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
-import com.example.sean.trackmyjob.R
-import com.example.sean.trackmyjob.R.string.pref_clockevent_date_key
-import com.example.sean.trackmyjob.R.string.pref_clockevent_event_key
 import com.google.android.gms.maps.model.LatLng
 
 class PreferencesHelper(context: Context?) {
@@ -62,7 +57,7 @@ class PreferencesHelper(context: Context?) {
      */
     fun checkIsFirstClockForUser() : Boolean
     {
-        return prefs.getBoolean(pref_clockevent_date_key, true)
+        return prefs.getBoolean(pref_firstclocked_key, true)
     }
 
     /**
@@ -71,7 +66,7 @@ class PreferencesHelper(context: Context?) {
     fun updatePrefsOfFirstClock()
     {
         val editor = prefs.edit()
-        editor.putBoolean(pref_clockevent_date_key, false)
+        editor.putBoolean(pref_firstclocked_key, false)
         editor.apply()
     }
 
@@ -80,19 +75,26 @@ class PreferencesHelper(context: Context?) {
     ////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * TODO
+     * request the office lat and lng positions stored
+     * @return [LatLng] : the current Latitude and Longitude of the office (defaults to : Randox Science Park)
      */
     fun readOfficeLatLng() : LatLng
     {
-        return null!!
+        val latitude = prefs.getString(pref_office_lat_key, "54.720255")!!.toDouble()
+        val longitude = prefs.getString(pref_office_lng_key, "-6.2299717")!!.toDouble()
+        return LatLng(latitude,longitude)
     }
 
     /**
-     * TODO
+     * handle updating of shared preferences with lat and lng of selected office position
+     * @param latLng : the latitude and longitude of the office to locate!
      */
     fun updateOfficeLatLng(latLng: LatLng)
     {
-
+        val editor = prefs.edit()
+        editor.putString(pref_office_lat_key, latLng.latitude.toString())
+        editor.putString(pref_office_lng_key, latLng.longitude.toString())
+        editor.apply()
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

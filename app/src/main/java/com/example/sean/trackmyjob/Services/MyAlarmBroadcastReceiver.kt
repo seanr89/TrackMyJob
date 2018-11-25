@@ -12,6 +12,7 @@ import android.location.LocationManager
 import com.example.sean.trackmyjob.Business.ClockEventManager
 import com.example.sean.trackmyjob.Business.DistanceChecker
 import com.example.sean.trackmyjob.Business.MyLocationManager
+import com.example.sean.trackmyjob.Business.PreferencesHelper
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Utilities.HelperMethods
@@ -40,8 +41,10 @@ open class MyAlarmBroadcastReceiver : BroadcastReceiver()
                 latLngProvider.getDeviceLatLng {
                     if(it != null)
                     {
+                        val prefs = PreferencesHelper(context)
+                        val officeLatLng = prefs.readOfficeLatLng()
                         //if we can id a location check if you are near work/the office!
-                        if(DistanceChecker.isNearLocation(it))
+                        if(DistanceChecker.isNearLocation(it, officeLatLng))
                         {
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.OUT)
