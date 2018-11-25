@@ -11,6 +11,7 @@ import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.R.string.pref_clockevent_date_key
 import com.example.sean.trackmyjob.R.string.pref_clockevent_event_key
+import com.google.android.gms.maps.model.LatLng
 
 class PreferencesHelper(context: Context?) {
 
@@ -52,10 +53,60 @@ class PreferencesHelper(context: Context?) {
         editor.apply()
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * only needs to be request on first clock in
+     */
+    fun checkIsFirstClockForUser() : Boolean
+    {
+        return prefs.getBoolean(pref_clockevent_date_key, true)
+    }
+
+    /**
+     * only needs to be request on first clock in
+     */
+    fun updatePrefsOfFirstClock()
+    {
+        val editor = prefs.edit()
+        editor.putBoolean(pref_clockevent_date_key, false)
+        editor.apply()
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * TODO
+     */
+    fun readOfficeLatLng() : LatLng
+    {
+        return null!!
+    }
+
+    /**
+     * TODO
+     */
+    fun updateOfficeLatLng(latLng: LatLng)
+    {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
     companion object {
 
-     private const val pref_clockevent_event_key = "STOREDEVENTKEY"
-     private const val pref_clockevent_date_key = "STOREDEVENTDATE"
+        private const val pref_clockevent_event_key = "STOREDEVENTKEY"
+        private const val pref_clockevent_date_key = "STOREDEVENTDATE"
+        private const val pref_firstclocked_key = "STOREDFIRSTCLOCK"
 
+        //Office Location
+        private const val pref_office_lat_key = "STOREDLAT"
+        private const val pref_office_lng_key = "STOREDLNG"
     }
 }

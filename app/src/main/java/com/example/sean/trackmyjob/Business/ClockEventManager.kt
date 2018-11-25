@@ -2,10 +2,10 @@ package com.example.sean.trackmyjob.Business
 
 import android.content.Context
 import android.util.Log
-import android.util.Log.d
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
+import java.time.LocalDateTime
 
 /**
  * new manager class to provide cental logic for clock event controls
@@ -60,7 +60,20 @@ class ClockEventManager
                 onComplete(it)
             }
         }
-        else{
+        else
+        {
+            //we may have to add a param here to check if it is the first time to clock anything!
+            if(prefsHelper.checkIsFirstClockForUser())
+            {
+                lastClock.event = ClockEventType.OUT
+                lastClock.dateTime = LocalDateTime.now().toEpochSecond(null) - 1000
+
+                prefsHelper.updatePrefsOfFirstClock()
+                clockUser(clockEvent, lastClock, ClockEventType.IN)
+                {
+                    onComplete(it)
+                }
+            }
             onComplete(false)
         }
     }
@@ -109,7 +122,6 @@ class ClockEventManager
         }
         else
         {
-            //you are already clocked out!!
             onComplete(false)
         }
     }
