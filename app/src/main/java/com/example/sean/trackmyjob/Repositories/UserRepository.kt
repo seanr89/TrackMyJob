@@ -21,9 +21,6 @@ class UserRepository
     private val currentUserDocRef : DocumentReference
         get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().uid
                 ?: throw NullPointerException("UID is null")}")
-    private val currentUserOverViewDocRef : DocumentReference
-            get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().uid}/stats/overview")
-
 
     /**
      * query the current user and if not stored create the user
@@ -47,26 +44,6 @@ class UserRepository
             {
                 Log.d(TAG, "User Already Exists")
                 onComplete(UserStatus.ExistingUser)
-            }
-        }
-    }
-
-    /**
-     * TODO a new method to handle the creation of a base overview model that is updated as holiday and clock events are added
-     */
-    fun initClientOverviewModel(onComplete: () -> Unit)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-        currentUserOverViewDocRef.get().addOnSuccessListener { documentSnapshot ->
-            if(documentSnapshot.exists())
-            {
-                Log.d(TAG, "User stats overview exist!")
-                onComplete()
-            }
-            else
-            {
-                Log.d(TAG, "No User stats overview exist!")
-                onComplete()
             }
         }
     }

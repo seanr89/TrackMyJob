@@ -6,6 +6,7 @@ import com.example.sean.trackmyjob.Models.Holiday
 import com.example.sean.trackmyjob.Models.HolidayStats
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import java.lang.StringBuilder
 import java.time.LocalDateTime
@@ -45,13 +46,13 @@ object HolidayRepository {
                     .addOnSuccessListener {
                         if(it.exists())
                         {
-                            onComplete()
+                            //onComplete()
                         }
                         else
                         {
                             val stats = HolidayStats()
                             userHolidayCollectionRef.document(year.toString()).set(stats).addOnSuccessListener {
-                                onComplete()
+                                //onComplete(null!!)
                             }
                         }
                     }
@@ -77,10 +78,18 @@ object HolidayRepository {
             userHolidayCollectionRef.document(year.toString()).collection("holidays")
                     .get()
                     .addOnSuccessListener {
-
+                        if(!it.isEmpty)
+                        {
+                            for(doc : DocumentSnapshot in it.documents)
+                            {
+                                val holiday = doc.toObject(Holiday::class.java)
+                                if(holiday != null)
+                                    holidays.add(holiday)
+                            }
+                        }
                     }
                     .addOnFailureListener{
-
+                        onComplete(holidays)
                     }
 
         }catch (e : IllegalArgumentException)
