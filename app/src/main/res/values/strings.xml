@@ -37,4 +37,5 @@
     <string name="eventType">Event Type</string>
     <string name="EventSubType">Sub Type</string>
     <string name="eventAutomatic">Automated</string>
+    <string name="HolidayDays">Days :</string>
 </resources>

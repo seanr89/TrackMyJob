@@ -37,6 +37,7 @@ class HolidayRecyclerAdapter(
         {
             holder.mStartDateView.text = HelperMethods.convertDateTimeToString(HelperMethods.convertLongToLocalDateTime(item.startDateTime))
             holder.mHoursView.text = item.hours.toString()
+            holder.mDaysView.text = item.days.toString()
             holder.mMinutesView.text = item.mins.toString()
             holder.mTypeView.text = item.type.toString()
             holder.mStatusView.text = item.status.toString()
@@ -62,6 +63,7 @@ class HolidayRecyclerAdapter(
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView)
     {
         val mStartDateView: TextView = mView.txtViewStartDate
+        val mDaysView : TextView = mView.txtViewDays
         val mHoursView: TextView = mView.txtViewHours
         val mMinutesView: TextView = mView.txtViewMinutes
         val mTypeView: TextView = mView.txtViewHolidayType
