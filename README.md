@@ -1,3 +1,15 @@
+Job Work and Holiday Tracker
+- Application to handle personal monitoring of hours worked at work due to lack of visibility to company system
+
+Known issues
+1. Lack of unit tests
+2. Issue with clock in and clock out not completing successfully!
+3. Holidays are not maintained
+4. No ordering of prior clock event records
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
 keytool -exportcert -list -v \
 -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
 

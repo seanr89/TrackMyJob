@@ -9,6 +9,7 @@ import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import com.google.firebase.crash.FirebaseCrash.log
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 class ClockEventStatsManager
@@ -134,12 +135,13 @@ class ClockEventStatsManager
     private fun getLastClockLastClockType(lastClockEvent: ClockEvent) : LastClock
     {
         var result: LastClock = LastClock.SAME_DAY
+        val date = LocalDateTime.now()
         if(!HelperMethods.doesDateMatchToday(lastClockEvent.dateTimeToLocalDateTime()))
         {
             result = LastClock.NEW_DAY
-            if(HelperMethods.isDayStartOfMonth())
+            if(HelperMethods.isDayStartOfMonth(date))
                 result = LastClock.NEW_MONTH
-            else if(HelperMethods.isDayStartOfWeek())
+            else if(HelperMethods.isDayStartOfWeek(date))
             {
                 result = LastClock.NEW_WEEK
             }

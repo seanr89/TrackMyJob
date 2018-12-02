@@ -29,9 +29,9 @@ object HelperMethods {
     /**
      * check if the current day denotes the start of a week!
      */
-    fun isDayStartOfWeek() : Boolean
+    fun isDayStartOfWeek(dateTime : LocalDateTime) : Boolean
     {
-        if(LocalDate.now().dayOfWeek.value == 1)
+        if(dateTime.dayOfWeek.value == 1)
         {
             return true
         }
@@ -41,9 +41,9 @@ object HelperMethods {
     /**
      * check if the current day denotes the start of a month!!
      */
-    fun isDayStartOfMonth() : Boolean
+    fun isDayStartOfMonth(dateTime : LocalDateTime) : Boolean
     {
-        if(LocalDate.now().dayOfMonth == 1)
+        if(dateTime.dayOfMonth == 1)
         {
             return true
         }
