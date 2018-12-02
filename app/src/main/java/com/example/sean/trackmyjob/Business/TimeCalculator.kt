@@ -25,16 +25,13 @@ object TimeCalculator
         //temp object in order to append the Hours back to it so the correct amount of Minutes can be appended!
         var fromTemp = LocalDateTime.from(start)
 
-        val hours = stop.until(fromTemp, ChronoUnit.HOURS).toInt()
+        val hours = fromTemp.until(stop, ChronoUnit.HOURS).toInt()
         fromTemp = fromTemp.plusHours(hours.toLong())
 
-        val minutes = stop.until(fromTemp, ChronoUnit.MINUTES).toInt()
+        val minutes = fromTemp.until(stop, ChronoUnit.MINUTES).toInt()
 
         diff.Hours = hours
         diff.Minutes = minutes
-
-        Log.d(TAG, "difference is $hours hrs + $minutes mins")
-
         return diff
     }
 

@@ -129,7 +129,7 @@ class ClockEventStatsManager
 
     /**
      * Handle the request to find out what type of clock this is in regards to day, Week or Month refresh!
-     * @param lastClockEvent
+     * @param lastClockEvent :
      * @return an enum detailing what the last clock type was in relation to the current date!!
      */
     private fun getLastClockLastClockType(lastClockEvent: ClockEvent) : LastClock
