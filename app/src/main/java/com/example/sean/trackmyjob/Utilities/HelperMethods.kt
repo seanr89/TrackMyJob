@@ -75,6 +75,16 @@ object HelperMethods {
     }
 
     /**
+     *
+     */
+    fun doDaysMatch(date :LocalDateTime, dateTwo : LocalDateTime) : Boolean
+    {
+        return (date.dayOfWeek.value == dateTwo.dayOfWeek.value
+                && date.monthValue == dateTwo.monthValue
+                && date.year == dateTwo.year)
+    }
+
+    /**
      * method to query the current time and check if is in the morning!!
      * @param dateTime : the dateTime to query
      * @return false if after 12pm (default)

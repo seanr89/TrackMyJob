@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
+import com.example.sean.trackmyjob.Models.Enums.LastClock
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
@@ -76,7 +77,7 @@ class ClockEventStatsManager
     private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         //check if the date of the last clock in matches the current day and is the start of a Month/Week
-        val lastClock = getLastClockLastClockType(lastClockEvent)
+        val lastClock = getLastClockLastClockType(LocalDateTime.now(),lastClockEvent)
 
         //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + "with type : $lastClock")
         when(lastClock)
@@ -132,11 +133,11 @@ class ClockEventStatsManager
      * @param lastClockEvent :
      * @return an enum detailing what the last clock type was in relation to the current date!!
      */
-    private fun getLastClockLastClockType(lastClockEvent: ClockEvent) : LastClock
+    fun getLastClockLastClockType(date : LocalDateTime,lastClockEvent: ClockEvent) : LastClock
     {
         var result: LastClock = LastClock.SAME_DAY
-        val date = LocalDateTime.now()
-        if(!HelperMethods.doesDateMatchToday(lastClockEvent.dateTimeToLocalDateTime()))
+        //val date = LocalDateTime.now()
+        if(!HelperMethods.doDaysMatch(lastClockEvent.dateTimeToLocalDateTime(), date))
         {
             result = LastClock.NEW_DAY
             if(HelperMethods.isDayStartOfMonth(date))
@@ -206,15 +207,4 @@ class ClockEventStatsManager
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * custom enum to handle clock events!
-     */
-    private enum class LastClock
-    {
-        NEW_DAY,
-        NEW_WEEK,
-        NEW_MONTH,
-        SAME_DAY
-    }
 }
