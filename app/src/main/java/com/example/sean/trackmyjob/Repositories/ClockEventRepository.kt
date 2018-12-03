@@ -25,7 +25,6 @@ object ClockEventRepository
         {
             val refs = currentUserClockCollectionRef
                     .orderBy("dateTime", Query.Direction.DESCENDING)
-
                     refs.get()
                     .addOnSuccessListener {
                         if(!it.isEmpty || it != null)

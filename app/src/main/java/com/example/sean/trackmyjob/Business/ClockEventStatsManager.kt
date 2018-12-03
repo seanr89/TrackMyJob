@@ -108,7 +108,7 @@ class ClockEventStatsManager
     {
         if(lastClockEvent.event == ClockEventType.IN)
         {
-            val diff = TimeCalculator.difference(clockEvent.dateTimeToLocalDateTime(), lastClockEvent.dateTimeToLocalDateTime())
+            val diff = TimeCalculator.difference(lastClockEvent.dateTimeToLocalDateTime(),clockEvent.dateTimeToLocalDateTime())
             if(diff.Minutes >= 0)
             {
                 val combinedDiffDaily = TimeCalculator.combineTimeDiffs(diff, clockEventStats.DailyTime)
