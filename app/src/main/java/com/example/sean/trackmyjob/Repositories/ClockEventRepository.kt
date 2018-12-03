@@ -23,8 +23,10 @@ object ClockEventRepository
         var events = ArrayList<ClockEvent?>()
         try
         {
-            currentUserClockCollectionRef
-                    .get()
+            val refs = currentUserClockCollectionRef
+                    .orderBy("dateTime", Query.Direction.DESCENDING)
+
+                    refs.get()
                     .addOnSuccessListener {
                         if(!it.isEmpty || it != null)
                         {
