@@ -74,7 +74,7 @@ class ClockEventManager
                     onComplete(it)
                 }
             }
-            onComplete(false)
+            //onComplete(false)
         }
     }
 
@@ -92,10 +92,21 @@ class ClockEventManager
                 onComplete(it)
             }
         }
-        else
-        {   //unable to id last known clock stored!!
-            onComplete(false)
+        else {
+            //we may have to add a param here to check if it is the first time to clock anything!
+            if (prefsHelper.checkIsFirstClockForUser()) {
+                lastClock.event = ClockEventType.IN
+                lastClock.dateTime = LocalDateTime.now().toEpochSecond(null) - 1000
+
+                prefsHelper.updatePrefsOfFirstClock()
+                clockUser(clockEvent, lastClock, ClockEventType.IN)
+                {
+                    onComplete(it)
+                }
+            }
+            //onComplete(false)
         }
+
     }
 
     /**
@@ -116,8 +127,8 @@ class ClockEventManager
                     prefsHelper.updateLastStoredClock(clockEvent)
                     val statsManager = ClockEventStatsManager()
                     statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
+                    onComplete(it)
                 }
-                onComplete(it)
             }
         }
         else
