@@ -74,7 +74,10 @@ class ClockEventManager
                     onComplete(it)
                 }
             }
-            //onComplete(false)
+            else
+            {
+                onComplete(false)
+            }
         }
     }
 
@@ -104,17 +107,21 @@ class ClockEventManager
                     onComplete(it)
                 }
             }
-            //onComplete(false)
+            else
+            {
+                onComplete(false)
+            }
         }
 
     }
 
     /**
-     * NEEDS TO BE DETAILED and tested!!
-     * @param clockEvent :
-     * @param lastClock :
-     * @param type :
-     * @param onComplete([Boolean]) :
+     * Method to refactor and handle the saving of the clock events!
+     * REFACTOR  the name as this method does so much more!!
+     * @param clockEvent : the clock event to save
+     * @param lastClock : the last clock to review
+     * @param type : the ClockEvent type to compare against
+     * @param onComplete([Boolean]) : lambda method to handle async return commands!
      */
     private fun clockUser(clockEvent : ClockEvent, lastClock : ClockEvent, type: ClockEventType, onComplete:(Boolean) -> Unit)
     {

@@ -25,7 +25,6 @@ class HoursAndMinutes(var minutes : Int) {
     fun calculateRemainingMinutesFromHours() : Int
     {
         val hours = calculateHours()
-        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name + " with hours $hours and total minutes $minutes")
         var mins : Int
         if(hours > 0)
         {

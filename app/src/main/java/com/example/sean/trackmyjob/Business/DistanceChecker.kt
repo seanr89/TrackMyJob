@@ -34,16 +34,4 @@ object DistanceChecker {
         }
         return false
     }
-
-//    /**
-//     * get the office location
-//     * @return the current Latitude and Longitude of the Randox Science Park
-//     */
-//    private fun getOfficeLocation() : LatLng
-//    {
-////        val prefs = PreferencesHelper()
-////        var officeLatLng = prefs.readOfficeLatLng()
-////        return officeLatLng
-//        return LatLng(54.720255,-6.2299717)
-//    }
 }

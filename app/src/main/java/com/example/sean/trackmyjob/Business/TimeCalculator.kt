@@ -1,6 +1,5 @@
 package com.example.sean.trackmyjob.Business
 
-import android.util.Log
 import com.example.sean.trackmyjob.Models.TimeDiff
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
