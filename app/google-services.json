@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "536806254173",
+    "firebase_url": "https://trackmyjob-a022f.firebaseio.com",
+    "project_id": "trackmyjob-a022f",
+    "storage_bucket": "trackmyjob-a022f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536806254173:android:4542978eba7d515c",
+        "android_client_info": {
+          "package_name": "com.example.sean.trackmyjob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536806254173-k4g5nvuvo27tqqtbcq2lqmottsuj4gu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sean.trackmyjob",
+            "certificate_hash": "ad827397fa7fd378ee296bc5357817efd90a192b"
+          }
+        },
+        {
+          "client_id": "536806254173-ondqk260i8mkh380uq5tehl61imp685e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sean.trackmyjob",
+            "certificate_hash": "754d5feb9f6cfc71de45f2fccb3002634d2a7fe6"
+          }
+        },
+        {
+          "client_id": "536806254173-0fgrv0mt9hm0rch814cmi5j3ffbfu3qs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmc2tlP_ofCvBMMWptfZNHquD2Yks0UDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536806254173-0fgrv0mt9hm0rch814cmi5j3ffbfu3qs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
