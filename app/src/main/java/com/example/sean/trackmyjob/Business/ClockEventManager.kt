@@ -35,8 +35,7 @@ class ClockEventManager
         val lastClock = prefsHelper.readLastStoredClock()
         when(clockEvent.event)
         {
-            ClockEventType.IN -> clockInUser(clockEvent, lastClock)
-            {
+            ClockEventType.IN -> clockInUser(clockEvent, lastClock){
                 onComplete(it)
             }
             ClockEventType.OUT -> clockOutUser(clockEvent, lastClock){
@@ -65,10 +64,10 @@ class ClockEventManager
             //we may have to add a param here to check if it is the first time to clock anything!
             if(prefsHelper.checkIsFirstClockForUser())
             {
+                prefsHelper.updatePrefsOfFirstClock()
+
                 lastClock.event = ClockEventType.OUT
                 lastClock.dateTime = LocalDateTime.now().toEpochSecond(null) - 1000
-
-                prefsHelper.updatePrefsOfFirstClock()
                 clockUser(clockEvent, lastClock, ClockEventType.IN)
                 {
                     onComplete(it)
@@ -132,14 +131,11 @@ class ClockEventManager
                 if(it)
                 {
                     prefsHelper.updateLastStoredClock(clockEvent)
+                    //contact stats manager and handle update later!!
                     val statsManager = ClockEventStatsManager()
                     statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
-                    onComplete(it)
                 }
-                else
-                {
-                    onComplete(it)
-                }
+                onComplete(it)
             }
         }
         else

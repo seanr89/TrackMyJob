@@ -119,6 +119,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         clockManager.saveClock(clock){
             if(it)
             {
+                //just update over the current clock!!
                 updateClockEventInfo(view,clock)
             }
             else{

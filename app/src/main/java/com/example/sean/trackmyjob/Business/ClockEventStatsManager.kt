@@ -1,6 +1,7 @@
 package com.example.sean.trackmyjob.Business
 
 import android.util.Log
+import android.widget.Toast
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -63,13 +64,13 @@ class ClockEventStatsManager
      */
     private fun createNewClockEventStatsAndSave()
     {
-        val stats = ClockEventStats(Calendar.WEEK_OF_YEAR, LocalDate.now().month.name, LocalDate.now().year)
+        val stats = ClockEventStats(Calendar.getInstance().weekYear, LocalDate.now().month.name, LocalDate.now().year)
         ClockEventStatsRepository.createStatsSummary(stats)
     }
 
 
     /**
-     * handle process of a clockin event
+     * handle process of a clock in event
      * @param clockEvent : the clock event to process and attempt to fix
      * @param clockEventStats : the current stats of clock events
      * @param lastClockEvent : the last known clock event stored!
@@ -158,6 +159,8 @@ class ClockEventStatsManager
      */
     private fun resetDailyTime(clockEventStats: ClockEventStats)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
         clockEventStats.DailyTime = TimeDiff()
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
@@ -165,13 +168,15 @@ class ClockEventStatsManager
 
     /**
      * handle the resetting of daily, and weekly stats
-     * @param clockEventStats :
+     * @param clockEventStats : the stats to push
      */
     private fun resetWeeklyTime(clockEventStats: ClockEventStats)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
         clockEventStats.DailyTime = TimeDiff()
         clockEventStats.WeeklyTime = TimeDiff()
-        clockEventStats.Week = Calendar.WEEK_OF_YEAR
+        clockEventStats.Week = Calendar.getInstance().weekYear
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
@@ -182,11 +187,14 @@ class ClockEventStatsManager
      */
     private fun resetMonthlyTime(clockEventStats: ClockEventStats)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
+        //null daily, weekly and monthly stat to 0
         clockEventStats.DailyTime = TimeDiff()
         clockEventStats.WeeklyTime = TimeDiff()
         clockEventStats.MonthlyTime = TimeDiff()
 
-        clockEventStats.Week = Calendar.WEEK_OF_YEAR
+        clockEventStats.Week = Calendar.getInstance().weekYear
         clockEventStats.Month = LocalDate.now().month.name
 
         if(LocalDate.now().year != clockEventStats.Year)
