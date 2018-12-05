@@ -101,7 +101,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun signOut()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         // sign out Firebase
         mAuth!!.signOut()
         FirebaseAuth.getInstance().signOut()
@@ -116,7 +116,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
@@ -158,7 +158,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
      */
     fun firebaseAuthWithGoogle(account : GoogleSignInAccount?)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val credential = GoogleAuthProvider.getCredential(account!!.idToken, null)
         mAuth!!.signInWithCredential(credential)

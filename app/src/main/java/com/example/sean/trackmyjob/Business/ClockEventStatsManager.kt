@@ -1,7 +1,6 @@
 package com.example.sean.trackmyjob.Business
 
 import android.util.Log
-import android.widget.Toast
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
@@ -51,7 +50,7 @@ class ClockEventStatsManager
         //Check if this is a clock out or in
         if(clockEvent.event == ClockEventType.IN)
         {
-            handleClockIn(clockEvent, clockEventStats as ClockEventStats, lastClockEvent)
+            handleClockIn(clockEventStats as ClockEventStats, lastClockEvent)
         }
         else if(clockEvent.event == ClockEventType.OUT)
         {
@@ -71,11 +70,10 @@ class ClockEventStatsManager
 
     /**
      * handle process of a clock in event
-     * @param clockEvent : the clock event to process and attempt to fix
      * @param clockEventStats : the current stats of clock events
      * @param lastClockEvent : the last known clock event stored!
      */
-    private fun handleClockIn(clockEvent: ClockEvent, clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
+    private fun handleClockIn(clockEventStats: ClockEventStats, lastClockEvent: ClockEvent)
     {
         //check if the date of the last clock in matches the current day and is the start of a Month/Week
         val lastClock = getLastClockLastClockType(LocalDateTime.now(),lastClockEvent)
@@ -211,7 +209,7 @@ class ClockEventStatsManager
      */
     private fun archiveStatsInformation()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name + "TODO")
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name + "TODO")
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

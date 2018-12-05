@@ -98,7 +98,7 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      */
     private fun setLastKnownClockEventOnUI(view : View)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val prefs = PreferencesHelper(context)
         updateClockEventInfo(view, prefs.readLastStoredClock())

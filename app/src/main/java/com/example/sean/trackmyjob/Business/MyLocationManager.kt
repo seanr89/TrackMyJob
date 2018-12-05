@@ -2,11 +2,11 @@ package com.example.sean.trackmyjob.Business
 
 import android.content.Context
 import android.util.Log
+import android.util.Log.d
 import android.util.Log.e
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.crash.FirebaseCrash.log
 
 class MyLocationManager
 /**
@@ -36,7 +36,7 @@ class MyLocationManager
         var currentLatLng : LatLng? = null
         try
         {
-            fusedLocationClient!!.lastLocation.addOnCompleteListener()
+            fusedLocationClient.lastLocation.addOnCompleteListener()
             {
                 val location = it.result
                 if(location != null)
@@ -52,12 +52,12 @@ class MyLocationManager
         }
         catch(e: KotlinNullPointerException)
         {
-            log("${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
+            Log.d(TAG,"${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
             onLocated(null)
         }
         catch(e: SecurityException)
         {
-            log("${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
+            d(TAG,"${object{}.javaClass.enclosingMethod?.name} with Exception: ${e.message}")
             onLocated(null)
         }
     }
