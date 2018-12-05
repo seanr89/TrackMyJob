@@ -12,7 +12,6 @@ import com.example.sean.trackmyjob.Models.ClockEventStats
 import com.example.sean.trackmyjob.Models.TimeDiff
 import com.example.sean.trackmyjob.Repositories.ClockEventStatsRepository
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [ClockEventStatsFragment.newInstance] factory method to

@@ -136,6 +136,10 @@ class ClockEventManager
                     statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
                     onComplete(it)
                 }
+                else
+                {
+                    onComplete(it)
+                }
             }
         }
         else

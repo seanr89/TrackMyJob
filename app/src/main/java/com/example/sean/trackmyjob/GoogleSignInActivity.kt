@@ -152,25 +152,6 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
         signInButton.visibility = View.VISIBLE
     }
 
-//    /**
-//     *
-//     */
-//    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>)
-//    {
-//        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
-//        try {
-//            val account = completedTask.getResult(ApiException::class.java)
-//            // Signed in successfully, show authenticated UI.
-//            //updateUI(account)
-//            firebaseAuthWithGoogle(account)
-//        } catch (e: ApiException) {
-//            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//            Log.w("Yeoo", "signInResult:failed code=" + e.statusCode)
-//            //updateUI(null)
-//        }
-//    }
-
     /**
      * Handle google authentication from firebase
      * @param account : google sign-in
