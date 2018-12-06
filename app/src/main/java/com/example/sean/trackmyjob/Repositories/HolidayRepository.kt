@@ -27,7 +27,7 @@ object HolidayRepository {
      */
     fun getRemainingHolidayCountForCurrentUser(onComplete:() -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
     }
 
     /**
@@ -36,7 +36,7 @@ object HolidayRepository {
      */
     fun getHolidayStatsForCurrentUserAndYear(onComplete:() -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val year = LocalDateTime.now().year
 
@@ -70,7 +70,7 @@ object HolidayRepository {
      */
     fun getAllUserHolidaysForYear(year:Int, onComplete: (MutableList<Holiday?>) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         try {
             var holidays = ArrayList<Holiday?>()

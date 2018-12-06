@@ -1,11 +1,16 @@
 package com.example.sean.trackmyjob.Business
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
+import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDateTime
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.rpc.Help
+
 
 /**
  * new manager class to provide cental logic for clock event controls
@@ -19,9 +24,12 @@ class ClockEventManager
     private val TAG = "ClockEventManager"
     private val context : Context? = con
     private val prefsHelper : PreferencesHelper
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
 
     init {
         prefsHelper = PreferencesHelper(context)
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
     }
 
     /**
@@ -56,6 +64,12 @@ class ClockEventManager
         {
             clockUser(clockEvent, lastClock, ClockEventType.IN)
             {
+                val params = Bundle()
+                params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
+                params.putString("clock_type", clockEvent.event.toString())
+                params.putBoolean("completed", it)
+                mFirebaseAnalytics.logEvent("clockInUser", params)
+
                 onComplete(it)
             }
         }
@@ -130,6 +144,11 @@ class ClockEventManager
             {
                 if(it)
                 {
+                    val params = Bundle()
+                    params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
+                    params.putString("clock_type", clockEvent.event.toString())
+                    mFirebaseAnalytics.logEvent("clockUser", params)
+
                     prefsHelper.updateLastStoredClock(clockEvent)
                     //contact stats manager and handle update later!!
                     val statsManager = ClockEventStatsManager()
