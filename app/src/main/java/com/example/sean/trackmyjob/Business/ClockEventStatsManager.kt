@@ -45,8 +45,8 @@ class ClockEventStatsManager
      * @param clockEventStats : the currently stored stats for the user!
      * @param lastClockEvent : the last stored clock event!
      */
-    private fun processClockEventAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent){
-
+    private fun processClockEventAndCurrentStats(clockEvent: ClockEvent, clockEventStats: ClockEventStats?, lastClockEvent: ClockEvent)
+    {
         //Check if this is a clock out or in
         if(clockEvent.event == ClockEventType.IN)
         {

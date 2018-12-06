@@ -44,10 +44,14 @@ class ClockEventManager
         when(clockEvent.event)
         {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock){
+                prefsHelper.updateLastStoredClock(clockEvent)
                 onComplete(it)
+                triggerUpdateOfClockEventStats(clockEvent, lastClock)
             }
             ClockEventType.OUT -> clockOutUser(clockEvent, lastClock){
+                prefsHelper.updateLastStoredClock(clockEvent)
                 onComplete(it)
+                triggerUpdateOfClockEventStats(clockEvent, lastClock)
             }
         }
     }
@@ -148,11 +152,6 @@ class ClockEventManager
                     params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
                     params.putString("clock_type", clockEvent.event.toString())
                     mFirebaseAnalytics.logEvent("clockUser", params)
-
-                    prefsHelper.updateLastStoredClock(clockEvent)
-                    //contact stats manager and handle update later!!
-                    val statsManager = ClockEventStatsManager()
-                    statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
                 }
                 onComplete(it)
             }
@@ -161,5 +160,11 @@ class ClockEventManager
         {
             onComplete(false)
         }
+    }
+
+    private fun triggerUpdateOfClockEventStats(clockEvent: ClockEvent, lastClock: ClockEvent){
+        //this can be moved out to a later in case this is causing the clock in issue!!
+        val statsManager = ClockEventStatsManager()
+        statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)
     }
 }
