@@ -96,12 +96,12 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     /**
      * request the last known clock event that was stored for the user and display the data
      */
-    private fun setLastKnownClockEventOnUI(view : View)
+    private fun setLastKnownClockEventOnUI(view : View?)
     {
         //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val prefs = PreferencesHelper(context)
-        updateClockEventInfo(view, prefs.readLastStoredClock())
+        updateClockEventInfo(view ?: this.view, prefs.readLastStoredClock())
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -119,8 +119,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         clockManager.saveClock(clock){
             if(it)
             {
+                setLastKnownClockEventOnUI(view)
                 //just update over the current clock!!
-                updateClockEventInfo(view,clock)
+                //updateClockEventInfo(view,clock)
             }
             else{
                 Toast.makeText(context, "Clock In Failed!", Toast.LENGTH_LONG).show()
@@ -139,7 +140,8 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         {
             if(it)
             {
-                updateClockEventInfo(view, clock)
+                setLastKnownClockEventOnUI(view)
+                //updateClockEventInfo(view, clock)
             }
             else
             {

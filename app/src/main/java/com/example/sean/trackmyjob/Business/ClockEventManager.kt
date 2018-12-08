@@ -38,21 +38,29 @@ class ClockEventManager
      */
     fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         val lastClock = prefsHelper.readLastStoredClock()
         when(clockEvent.event)
         {
             ClockEventType.IN -> clockInUser(clockEvent, lastClock){
                 prefsHelper.updateLastStoredClock(clockEvent)
                 onComplete(it)
-                triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                //triggerUpdateOfClockEventStats(clockEvent, lastClock)
             }
             ClockEventType.OUT -> clockOutUser(clockEvent, lastClock){
                 prefsHelper.updateLastStoredClock(clockEvent)
                 onComplete(it)
-                triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                //triggerUpdateOfClockEventStats(clockEvent, lastClock)
             }
         }
+    }
+
+    fun saveClockUpdateStatsAndSavePreferences(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
+    {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+
+        val lastClock = prefsHelper.readLastStoredClock()
+        prefsHelper.updateLastStoredClock(clockEvent)
+        triggerUpdateOfClockEventStats(clockEvent, lastClock)
     }
 
     /**
@@ -63,16 +71,17 @@ class ClockEventManager
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
+        clockUser(clockEvent, lastClock.event, ClockEventType.IN)
+        {
+            writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
+            onComplete(it)
+        }
+        /*
         if(lastClock.dateTime >= 0)
         {
-            clockUser(clockEvent, lastClock, ClockEventType.IN)
+            clockUser(clockEvent, lastClock.event, ClockEventType.IN)
             {
-                val params = Bundle()
-                params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
-                params.putString("clock_type", clockEvent.event.toString())
-                params.putBoolean("completed", it)
-                mFirebaseAnalytics.logEvent("clockInUser", params)
-
+                writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
                 onComplete(it)
             }
         }
@@ -85,7 +94,7 @@ class ClockEventManager
 
                 lastClock.event = ClockEventType.OUT
                 lastClock.dateTime = LocalDateTime.now().toEpochSecond(null) - 1000
-                clockUser(clockEvent, lastClock, ClockEventType.IN)
+                clockUser(clockEvent, lastClock.event, ClockEventType.IN)
                 {
                     onComplete(it)
                 }
@@ -94,7 +103,7 @@ class ClockEventManager
             {
                 onComplete(false)
             }
-        }
+        }*/
     }
 
     /**
@@ -106,14 +115,9 @@ class ClockEventManager
     {
         if(lastClock.dateTime >= 0)
         {
-            clockUser(clockEvent, lastClock, ClockEventType.OUT)
+            clockUser(clockEvent, lastClock.event, ClockEventType.OUT)
             {
-                val params = Bundle()
-                params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
-                params.putString("clock_type", clockEvent.event.toString())
-                params.putBoolean("completed", it)
-                mFirebaseAnalytics.logEvent("clockOutUser", params)
-
+                writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
                 onComplete(it)
             }
         }
@@ -124,7 +128,7 @@ class ClockEventManager
                 lastClock.dateTime = LocalDateTime.now().toEpochSecond(null) - 1000
 
                 prefsHelper.updatePrefsOfFirstClock()
-                clockUser(clockEvent, lastClock, ClockEventType.IN)
+                clockUser(clockEvent, lastClock.event, ClockEventType.OUT)
                 {
                     onComplete(it)
                 }
@@ -134,7 +138,6 @@ class ClockEventManager
                 onComplete(false)
             }
         }
-
     }
 
     /**
@@ -145,10 +148,11 @@ class ClockEventManager
      * @param type : the ClockEvent type to compare against
      * @param onComplete([Boolean]) : lambda method to handle async return commands!
      */
-    private fun clockUser(clockEvent : ClockEvent, lastClock : ClockEvent, type: ClockEventType, onComplete:(Boolean) -> Unit)
+    private fun clockUser(clockEvent : ClockEvent, lastClockType : ClockEventType, type: ClockEventType, onComplete:(Boolean) -> Unit)
     {
-        if(lastClock.event != type)
-        {
+        //if the last clock in type doesn't match the event passed, i.e. IN or OUT
+//        if(lastClockType != type)
+//        {
             ClockEventRepository.addClockEventForUser(clockEvent)
             {
                 if(it)
@@ -161,13 +165,28 @@ class ClockEventManager
                 }
                 onComplete(it)
             }
-        }
-        else
-        {
-            onComplete(false)
-        }
+//        }
+//        else
+//        {
+//            onComplete(false)
+//        }
     }
 
+    /**
+     *
+     */
+    private fun writeToAnalyticsLogForClockEventSuccess(clockEvent: ClockEvent, methodName : String?, success:Boolean)
+    {
+        val params = Bundle()
+        params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
+        params.putString("clock_type", clockEvent.event.toString())
+        params.putBoolean("completed", success)
+        mFirebaseAnalytics.logEvent(methodName ?: "Unknown", params)
+    }
+
+    /**
+     *
+     */
     private fun triggerUpdateOfClockEventStats(clockEvent: ClockEvent, lastClock: ClockEvent){
         //this can be moved out to a later in case this is causing the clock in issue!!
         val statsManager = ClockEventStatsManager()

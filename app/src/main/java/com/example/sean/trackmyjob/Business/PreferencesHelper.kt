@@ -51,7 +51,7 @@ class PreferencesHelper(context: Context?) {
         editor.putInt(pref_clockevent_event_key, clockEvent.event.value)
         editor.putLong(pref_clockevent_date_key, clockEvent.dateTime)
         editor.apply()
-        
+
         val params = Bundle()
         params.putString("clock_type", clockEvent.event.toString())
         mFirebaseAnalytics.logEvent("updateLastStoredClock", params)
