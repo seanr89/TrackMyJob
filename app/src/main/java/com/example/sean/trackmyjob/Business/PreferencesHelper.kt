@@ -2,19 +2,24 @@ package com.example.sean.trackmyjob.Business
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
+import com.example.sean.trackmyjob.Utilities.HelperMethods
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class PreferencesHelper(context: Context?) {
 
     private var prefs : SharedPreferences
     private val TAG = "PreferencesHelper"
+    private var mFirebaseAnalytics: FirebaseAnalytics
 
     init {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
     }
 
     /**
@@ -40,12 +45,17 @@ class PreferencesHelper(context: Context?) {
      */
     fun updateLastStoredClock(clockEvent: ClockEvent)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val editor = prefs.edit()
         editor.putInt(pref_clockevent_event_key, clockEvent.event.value)
         editor.putLong(pref_clockevent_date_key, clockEvent.dateTime)
         editor.apply()
+        
+        val params = Bundle()
+        params.putString("clock_type", clockEvent.event.toString())
+        mFirebaseAnalytics.logEvent("updateLastStoredClock", params)
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

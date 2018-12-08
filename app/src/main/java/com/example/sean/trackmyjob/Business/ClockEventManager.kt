@@ -9,7 +9,6 @@ import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import java.time.LocalDateTime
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.rpc.Help
 
 
 /**
@@ -24,7 +23,7 @@ class ClockEventManager
     private val TAG = "ClockEventManager"
     private val context : Context? = con
     private val prefsHelper : PreferencesHelper
-    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
+    private var mFirebaseAnalytics: FirebaseAnalytics
 
     init {
         prefsHelper = PreferencesHelper(context)
@@ -109,6 +108,12 @@ class ClockEventManager
         {
             clockUser(clockEvent, lastClock, ClockEventType.OUT)
             {
+                val params = Bundle()
+                params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
+                params.putString("clock_type", clockEvent.event.toString())
+                params.putBoolean("completed", it)
+                mFirebaseAnalytics.logEvent("clockOutUser", params)
+
                 onComplete(it)
             }
         }
@@ -149,6 +154,7 @@ class ClockEventManager
                 if(it)
                 {
                     val params = Bundle()
+                    params.putString("user_clocked", "yes")
                     params.putString("date", HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime()))
                     params.putString("clock_type", clockEvent.event.toString())
                     mFirebaseAnalytics.logEvent("clockUser", params)
