@@ -28,6 +28,8 @@ object HelperMethods {
 
     /**
      * check if the current day denotes the start of a week!
+     * @param dateTime :
+     * @return Boolean
      */
     fun isDayStartOfWeek(dateTime : LocalDateTime) : Boolean
     {
@@ -39,7 +41,9 @@ object HelperMethods {
     }
 
     /**
-     * check if the current day denotes the start of a month!!
+     * check if the current day denotes the start of a month
+     * @param dateTime :
+     * @return Boolean
      */
     fun isDayStartOfMonth(dateTime : LocalDateTime) : Boolean
     {
@@ -64,18 +68,10 @@ object HelperMethods {
     }
 
     /**
-     * check of the provided date matches the LocalDate
-     * @param date :
-     */
-    fun doesDateMatchToday(date : LocalDateTime) : Boolean
-    {
-        return (date.dayOfWeek.value == LocalDateTime.now().dayOfWeek.value
-                && date.monthValue == LocalDateTime.now().monthValue
-                && date.year == LocalDateTime.now().year)
-    }
-
-    /**
-     *
+     * handle check to see if the day, month and year of the two provided days match!!
+     * @param date : date one to be used in comparison
+     * @param dateTwo : the second date to compare
+     * @return boolean : true or false
      */
     fun doDaysMatch(date :LocalDateTime, dateTwo : LocalDateTime) : Boolean
     {

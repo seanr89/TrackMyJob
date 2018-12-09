@@ -25,7 +25,6 @@ object AlarmBroadcastNotifier
     fun sendClockNotification(context: Context?, title : String, message :String)
     {
         //https@ //developer.android.com/training/notify-user/build-notification
-
         if(context != null) {
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_app_notification)

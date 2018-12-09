@@ -55,6 +55,7 @@ object ClockEventRepository
      */
     fun getLastClockEvent(onComplete: (ClockEvent?) -> Unit)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         var event : ClockEvent? = null
         try {
             currentUserClockCollectionRef
@@ -67,6 +68,7 @@ object ClockEventRepository
                             for(doc : DocumentSnapshot in it.documents)
                             {
                                 event = doc.toObject(ClockEvent::class.java)
+                                break
                             }
                             onComplete(event)
                         }
@@ -74,15 +76,13 @@ object ClockEventRepository
                     .addOnFailureListener {
                         //Log.e(TAG, "get returned with error : ${it.message}")
                         log("Request latest clock event failed with message ${it.message}")
+                        onComplete(event)
                     }
 
         }
         catch (e : IllegalArgumentException)
         {
             log("exception triggered : ${e.message}")
-        }
-        finally {
-            onComplete(null)
         }
     }
 

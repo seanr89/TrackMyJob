@@ -102,4 +102,26 @@ class HelperMethodsUnitTest {
         val date = LocalDateTime.of(2018,1,2,0,0,0)
         assertEquals(false, HelperMethods.isDayStartOfMonth(date))
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Day Matcher
+
+    @Test
+    fun dayMatch_isCorrect()
+    {
+        val dateOne = LocalDateTime.of(2018,1,2,0,0,0)
+        val dateTwo = LocalDateTime.of(2018,1,2,0,0,0)
+
+        assertEquals(true, HelperMethods.doDaysMatch(dateOne,dateTwo))
+    }
+
+    @Test
+    fun dayMatch_isInCorrect()
+    {
+        val dateOne = LocalDateTime.of(2018,1,1,0,0,0)
+        val dateTwo = LocalDateTime.of(2018,1,2,0,0,0)
+
+        assertEquals(false, HelperMethods.doDaysMatch(dateOne,dateTwo))
+    }
+
 }

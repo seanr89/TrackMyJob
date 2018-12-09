@@ -38,32 +38,22 @@ class ClockEventManager
      */
     fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         ClockEventRepository.getLastClockEvent {
             //prefsHelper.readLastStoredClock()
             when(clockEvent.event)
             {
-                ClockEventType.IN -> clockInUser(clockEvent, it as ClockEvent){
-                    //prefsHelper.updateLastStoredClock(clockEvent)
-                    onComplete(it)
-                    //triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                ClockEventType.IN -> clockInUser(clockEvent, it as ClockEvent){result->
+                    onComplete(result)
+                    triggerUpdateOfClockEventStats(clockEvent, it)
                 }
-                ClockEventType.OUT -> clockOutUser(clockEvent, it as ClockEvent){
-                    //prefsHelper.updateLastStoredClock(clockEvent)
-                    onComplete(it)
-                    //triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                ClockEventType.OUT -> clockOutUser(clockEvent, it as ClockEvent){result->
+                    onComplete(result)
+                    triggerUpdateOfClockEventStats(clockEvent, it)
                 }
             }
         }
     }
-
-//    fun saveClockUpdateStatsAndSavePreferences(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
-//    {
-//        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-//
-//        val lastClock = prefsHelper.readLastStoredClock()
-//        prefsHelper.updateLastStoredClock(clockEvent)
-//        triggerUpdateOfClockEventStats(clockEvent, lastClock)
-//    }
 
     /**
      * clock in the user
@@ -73,12 +63,12 @@ class ClockEventManager
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-        clockUser(clockEvent, lastClock.event, ClockEventType.IN)
-        {
-            writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
-            onComplete(it)
-        }
-        /*
+//        clockUser(clockEvent, lastClock.event, ClockEventType.IN)
+//        {
+//            writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
+//            onComplete(it)
+//        }
+
         if(lastClock.dateTime >= 0)
         {
             clockUser(clockEvent, lastClock.event, ClockEventType.IN)
@@ -105,7 +95,7 @@ class ClockEventManager
             {
                 onComplete(false)
             }
-        }*/
+        }
     }
 
     /**
@@ -153,8 +143,8 @@ class ClockEventManager
     private fun clockUser(clockEvent : ClockEvent, lastClockType : ClockEventType, type: ClockEventType, onComplete:(Boolean) -> Unit)
     {
         //if the last clock in type doesn't match the event passed, i.e. IN or OUT
-//        if(lastClockType != type)
-//        {
+        if(lastClockType != type)
+        {
             ClockEventRepository.addClockEventForUser(clockEvent)
             {
                 if(it)
@@ -167,11 +157,11 @@ class ClockEventManager
                 }
                 onComplete(it)
             }
-//        }
-//        else
-//        {
-//            onComplete(false)
-//        }
+        }
+        else
+        {
+            onComplete(false)
+        }
     }
 
     /**

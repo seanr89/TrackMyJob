@@ -27,7 +27,7 @@ class MyLocationManager
 
     /**
      * handle the request for the current device lat and longitude
-     * @param onLocated(LatLng?)
+     * @param onLocated(LatLng?) : allows handling of delayed response for message
      */
     fun getDeviceLatLng(onLocated: (LatLng?) -> Unit)
     {

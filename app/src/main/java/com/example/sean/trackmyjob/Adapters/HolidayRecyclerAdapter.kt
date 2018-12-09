@@ -16,11 +16,8 @@ class HolidayRecyclerAdapter(
         private var mValues: List<Holiday?>
         ) : RecyclerView.Adapter<HolidayRecyclerAdapter.ViewHolder>()
 {
-    private val TAG = "HolidayRecyclerAdapter"
+    //private val TAG = "HolidayRecyclerAdapter"
 
-    /**
-     *
-     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.holiday_recycler_item, parent, false)

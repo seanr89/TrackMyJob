@@ -64,7 +64,7 @@ class MyClockEventRecyclerViewAdapter(
      */
     fun updateDataSet(events : MutableList<ClockEvent?>)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         mValues = events
     }
 
