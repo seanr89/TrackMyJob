@@ -25,7 +25,7 @@ object ClockEventStatsRepository {
      * @param onComplete([ClockEventStats?])
      */
     fun requestCurrentUserClockStatsSummary(onComplete:(ClockEventStats?) -> Unit) {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         currentUserClockStatsSummaryDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
@@ -43,7 +43,7 @@ object ClockEventStatsRepository {
      */
     fun createStatsSummary(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
+        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         currentUserClockStatsSummaryDocRef.set(clockEventStats).addOnSuccessListener {
         }
     }

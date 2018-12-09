@@ -16,6 +16,7 @@ import com.example.sean.trackmyjob.Models.ClockEvent
 import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.Repositories.ClockEventRepository
 import com.example.sean.trackmyjob.Utilities.HelperMethods
+import java.time.LocalDateTime
 
 /**
  * A simple [Fragment] subclass.
@@ -100,8 +101,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
-        val prefs = PreferencesHelper(context)
-        updateClockEventInfo(view ?: this.view, prefs.readLastStoredClock())
+        ClockEventRepository.getLastClockEvent {
+            updateClockEventInfo(view ?: this.view, it)
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -184,13 +186,13 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
      * Operation to update and refresh the clock event displayed information
      * @param clockEvent : the event to be used to push data out for display purposes!
      */
-    private fun updateClockEventInfo(view : View?, clockEvent: ClockEvent)
+    private fun updateClockEventInfo(view : View?, clockEvent: ClockEvent?)
     {
         var txtClockEvent = view!!.findViewById<TextView>(R.id.txt_CurrentClockEvent)
         var txtClockEventDate = view!!.findViewById<TextView>(R.id.txt_CurrentClockEventDate)
 
-        txtClockEvent.text = clockEvent.event.toString()
-        txtClockEventDate.text = HelperMethods.convertDateTimeToString(clockEvent.dateTimeToLocalDateTime())
+        txtClockEvent.text = clockEvent?.event?.toString() ?: "Unknown"
+        txtClockEventDate.text = HelperMethods.convertDateTimeToString(clockEvent?.dateTimeToLocalDateTime() ?: LocalDateTime.now())
     }
 
     ////////////////////////////////////////////////////////////////////////////////

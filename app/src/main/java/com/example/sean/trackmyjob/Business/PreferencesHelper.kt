@@ -22,41 +22,41 @@ class PreferencesHelper(context: Context?) {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
     }
 
-    /**
-     * Handle the request to read the last stored clock event on the app!
-     * @return ClockEvent
-     */
-    fun readLastStoredClock() : ClockEvent
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+//    /**
+//     * Handle the request to read the last stored clock event on the app!
+//     * @return ClockEvent
+//     */
+//    fun readLastStoredClock() : ClockEvent
+//    {
+//        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+//
+//        var clock = ClockEvent()
+//
+//        val output = ClockEventType.fromInt(prefs.getInt(pref_clockevent_event_key, ClockEventType.IN.value))
+//        clock.event = output ?: ClockEventType.IN
+//        clock.dateTime = prefs.getLong(pref_clockevent_date_key, 1)
+//
+//        return clock
+//    }
 
-        var clock = ClockEvent()
-
-        val output = ClockEventType.fromInt(prefs.getInt(pref_clockevent_event_key, ClockEventType.IN.value))
-        clock.event = output ?: ClockEventType.IN
-        clock.dateTime = prefs.getLong(pref_clockevent_date_key, 1)
-
-        return clock
-    }
-
-    /**
-     * Handle the updating of the last stored clock event!
-     * @param clockEvent :
-     */
-    fun updateLastStoredClock(clockEvent: ClockEvent)
-    {
-        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
-        val editor = prefs.edit()
-        editor.putInt(pref_clockevent_event_key, clockEvent.event.value)
-        editor.putLong(pref_clockevent_date_key, clockEvent.dateTime)
-        editor.apply()
-
-        val params = Bundle()
-        params.putString("clock_type", clockEvent.event.toString())
-        mFirebaseAnalytics.logEvent("updateLastStoredClock", params)
-
-    }
+//    /**
+//     * Handle the updating of the last stored clock event!
+//     * @param clockEvent :
+//     */
+//    fun updateLastStoredClock(clockEvent: ClockEvent)
+//    {
+//        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+//
+//        val editor = prefs.edit()
+//        editor.putInt(pref_clockevent_event_key, clockEvent.event.value)
+//        editor.putLong(pref_clockevent_date_key, clockEvent.dateTime)
+//        editor.apply()
+//
+//        val params = Bundle()
+//        params.putString("clock_type", clockEvent.event.toString())
+//        mFirebaseAnalytics.logEvent("updateLastStoredClock", params)
+//
+//    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

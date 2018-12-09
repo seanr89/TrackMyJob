@@ -10,8 +10,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.sean.trackmyjob.Models.ClockEvent
 import com.google.firebase.auth.FirebaseAuth
 import android.app.AlarmManager
@@ -20,9 +18,8 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.sean.trackmyjob.Services.MorningAlarmBroadcastReceiver
-import com.example.sean.trackmyjob.Services.MyAlarmBroadcastReceiver
+import com.example.sean.trackmyjob.Services.AlarmBroadcastNotifier
 import java.util.*
-import android.content.SharedPreferences
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
     ClockEventListFragment.OnListFragmentInteractionListener, ClockEventFragment.OnFragmentShowAllHolidaysListener,
@@ -199,7 +196,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
-        val intent = Intent(this, MyAlarmBroadcastReceiver::class.java)
+        val intent = Intent(this, AlarmBroadcastNotifier::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 5:20 PM

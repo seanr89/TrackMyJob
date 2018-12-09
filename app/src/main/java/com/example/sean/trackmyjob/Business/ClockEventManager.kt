@@ -38,30 +38,32 @@ class ClockEventManager
      */
     fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
     {
-        val lastClock = prefsHelper.readLastStoredClock()
-        when(clockEvent.event)
-        {
-            ClockEventType.IN -> clockInUser(clockEvent, lastClock){
-                prefsHelper.updateLastStoredClock(clockEvent)
-                onComplete(it)
-                //triggerUpdateOfClockEventStats(clockEvent, lastClock)
-            }
-            ClockEventType.OUT -> clockOutUser(clockEvent, lastClock){
-                prefsHelper.updateLastStoredClock(clockEvent)
-                onComplete(it)
-                //triggerUpdateOfClockEventStats(clockEvent, lastClock)
+        ClockEventRepository.getLastClockEvent {
+            //prefsHelper.readLastStoredClock()
+            when(clockEvent.event)
+            {
+                ClockEventType.IN -> clockInUser(clockEvent, it as ClockEvent){
+                    //prefsHelper.updateLastStoredClock(clockEvent)
+                    onComplete(it)
+                    //triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                }
+                ClockEventType.OUT -> clockOutUser(clockEvent, it as ClockEvent){
+                    //prefsHelper.updateLastStoredClock(clockEvent)
+                    onComplete(it)
+                    //triggerUpdateOfClockEventStats(clockEvent, lastClock)
+                }
             }
         }
     }
 
-    fun saveClockUpdateStatsAndSavePreferences(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
-    {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
-        val lastClock = prefsHelper.readLastStoredClock()
-        prefsHelper.updateLastStoredClock(clockEvent)
-        triggerUpdateOfClockEventStats(clockEvent, lastClock)
-    }
+//    fun saveClockUpdateStatsAndSavePreferences(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
+//    {
+//        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+//
+//        val lastClock = prefsHelper.readLastStoredClock()
+//        prefsHelper.updateLastStoredClock(clockEvent)
+//        triggerUpdateOfClockEventStats(clockEvent, lastClock)
+//    }
 
     /**
      * clock in the user
@@ -173,7 +175,10 @@ class ClockEventManager
     }
 
     /**
-     *
+     * write clock event message to Firebase Analytics
+     * @param clockEvent :
+     * @param methodName :
+     * @param success :
      */
     private fun writeToAnalyticsLogForClockEventSuccess(clockEvent: ClockEvent, methodName : String?, success:Boolean)
     {
@@ -185,7 +190,9 @@ class ClockEventManager
     }
 
     /**
-     *
+     * trigger the updating of clock event statistics
+     * @param clockEvent :
+     * @param lastClock :
      */
     private fun triggerUpdateOfClockEventStats(clockEvent: ClockEvent, lastClock: ClockEvent){
         //this can be moved out to a later in case this is causing the clock in issue!!
