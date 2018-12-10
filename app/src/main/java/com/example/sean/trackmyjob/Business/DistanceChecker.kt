@@ -14,12 +14,12 @@ object DistanceChecker {
      * query and return if the current location is near the default office location
      * @param onComplete :
      */
-    fun isNearLocation(currentLatLng : LatLng?, officeLatLng: LatLng) : Boolean
+    fun isNearLocation(currentLatLng : LatLng?) : Boolean
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         if(currentLatLng != null)
         {
-            //val officeLatLng = getOfficeLocation()
+            val officeLatLng = getOfficeLocation()
             val selectedLocation = Location("")
             selectedLocation.latitude = officeLatLng.latitude
             selectedLocation.longitude = officeLatLng.longitude
@@ -33,5 +33,14 @@ object DistanceChecker {
             return distance < DISTANCE_LIMIT
         }
         return false
+    }
+
+    /**
+     * get the office location - currently hardcoded to the Randox Science Park
+     */
+    fun getOfficeLocation() : com.google.android.gms.maps.model.LatLng
+    {
+        var latLng = LatLng(54.720255,-6.2299717)
+        return latLng
     }
 }

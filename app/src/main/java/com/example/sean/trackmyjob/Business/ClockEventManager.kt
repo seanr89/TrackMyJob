@@ -63,12 +63,6 @@ class ClockEventManager
      */
     private fun clockInUser(clockEvent : ClockEvent, lastClock : ClockEvent, onComplete:(Boolean) -> Unit)
     {
-//        clockUser(clockEvent, lastClock.event, ClockEventType.IN)
-//        {
-//            writeToAnalyticsLogForClockEventSuccess(clockEvent, object{}.javaClass.enclosingMethod?.name, it)
-//            onComplete(it)
-//        }
-
         if(lastClock.dateTime >= 0)
         {
             clockUser(clockEvent, lastClock.event, ClockEventType.IN)

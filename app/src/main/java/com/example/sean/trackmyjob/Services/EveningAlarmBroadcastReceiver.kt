@@ -30,16 +30,13 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
             //ensure this is not triggering before 12!!
             if(!HelperMethods.isMorning(LocalDateTime.now()))
             {
-
                 //request the current location of the device!
                 val latLngProvider = MyLocationManager(context)
                 latLngProvider.getDeviceLatLng {
                     if(it != null)
                     {
-                        val prefs = PreferencesHelper(context)
-                        val officeLatLng = prefs.readOfficeLatLng()
                         //if we can id a location check if you are near work/the office!
-                        if(DistanceChecker.isNearLocation(it, officeLatLng))
+                        if(DistanceChecker.isNearLocation(it))
                         {
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.OUT)
@@ -62,7 +59,6 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                         AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event", "Please remember to clock out")
                     }
                 }
-
             } //this is not the morning
         }
 

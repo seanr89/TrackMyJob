@@ -16,14 +16,20 @@ import com.example.sean.trackmyjob.Models.Enums.ClockEventType
 import com.example.sean.trackmyjob.R
 import com.example.sean.trackmyjob.Utilities.HelperMethods
 import com.example.sean.trackmyjob.Utilities.HelperMethods.isMorning
+import com.google.firebase.analytics.FirebaseAnalytics
 import java.time.LocalDateTime
 
 class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
+
     private val TAG = "MorningAlarmBroadcastReceiver"
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onReceive(context: Context?, intent: Intent?)
     {
-        d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //d(TAG, object{}.javaClass.enclosingMethod?.name)
+
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
 
         if(!HelperMethods.isWeekend(LocalDateTime.now()))
         {
@@ -33,10 +39,7 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                 latLngProvider.getDeviceLatLng {
                     if(it != null)
                     {
-                        val prefs = PreferencesHelper(context)
-                        val officeLatLng = prefs.readOfficeLatLng()
-
-                        if(DistanceChecker.isNearLocation(it, officeLatLng))
+                        if(DistanceChecker.isNearLocation(it))
                         {
                             val clockManager = ClockEventManager(context)
                             val clock = ClockEvent(ClockEventType.IN)
