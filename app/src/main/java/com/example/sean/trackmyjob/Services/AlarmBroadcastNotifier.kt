@@ -13,8 +13,8 @@ object AlarmBroadcastNotifier
 {
     private val TAG = "AlarmBroadcastNotifier"
 
-    private val CHANNEL_ID = "0234"
-    private val notificationId = 9876
+    //private val CHANNEL_ID = "0234"
+    //private val notificationId = 9876
 
     /**
      * send a notification to the app to alert the user to make sure they clock in or out!!
@@ -22,18 +22,18 @@ object AlarmBroadcastNotifier
      * @param title :
      * @param message :
      */
-    fun sendClockNotification(context: Context?, title : String, message :String)
+    fun sendClockNotification(context: Context?, title : String, message :String, channelID :String, notificationID:Int)
     {
         //https@ //developer.android.com/training/notify-user/build-notification
         if(context != null) {
-            val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+            val mBuilder = NotificationCompat.Builder(context, channelID)
                     .setSmallIcon(R.drawable.ic_app_notification)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(notificationId, mBuilder.build())
+            notificationManager.notify(notificationID, mBuilder.build())
         }
     }
 

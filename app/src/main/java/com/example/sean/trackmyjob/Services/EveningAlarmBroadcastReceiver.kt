@@ -19,6 +19,8 @@ import java.time.LocalDateTime
 class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
 
     private val TAG = "EveningAlarmBroadcastReceiver"
+    private val CHANNEL_ID = "0234"
+    private val notificationId = 9876
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -45,18 +47,26 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                                 if(clocked)
                                 {
                                     AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                            "You have been automatically clocked out")
+                                            "You have been automatically clocked out",
+                                            CHANNEL_ID,
+                                            notificationId)
                                 }
                             }
                         }
                         else
                         {
-                            AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event","Are you still in work?")
+                            AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                                    "Are you still in work?",
+                                    CHANNEL_ID,
+                                    notificationId)
                         }
                     }
                     else{
                         // if we cannot guarantee location lets ask the user to clock out!!
-                        AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event", "Please remember to clock out")
+                        AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                                "Please remember to clock out",
+                                CHANNEL_ID,
+                                notificationId)
                     }
                 }
             } //this is not the morning
