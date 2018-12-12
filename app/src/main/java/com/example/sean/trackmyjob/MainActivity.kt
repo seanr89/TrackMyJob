@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.sean.trackmyjob.Services.MorningAlarmBroadcastReceiver
 import com.example.sean.trackmyjob.Services.AlarmBroadcastNotifier
+import com.example.sean.trackmyjob.Services.EveningAlarmBroadcastReceiver
+import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEventsListener,
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
 {
     private val TAG = "MainActivity"
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var morningAlarm : AlarmManager
     private lateinit var eveningAlarm : AlarmManager
 
@@ -37,6 +40,9 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, ClockEventFragment.newInstance())
                     .commitNow()
+
+            // Obtain the FirebaseAnalytics instance.
+            firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
             morningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             eveningAlarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -196,7 +202,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
-        val intent = Intent(this, AlarmBroadcastNotifier::class.java)
+        val intent = Intent(this, EveningAlarmBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Set the alarm to start at 5:20 PM
@@ -244,7 +250,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] === PackageManager.PERMISSION_GRANTED)
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                 }
             }

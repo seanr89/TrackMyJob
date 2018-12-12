@@ -33,7 +33,6 @@
             </intent-filter>
         </activity>
 
-        <!--<receiver android:name=".Services.AlarmBroadcastNotifier"></receiver>-->
         <receiver android:name=".Services.MorningAlarmBroadcastReceiver"></receiver>
         <receiver android:name=".Services.EveningAlarmBroadcastReceiver"></receiver>
     </application>

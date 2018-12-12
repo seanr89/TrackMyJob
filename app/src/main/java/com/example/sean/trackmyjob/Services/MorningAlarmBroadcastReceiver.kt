@@ -23,7 +23,7 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
         //d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         // Obtain the FirebaseAnalytics instance.
-        //firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
 
         if (!HelperMethods.isWeekend(LocalDateTime.now())) {
             if (HelperMethods.isMorning(LocalDateTime.now())) {
