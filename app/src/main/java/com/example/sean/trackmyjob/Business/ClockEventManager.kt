@@ -36,7 +36,7 @@ class ClockEventManager
      * @param clockEvent : the clock event to save!
      * @param onComplete([Boolean]) :
      */
-    fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean) -> Unit)
+    fun saveClock(clockEvent: ClockEvent, onComplete: (Boolean, ClockEvent) -> Unit)
     {
         Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         ClockEventRepository.getLastClockEvent {
@@ -44,12 +44,12 @@ class ClockEventManager
             when(clockEvent.event)
             {
                 ClockEventType.IN -> clockInUser(clockEvent, it as ClockEvent){result->
-                    onComplete(result)
-                    triggerUpdateOfClockEventStats(clockEvent, it)
+                    onComplete(result, it)
+                    //triggerUpdateOfClockEventStats(clockEvent, it)
                 }
                 ClockEventType.OUT -> clockOutUser(clockEvent, it as ClockEvent){result->
-                    onComplete(result)
-                    triggerUpdateOfClockEventStats(clockEvent, it)
+                    onComplete(result, it)
+                    //triggerUpdateOfClockEventStats(clockEvent, it)
                 }
             }
         }
@@ -175,10 +175,10 @@ class ClockEventManager
 
     /**
      * trigger the updating of clock event statistics
-     * @param clockEvent :
+     * @param clockEvent : the base ClockEvent that triggers the stats generation event
      * @param lastClock :
      */
-    private fun triggerUpdateOfClockEventStats(clockEvent: ClockEvent, lastClock: ClockEvent){
+    fun triggerUpdateOfClockEventStats(clockEvent: ClockEvent, lastClock: ClockEvent){
         //this can be moved out to a later in case this is causing the clock in issue!!
         val statsManager = ClockEventStatsManager()
         statsManager.handleClockEventAndUpdateStatsIfRequired(clockEvent, lastClock)

@@ -49,7 +49,7 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                         val clockManager = ClockEventManager(context)
                         val clock = ClockEvent(ClockEventType.OUT)
                         clock.automatic = true
-                        clockManager.saveClock(clock){ clocked ->
+                        clockManager.saveClock(clock){ clocked, lastClock ->
                             if(clocked)
                             {
                                 saved = true
@@ -58,6 +58,7 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                                         "You have been automatically clocked out",
                                         CHANNEL_ID,
                                         notificationId)
+                                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
                             }
                         }
                     }

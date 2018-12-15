@@ -96,11 +96,18 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
 
     /**
      * request the last known clock event that was stored for the user and display the data
+     * @param view : the parent view to access and update txtView content
+     * @param clockEvent : the current clock event parameters
      */
-    private fun setLastKnownClockEventOnUI(view : View?)
+    private fun setLastKnownClockEventOnUI(view : View?, clockEvent: ClockEvent? = null)
     {
         //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
+        if(clockEvent != null)
+        {
+            updateClockEventInfo(view ?: this.view, clockEvent)
+            return
+        }
         ClockEventRepository.getLastClockEvent {
             updateClockEventInfo(view ?: this.view, it)
         }
@@ -118,12 +125,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.IN)
-        clockManager.saveClock(clock){
+        clockManager.saveClock(clock){ it, lastClock ->
             if(it)
             {
-                setLastKnownClockEventOnUI(view)
-                //just update over the current clock!!
-                //updateClockEventInfo(view,clock)
+                setLastKnownClockEventOnUI(view, clock)
+                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
             }
             else{
                 Toast.makeText(context, "Clock In Failed!", Toast.LENGTH_LONG).show()
@@ -138,12 +144,11 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
     {
         val clockManager = ClockEventManager(context)
         val clock = ClockEvent(ClockEventType.OUT)
-        clockManager.saveClock(clock)
-        {
+        clockManager.saveClock(clock){ it, lastClock ->
             if(it)
             {
-                setLastKnownClockEventOnUI(view)
-                //updateClockEventInfo(view, clock)
+                setLastKnownClockEventOnUI(view, clock)
+                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
             }
             else
             {

@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
      */
     private fun initialiseMorningAlarm()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val intent = Intent(this, MorningAlarmBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
      */
     private fun initialiseEveningAlarm()
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         val intent = Intent(this, EveningAlarmBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -233,8 +233,6 @@ class MainActivity : AppCompatActivity(), ClockEventFragment.OnFragmentShowAllEv
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                         android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            //mMap.isMyLocationEnabled = true
-            //mLocationPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)

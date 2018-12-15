@@ -174,7 +174,7 @@ class ClockEventStatsManager
 
         clockEventStats.DailyTime = TimeDiff()
         clockEventStats.WeeklyTime = TimeDiff()
-        clockEventStats.Week = Calendar.getInstance().weekYear
+        clockEventStats.Week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
     }
@@ -192,7 +192,7 @@ class ClockEventStatsManager
         clockEventStats.WeeklyTime = TimeDiff()
         clockEventStats.MonthlyTime = TimeDiff()
 
-        clockEventStats.Week = Calendar.getInstance().weekYear
+        clockEventStats.Week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
         clockEventStats.Month = LocalDate.now().month.name
 
         if(LocalDate.now().year != clockEventStats.Year)

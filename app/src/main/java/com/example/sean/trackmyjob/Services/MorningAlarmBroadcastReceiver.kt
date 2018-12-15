@@ -41,7 +41,7 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
 
                         val clock = ClockEvent(ClockEventType.IN)
                         clock.automatic = true
-                        clockManager.saveClock(clock) { clocked ->
+                        clockManager.saveClock(clock) { clocked, lastClock ->
                             if (clocked) {
                                 saved = true
                                 logRecordToAnalytics(located, saved)
@@ -49,6 +49,7 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                                         "You have been automatically clocked in!",
                                         CHANNEL_ID,
                                         notificationId)
+                                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
                             }
                         }
                     } else {
