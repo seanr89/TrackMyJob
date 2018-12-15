@@ -12,11 +12,11 @@ object DistanceChecker {
 
     /**
      * query and return if the current location is near the default office location
-     * @param onComplete :
+     * @param currentLatLng : the current latitude + longitude!
+     * @return [Boolean] : true is the client is near the office location!
      */
     fun isNearLocation(currentLatLng : LatLng?) : Boolean
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         if(currentLatLng != null)
         {
             val officeLatLng = getOfficeLocation()
