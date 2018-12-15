@@ -3,6 +3,7 @@ package com.example.sean.trackmyjob.Services
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import com.example.sean.trackmyjob.Business.ClockEventManager
 import com.example.sean.trackmyjob.Business.DistanceChecker
 import com.example.sean.trackmyjob.Business.MyLocationManager
@@ -20,41 +21,62 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
     private val notificationId = 9877
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        //d(TAG, object{}.javaClass.enclosingMethod?.name)
 
+        var located = false
+        var saved = false
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
+        val clockManager = ClockEventManager(context)
 
-        if (!HelperMethods.isWeekend(LocalDateTime.now())) {
-            if (HelperMethods.isMorning(LocalDateTime.now())) {
-                val latLngProvider = MyLocationManager(context)
-                latLngProvider.getDeviceLatLng {
-                    if (it != null) {
-                        if (DistanceChecker.isNearLocation(it)) {
-                            val clockManager = ClockEventManager(context)
-                            val clock = ClockEvent(ClockEventType.IN)
-                            clock.automatic = true
-                            clockManager.saveClock(clock) { clocked ->
-                                if (clocked)
-                                    AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                            "You have been automatically clocked in!",
-                                            CHANNEL_ID,
-                                            notificationId)
+        if(HelperMethods.isWeekend(LocalDateTime.now())) return
+
+        if (HelperMethods.isMorning(LocalDateTime.now())) {
+            val latLngProvider = MyLocationManager(context)
+            latLngProvider.getDeviceLatLng {
+                if (it != null)
+                {
+                    if (DistanceChecker.isNearLocation(it))
+                    {
+                        located = true
+
+                        val clock = ClockEvent(ClockEventType.IN)
+                        clock.automatic = true
+                        clockManager.saveClock(clock) { clocked ->
+                            if (clocked) {
+                                saved = true
+                                logRecordToAnalytics(located, saved)
+                                AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                                        "You have been automatically clocked in!",
+                                        CHANNEL_ID,
+                                        notificationId)
                             }
-                        } else {
-                            AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                    "Are you in work?",
-                                    CHANNEL_ID,
-                                    notificationId)
                         }
                     } else {
+                        logRecordToAnalytics(located,saved)
                         AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                "Please remember to clock in!",
+                                "Are you in work?",
                                 CHANNEL_ID,
                                 notificationId)
                     }
+                } else {
+                    logRecordToAnalytics(located,saved)
+                    AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                            "Please remember to clock in!",
+                            CHANNEL_ID,
+                            notificationId)
                 }
             }
         }
+    }
+
+    /**
+     *
+     */
+    private fun logRecordToAnalytics(located : Boolean, saved : Boolean)
+    {
+        val params = Bundle()
+        params.putBoolean("located", located)
+        params.putBoolean("save", saved)
+        firebaseAnalytics.logEvent(TAG, params)
     }
 }

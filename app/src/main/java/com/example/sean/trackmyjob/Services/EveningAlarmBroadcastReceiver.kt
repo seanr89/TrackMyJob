@@ -27,65 +27,58 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
         var located = false
         var saved = false
 
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
 
-        //ensure the current day is not a weekend!
-        if(!HelperMethods.isWeekend(LocalDateTime.now()))
-        {
-            //ensure this is not triggering before 12!!
-            if(!HelperMethods.isMorning(LocalDateTime.now()))
-            {
-                //request the current location of the device!
-                val latLngProvider = MyLocationManager(context)
-                latLngProvider.getDeviceLatLng {
-                    if(it != null)
-                    {
-                        //if we can id a location check if you are near work/the office!
-                        if(DistanceChecker.isNearLocation(it))
-                        {
-                            located = true
+        if(HelperMethods.isWeekend(LocalDateTime.now())) return
 
-                            val clockManager = ClockEventManager(context)
-                            val clock = ClockEvent(ClockEventType.OUT)
-                            clock.automatic = true
-                            clockManager.saveClock(clock){ clocked ->
-                                if(clocked)
-                                {
-                                    saved = true
-                                    logRecordToAnalytics(located,saved)
-                                    AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                            "You have been automatically clocked out",
-                                            CHANNEL_ID,
-                                            notificationId)
-                                }
+        //ensure this is not triggering before 12!!
+        if(!HelperMethods.isMorning(LocalDateTime.now()))
+        {
+            //request the current location of the device!
+            val latLngProvider = MyLocationManager(context)
+            latLngProvider.getDeviceLatLng {
+                if(it != null) {
+                    //if we can id a location check if you are near work/the office!
+                    if(DistanceChecker.isNearLocation(it)) {
+                        located = true
+
+                        val clockManager = ClockEventManager(context)
+                        val clock = ClockEvent(ClockEventType.OUT)
+                        clock.automatic = true
+                        clockManager.saveClock(clock){ clocked ->
+                            if(clocked)
+                            {
+                                saved = true
+                                logRecordToAnalytics(located,saved)
+                                AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                                        "You have been automatically clocked out",
+                                        CHANNEL_ID,
+                                        notificationId)
                             }
                         }
-                        else
-                        {
-                            logRecordToAnalytics(located,saved)
-                            AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                    "Are you still in work?",
-                                    CHANNEL_ID,
-                                    notificationId)
-                        }
                     }
-                    else{
+                    else {
                         logRecordToAnalytics(located,saved)
-                        // if we cannot guarantee location lets ask the user to clock out!!
                         AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                "Please remember to clock out",
+                                "Are you still in work?",
                                 CHANNEL_ID,
                                 notificationId)
                     }
                 }
-            } //this is not the morning
-        }
+                else{
+                    logRecordToAnalytics(located,saved)
+                    // if we cannot guarantee location lets ask the user to clock out!!
+                    AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                            "Please remember to clock out",
+                            CHANNEL_ID,
+                            notificationId)
+                }
+            }
+        } //this is not the morning
     }
 
     private fun logRecordToAnalytics(located : Boolean, saved : Boolean)
