@@ -3,9 +3,38 @@ Job Work and Holiday Tracker
 
 Known issues
 1. Lack of unit tests
+    - Started
 2. Issue with clock in and clock out not completing successfully!
+    - Resolved
 3. Holidays are not maintained
 4. No ordering of prior clock event records
+    - Resolved
+
+Phase 1 95% Complete
+Feature Set
+- Login/Authentication
+- Clock Event Saving (In + Out)
+- Location Monitoring and clock event automation
+- Notification Handling
+- Basic Firebase Analytics Logs
+- Helper Unit Testing
+- Stats Generation
+
+Phase 2
+- Serious Code Refactoring
+- UI Design
+    1. Nav Drawer
+    2. Colour Scheme
+    3. Custom Buttons
+- Unit Test Coverage
+- Limited 3rd Party Testing
+- Org/Office Data Storage
+- Holidays
+- Stats Archival
+
+Phase 3 
+- Unknown
+
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -57,13 +86,3 @@ The behavior for java.util.Date objects stored in Firestore is going to change A
 
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-Ok first operations are now in motion
-- Clock in and Clock outs are being maintained and stored to firebase
-- Client/User initialisation on firebase included!!
-
-TODO 
-1. Holidays are not being managed at all yet for individual users!
-2. Additionally a method to calculate and store hours worked
-    - per week, month and total?
-3. Background service initialisation for alerting at start and end of day to clock in and out!!

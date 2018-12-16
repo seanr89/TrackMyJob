@@ -10,7 +10,7 @@
         android:id="@+id/linearContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp"
         android:orientation="vertical">
 
@@ -64,6 +64,7 @@
             android:id="@+id/btn_ClockIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
             android:text="@string/ClockIn" />
 
         <Button

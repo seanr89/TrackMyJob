@@ -76,13 +76,6 @@ class PreferencesHelper(context: Context?) {
     ////////////////////////////////////////////////////////////////////////////////////
 
     companion object {
-
-        private const val pref_clockevent_event_key = "STOREDEVENTKEY"
-        private const val pref_clockevent_date_key = "STOREDEVENTDATE"
         private const val pref_firstclocked_key = "STOREDFIRSTCLOCK"
-
-        //Office Location
-        private const val pref_office_lat_key = "STOREDLAT"
-        private const val pref_office_lng_key = "STOREDLNG"
     }
 }

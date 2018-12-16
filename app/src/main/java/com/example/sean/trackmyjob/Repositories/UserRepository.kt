@@ -7,6 +7,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+
+
 
 /**
  * Data Storage access object to query, insert and update user data
@@ -14,7 +17,6 @@ import java.time.LocalDateTime
  */
 class UserRepository
 {
-    private val TAG = "UserRepository"
     private val firestoreInstance : FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
 
     //Operation to request the user document
@@ -22,13 +24,19 @@ class UserRepository
         get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().uid
                 ?: throw NullPointerException("UID is null")}")
 
+    init{
+        val settings = FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build()
+        firestoreInstance.setFirestoreSettings(settings)
+    }
+
     /**
      * query the current user and if not stored create the user
      * @param func<onComplete(UserStatus)> : returned
      */
     fun initCurrentUserIfFirstTime(onComplete:(UserStatus) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod.name)
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if(!documentSnapshot.exists())
             {
@@ -42,7 +50,7 @@ class UserRepository
             }
             else
             {
-                Log.d(TAG, "User Already Exists")
+                //Log.d(TAG, "User Already Exists")
                 onComplete(UserStatus.ExistingUser)
             }
         }

@@ -12,7 +12,7 @@ object ClockEventRepository
     private val firestoreInstance : FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
 
     //Operation to request the clock event collection for a single user
-    private val currentUserClockCollectionRef : CollectionReference = firestoreInstance.collection("users/${FirebaseAuth.getInstance().uid}/clockevents/")
+    private val currentUserClockCollectionRef : CollectionReference = firestoreInstance.collection("users/${FirebaseAuth.getInstance().uid}/ClockEvents/")
 
     /**
      * handle the request for all stored clock events for the current user
