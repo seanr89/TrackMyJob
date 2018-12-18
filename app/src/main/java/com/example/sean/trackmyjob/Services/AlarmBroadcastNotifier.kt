@@ -19,6 +19,8 @@ object AlarmBroadcastNotifier
      * @param context : the parent context used in order to contact the activity and send the notification
      * @param title :
      * @param message :
+     * @param channelID :
+     * @param notificationID :
      */
     fun sendClockNotification(context: Context?, title : String, message :String, channelID :String, notificationID:Int)
     {
@@ -37,6 +39,13 @@ object AlarmBroadcastNotifier
 
     /**
      *
+     * @param context :
+     * @param morningChecker :
+     * @param title :
+     * @param message :
+     * @param channelID :
+     * @param notificationID :
+     * @return [Boolean] :
      */
     fun reviewIsMorningAndSendNotificationOnMatch(context: Context?,morningChecker : Boolean,
                                                   title : String, message :String, channelID :String, notificationID:Int) : Boolean

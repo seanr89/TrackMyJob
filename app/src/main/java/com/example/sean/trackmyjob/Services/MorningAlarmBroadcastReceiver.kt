@@ -29,49 +29,50 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
         val clockManager = ClockEventManager(context)
 
         if(HelperMethods.isWeekend(LocalDateTime.now())) return
+        //ensure this is not triggering after 12!
+        if(!HelperMethods.isMorning(LocalDateTime.now())) return
 
-        if (HelperMethods.isMorning(LocalDateTime.now())) {
-            val latLngProvider = MyLocationManager(context)
-            latLngProvider.getDeviceLatLng {
-                if (it != null)
+        val latLngProvider = MyLocationManager(context)
+        latLngProvider.getDeviceLatLng {
+            if (it != null)
+            {
+                if (DistanceChecker.isNearLocation(it))
                 {
-                    if (DistanceChecker.isNearLocation(it))
-                    {
-                        located = true
-
-                        val clock = ClockEvent(ClockEventType.IN)
-                        clock.automatic = true
-                        clockManager.saveClock(clock) { clocked, lastClock ->
-                            if (clocked) {
-                                saved = true
-                                logRecordToAnalytics(located, saved)
-                                AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                        "You have been automatically clocked in!",
-                                        CHANNEL_ID,
-                                        notificationId)
-                                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
-                            }
+                    located = true
+                    val clock = ClockEvent(ClockEventType.IN)
+                    clock.automatic = true
+                    clockManager.saveClock(clock) { clocked, lastClock ->
+                        if (clocked) {
+                            saved = true
+                            logRecordToAnalytics(located, saved)
+                            AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                                    "You have been automatically clocked in!",
+                                    CHANNEL_ID,
+                                    notificationId)
+                            clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
                         }
-                    } else {
-                        logRecordToAnalytics(located,saved)
-                        AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                                "Are you in work?",
-                                CHANNEL_ID,
-                                notificationId)
                     }
                 } else {
                     logRecordToAnalytics(located,saved)
                     AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
-                            "Please remember to clock in!",
+                            "Are you in work?",
                             CHANNEL_ID,
                             notificationId)
                 }
+            } else {
+                logRecordToAnalytics(located,saved)
+                AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
+                        "Please remember to clock in!",
+                        CHANNEL_ID,
+                        notificationId)
             }
         }
     }
 
     /**
      *
+     * @param located :
+     * @param saved :
      */
     private fun logRecordToAnalytics(located : Boolean, saved : Boolean)
     {

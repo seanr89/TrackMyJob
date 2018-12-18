@@ -36,8 +36,8 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
         if(HelperMethods.isWeekend(LocalDateTime.now())) return
 
         //ensure this is not triggering before 12!!
-        if(!HelperMethods.isMorning(LocalDateTime.now()))
-        {
+        if(HelperMethods.isMorning(LocalDateTime.now())) return
+
             //request the current location of the device!
             val latLngProvider = MyLocationManager(context)
             latLngProvider.getDeviceLatLng {
@@ -79,9 +79,13 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                             notificationId)
                 }
             }
-        } //this is not the morning
     }
 
+    /**
+     *
+     * @param located :
+     * @param saved :
+     */
     private fun logRecordToAnalytics(located : Boolean, saved : Boolean)
     {
         val params = Bundle()

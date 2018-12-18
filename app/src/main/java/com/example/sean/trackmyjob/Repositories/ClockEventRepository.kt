@@ -16,7 +16,7 @@ object ClockEventRepository
 
     /**
      * handle the request for all stored clock events for the current user
-     * @param onComplete : function type to allow synchronous event handling
+     * @param onComplete : function type to allow synchronous event handling - limited to 100 items
      */
     fun requestAllClockEventsForCurrentUser(onComplete:(MutableList<ClockEvent?>) -> Unit)
     {
@@ -24,7 +24,7 @@ object ClockEventRepository
         try
         {
             val refs = currentUserClockCollectionRef
-                    .orderBy("dateTime", Query.Direction.DESCENDING)
+                    .orderBy("dateTime", Query.Direction.DESCENDING).limit(100)
                     refs.get()
                     .addOnSuccessListener {
                         if(!it.isEmpty || it != null)

@@ -1,15 +1,6 @@
 Job Work and Holiday Tracker
 - Application to handle personal monitoring of hours worked at work due to lack of visibility to company system
 
-Known issues
-1. Lack of unit tests
-    - Started
-2. Issue with clock in and clock out not completing successfully!
-    - Resolved
-3. Holidays are not maintained
-4. No ordering of prior clock event records
-    - Resolved
-
 Phase 1 95% Complete
 Feature Set
 - Login/Authentication
@@ -35,6 +26,7 @@ Phase 2
 Phase 3 
 - Unknown
 
+New Branch Added : phasetwo
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

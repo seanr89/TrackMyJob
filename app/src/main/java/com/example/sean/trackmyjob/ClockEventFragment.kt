@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.sean.trackmyjob.Business.ClockEventManager
+import com.example.sean.trackmyjob.Business.ClockEventStatsManager
 import com.example.sean.trackmyjob.Business.PreferencesHelper
 import com.example.sean.trackmyjob.Business.TimeCalculator
 import com.example.sean.trackmyjob.Models.ClockEvent
@@ -129,7 +130,10 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             if(it)
             {
                 setLastKnownClockEventOnUI(view, clock)
-                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
+
+                //this can be moved out to a later in case this is causing the clock in issue!!
+                val statsManager = ClockEventStatsManager()
+                statsManager.handleClockEventAndUpdateStatsIfRequired(clock, lastClock)
             }
             else{
                 Toast.makeText(context, "Clock In Failed!", Toast.LENGTH_LONG).show()
@@ -148,7 +152,10 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
             if(it)
             {
                 setLastKnownClockEventOnUI(view, clock)
-                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
+
+                //this can be moved out to a later in case this is causing the clock in issue!!
+                val statsManager = ClockEventStatsManager()
+                statsManager.handleClockEventAndUpdateStatsIfRequired(clock, lastClock)
             }
             else
             {
@@ -229,6 +236,9 @@ class ClockEventFragment : Fragment(), View.OnClickListener {
         fun onShowAllHolidays()
     }
 
+    /**
+     *
+     */
     interface OnFragmentShowStatsListener
     {
         fun onShowEventStats()
