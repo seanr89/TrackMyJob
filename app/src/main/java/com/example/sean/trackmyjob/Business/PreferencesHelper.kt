@@ -48,33 +48,6 @@ class PreferencesHelper(context: Context?) {
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-//    /**
-//     * request the office lat and lng positions stored
-//     * @return [LatLng] : the current Latitude and Longitude of the office (defaults to : Randox Science Park)
-//     */
-//    fun readOfficeLatLng() : LatLng
-//    {
-//        val latitude = prefs.getString(pref_office_lat_key, "54.720255")!!.toDouble()
-//        val longitude = prefs.getString(pref_office_lng_key, "-6.2299717")!!.toDouble()
-//        return LatLng(latitude,longitude)
-//    }
-//
-//    /**
-//     * handle updating of shared preferences with lat and lng of selected office position
-//     * @param latLng : the latitude and longitude of the office to locate!
-//     */
-//    fun updateOfficeLatLng(latLng: LatLng)
-//    {
-//        val editor = prefs.edit()
-//        editor.putString(pref_office_lat_key, latLng.latitude.toString())
-//        editor.putString(pref_office_lng_key, latLng.longitude.toString())
-//        editor.apply()
-//    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
     companion object {
         private const val pref_firstclocked_key = "STOREDFIRSTCLOCK"
     }

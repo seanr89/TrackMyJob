@@ -146,7 +146,7 @@ class ClockEventStatsManager
                 result = LastClock.NEW_WEEK
             }
         }
-        return  result
+        return result
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -157,8 +157,7 @@ class ClockEventStatsManager
      */
     private fun resetDailyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         clockEventStats.DailyTime = TimeDiff()
 
         ClockEventStatsRepository.updateClockEventStatsSummary(clockEventStats)
@@ -170,8 +169,7 @@ class ClockEventStatsManager
      */
     private fun resetWeeklyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         clockEventStats.DailyTime = TimeDiff()
         clockEventStats.WeeklyTime = TimeDiff()
         clockEventStats.Week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
@@ -185,8 +183,7 @@ class ClockEventStatsManager
      */
     private fun resetMonthlyTime(clockEventStats: ClockEventStats)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
-
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
         //null daily, weekly and monthly stat to 0
         clockEventStats.DailyTime = TimeDiff()
         clockEventStats.WeeklyTime = TimeDiff()

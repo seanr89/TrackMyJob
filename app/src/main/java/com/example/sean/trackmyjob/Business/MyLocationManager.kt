@@ -31,7 +31,7 @@ class MyLocationManager
      */
     fun getDeviceLatLng(onLocated: (LatLng?) -> Unit)
     {
-        Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
+        //Log.d(TAG, object{}.javaClass.enclosingMethod?.name)
 
         var currentLatLng : LatLng? = null
         try

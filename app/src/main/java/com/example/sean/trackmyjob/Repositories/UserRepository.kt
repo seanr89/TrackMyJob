@@ -2,18 +2,14 @@ package com.example.sean.trackmyjob.Repositories
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.example.sean.trackmyjob.Models.Enums.UserStatus
 import com.example.sean.trackmyjob.Models.User
-import com.example.sean.trackmyjob.Utilities.HelperMethods
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import com.google.firebase.firestore.FirebaseFirestoreSettings
-
-
 
 /**
  * Data Storage access object to query, insert and update user data
@@ -53,7 +49,7 @@ class UserRepository
                 val newUser = User(FirebaseAuth.getInstance().uid,FirebaseAuth.getInstance().currentUser?.displayName ?: ""
                         , FirebaseAuth.getInstance().currentUser?.email ?: ""
                         , LocalDateTime.now())
-                
+
                 currentUserDocRef.set(newUser).addOnSuccessListener {
                     onComplete(UserStatus.NewUser)
                     val params = Bundle()

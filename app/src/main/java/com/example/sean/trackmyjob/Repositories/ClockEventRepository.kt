@@ -51,7 +51,8 @@ object ClockEventRepository
     }
 
     /**
-     * @param onComplete : lambda function to allow handling of output
+     * Handle request for querying the last known clock event!
+     * @param onComplete([ClockEvent?]) : lambda function to allow handling of output
      */
     fun getLastClockEvent(onComplete: (ClockEvent?) -> Unit)
     {

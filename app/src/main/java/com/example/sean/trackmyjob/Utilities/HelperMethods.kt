@@ -28,7 +28,7 @@ object HelperMethods {
 
     /**
      * check if the current day denotes the start of a week!
-     * @param dateTime :
+     * @param dateTime :the datetime parameter to query for the start of the week
      * @return Boolean
      */
     fun isDayStartOfWeek(dateTime : LocalDateTime) : Boolean
@@ -42,7 +42,7 @@ object HelperMethods {
 
     /**
      * check if the current day denotes the start of a month
-     * @param dateTime :
+     * @param dateTime : the datetime parameter to query for the start of the month
      * @return Boolean
      */
     fun isDayStartOfMonth(dateTime : LocalDateTime) : Boolean

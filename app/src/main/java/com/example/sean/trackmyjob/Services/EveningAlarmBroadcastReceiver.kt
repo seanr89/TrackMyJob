@@ -25,13 +25,13 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
     private val CHANNEL_ID = "0234"
     private val notificationId = 9876
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
 
         var located = false
         var saved = false
 
         // Obtain the FirebaseAnalytics instance.
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         if(HelperMethods.isWeekend(LocalDateTime.now())) return
 
@@ -52,13 +52,14 @@ class EveningAlarmBroadcastReceiver : BroadcastReceiver() {
                         clockManager.saveClock(clock){ clocked, lastClock ->
                             if(clocked)
                             {
+                                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
+
                                 saved = true
                                 logRecordToAnalytics(located,saved)
                                 AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
                                         "You have been automatically clocked out",
                                         CHANNEL_ID,
                                         notificationId)
-                                clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
                             }
                         }
                     }

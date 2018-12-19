@@ -165,7 +165,7 @@ class GoogleSignInActivity : AppCompatActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful)
                     {
-                        val userRepo = UserRepository()
+                        val userRepo = UserRepository(this.applicationContext)
                         userRepo.initCurrentUserIfFirstTime {
                             startActivity(Intent(this, MainActivity::class.java))
                         }

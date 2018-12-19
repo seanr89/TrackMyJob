@@ -4,10 +4,9 @@ import android.location.Location
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 
-
 object DistanceChecker {
 
-    private val TAG = "DistanceChecker"
+    //private val TAG = "DistanceChecker"
     private const val DISTANCE_LIMIT = 500
 
     /**

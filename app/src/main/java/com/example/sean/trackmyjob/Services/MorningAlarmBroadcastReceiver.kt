@@ -20,12 +20,12 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
     private val CHANNEL_ID = "0235"
     private val notificationId = 9877
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
 
         var located = false
         var saved = false
         // Obtain the FirebaseAnalytics instance.
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context as Context)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context)
         val clockManager = ClockEventManager(context)
 
         if(HelperMethods.isWeekend(LocalDateTime.now())) return
@@ -43,13 +43,14 @@ class MorningAlarmBroadcastReceiver : BroadcastReceiver() {
                     clock.automatic = true
                     clockManager.saveClock(clock) { clocked, lastClock ->
                         if (clocked) {
+                            clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
+
                             saved = true
                             logRecordToAnalytics(located, saved)
                             AlarmBroadcastNotifier.sendClockNotification(context, "Clock Event",
                                     "You have been automatically clocked in!",
                                     CHANNEL_ID,
                                     notificationId)
-                            clockManager.triggerUpdateOfClockEventStats(clock, lastClock)
                         }
                     }
                 } else {
